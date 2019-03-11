@@ -9,7 +9,7 @@ const fs = require('fs');
 //引入我们上面导出的app实例
 const app = require('../app');
 const http = require('http');
-const port = normalizePort('3000');
+const port = normalizePort(process.env.PORT || '3000');
 // 打印输出端口号
 console.log('Port ： ' + port);
 app.set('port', port);
