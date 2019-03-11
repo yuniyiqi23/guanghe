@@ -54,7 +54,7 @@ router.post('/accesstoken', (req, res, next) => {
 						res.json({
 							success: true,
 							message: '验证成功!',
-							token: 'guanghe ' + token,
+							token: 'Bearer ' + token,
 							name: user.name
 						});
 					} else {
@@ -68,10 +68,10 @@ router.post('/accesstoken', (req, res, next) => {
 });
 
 // passport-http-bearer token 中间件验证
-// 通过 header 发送 Authorization -> guanghe  + token
+// 通过 header 发送 Authorization -> Bearer  + token
 // 或者通过 ?access_token = token
 router.get('/user_info',
-	passport.authenticate('guanghe ', { session: false }),
+	passport.authenticate('bearer', { session: false }),
 	function (req, res) {
 		res.json({ username: req.user.name });
 	});
