@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt');
 
 // UserSchema
 const UserSchema = new Schema({
-    // name: { type: String, unique: true, required: true },
-    name: { type: String, required: true },
+    nickName: { type: String, required: false },
+    name: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     avatar: { type: String, required: false },
     gender: { type: String, enum: ["m", "f", "x"], default: "x" },
@@ -22,7 +22,7 @@ const UserSchema = new Schema({
     //最后一次登录时间
     endLoginTime: { type: String, required: true },
     //判断是否是管理员
-    isAdam: { type: Boolean, default: false },
+    isAdmin: { type: Boolean, default: false },
     token: { type: String }
 });
 

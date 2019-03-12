@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const config = require("config-lite")(__dirname);
 const passport = require('passport');
 const UserController = require("../controller/user");
+const moment = require('moment');
 
 require('../passport')(passport);
 
@@ -17,7 +18,8 @@ router.post('/signup', (req, res, next) => {
 			name: req.body.name,
 			password: req.body.password,
 			identifyingCode: '1234',
-			endLoginTime: '1234'
+			endLoginTime: moment().format('YYYY-MM-DD HH:mm'),
+			avatar: config.defaultHeadSculpture
 		}
 
 		// 保存用户账号
@@ -31,6 +33,7 @@ router.post('/signup', (req, res, next) => {
 });
 
 // 检查用户名与密码并生成一个accesstoken如果验证通过
+
 router.post('/accesstoken', (req, res, next) => {
 
 	UserController.getUserByName(req.body.name)
@@ -43,7 +46,7 @@ router.post('/accesstoken', (req, res, next) => {
 					if (isMatch && !err) {
 						console.log('config.secret = ' + config.secret);
 						let token = jwt.sign({ name: user.name }, config.secret, {
-							expiresIn: 10080
+							expiresIn: 60*60*2// 授权时效2小时
 						});
 						user.token = token;
 						user.save(function (err) {

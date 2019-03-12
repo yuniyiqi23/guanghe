@@ -12,5 +12,8 @@ module.exports = {
   // used when we create and verify JSON Web Tokens
   secret: 'GuangheRestfulApiwithAdam', 
 
+  // 默认头像图片
+  defaultHeadSculpture: 'http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg'
+
 }
 
