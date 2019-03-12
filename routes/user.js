@@ -32,9 +32,14 @@ router.post('/signup', (req, res, next) => {
 	}
 });
 
-// 检查用户名与密码并生成一个accesstoken如果验证通过
-
-router.post('/accesstoken', (req, res, next) => {
+/**
+ * @Description: 用户登录，检查用户名与密码并生成一个accesstoken
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-12 16:42:15
+ */
+router.post('/signin', (req, res, next) => {
 
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
@@ -56,7 +61,7 @@ router.post('/accesstoken', (req, res, next) => {
 						});
 						res.json({
 							success: true,
-							message: '验证成功!',
+							message: '登录成功!',
 							token: 'Bearer ' + token,
 							name: user.name
 						});

@@ -13,6 +13,7 @@ module.exports = function (app) {
 
 	//use Get to URL
 	app.use('/user', require('./user'));
+	app.use('/post', require('./post'));
 
 	// 404 page
 	app.use(function (req, res) {

@@ -8,12 +8,12 @@ module.exports = {
 
   // 数据库连接地址
   mongodb: 'mongodb://localhost:27017/guanghe',
-
   // used when we create and verify JSON Web Tokens
   secret: 'GuangheRestfulApiwithAdam', 
-
   // 默认头像图片
-  defaultHeadSculpture: 'http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg'
+  defaultHeadSculpture: 'http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg',
+  // 默认音频URL
+  defaultRadioURL: 'http://47.75.8.64/audios/Tiffany Alvord - Baby I Love You.mp3',
 
 }
 
