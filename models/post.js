@@ -10,7 +10,7 @@ const PostSchema = new Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     // 照片的路径
-    pictures: { type: Array, default: [] },
+    // pictures: { type: Array, default: [] },
     // 音频路径
     audioURL: { type: String, required: false },
     // 浏览数

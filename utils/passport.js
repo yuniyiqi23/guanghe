@@ -1,7 +1,6 @@
 const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy;
-
-const User = require('./models/user');
+const User = require('../models/user');
 
 /**
  * @Description: 通过Token验证用户
@@ -10,7 +9,7 @@ const User = require('./models/user');
  * @LastEditTime: 
  * @since: 2019-03-13 10:12:10
  */
-module.exports = function (passport) {
+module.exports = function () {
     passport.use(new Strategy(
         function (token, done) {
             User.findOne({ token: token })

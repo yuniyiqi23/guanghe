@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const config = require("config-lite")(__dirname);
 const passport = require('passport');
 const PostController = require("../controller/post");
 const moment = require('moment');
+require('../utils/passport')(passport);
 
 /**
  * @Description: 获取最近发布的数据
@@ -13,19 +12,24 @@ const moment = require('moment');
  * @LastEditTime: 
  * @since: 2019-03-12 14:13:58
  */
-router.get('/', function (req, res, next) {
+router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     // 测试的参数
-    const value = {
-        author: req.body.authorId,
-        pageNumber: req.body.nickName,
-        pageSize: req.body.avatar
+    const param = {
+        author: req.query.authorId,
+        pageNumber: parseInt(req.query.pageNumber) || 1,
+        pageSize: parseInt(req.query.pageSize) || 3
     }
 
-    PostController.getPosts(value)
-        .then(function (result) {
-            res.json(result);
+    PostController.getPostList(param)
+        .then(function (posts) {
+            res.json({
+                result: 'success',
+                message: '获取数据成功！',
+                posts: posts
+            });
         })
         .catch(next);
+
 });
 
 /**
@@ -35,33 +39,29 @@ router.get('/', function (req, res, next) {
  * @LastEditTime: 
  * @since: 2019-03-12 14:15:35
  */
-router.post('/create', function (req, res, next) {
+router.post('/create', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     // 测试的老师
     const author = {
         id: req.body.authorId,
         nickName: req.body.nickName,
         avatar: req.body.avatar
     };
-    // 测试的图片
-    const pictures = [
-        config.defaultHeadSculpture,
-        config.defaultHeadSculpture,
-        config.defaultHeadSculpture
-    ];
 
     let value = {
         author: author,
         title: req.body.title,
-        content: content = req.body.content,
-        pictures: pictures,
-        audioURL: config.defaultRadioURL,
+        content: req.body.content,
+        audioURL: req.body.radioURL,
         publishTime: moment().format('YYYY-MM-DD HH:mm')
     };
 
     PostController.create(value)
         .then(function (result) {
             if (result) {
-                res.json({ success: true, message: '成功发布信息!' });
+                res.json({ 
+                    result: 'success', 
+                    message: '发布信息成功!' 
+                });
             }
         })
         .catch(next)

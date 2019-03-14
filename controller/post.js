@@ -13,7 +13,7 @@ module.exports = {
      * @LastEditTime: 
      * @since: 2019-03-12 15:34:01
      */
-    getPosts: function ({author = null, pageNumber = 1, pageSize = 3}) {
+    getPostList: function ({author = null, pageNumber = 1, pageSize = 3}) {
         let query = {};
         if (author) {
 			query.author = author;
