@@ -1,8 +1,11 @@
 ## TodoList
 返回数据的状态码
+搜索用户（昵称）
+
 设计数据库结构
 七牛存储图片、视频
 Wechat登录接口openId
+
 接口文档
 定时更新数据（每天七点）
 1. 自己写的日志（区分于系统日志）
@@ -12,11 +15,11 @@ Restful API安全设计 https://github.com/shieldfy/API-Security-Checklist/blob/
 
 
 ## 疑问
+1.Post命名
+2.删除查询到的用户密码
+3.跨域问题
 
-Post命名
-评论的设计（数据存储在Post表中？还是每一个comment存储在一张）
-
-Token的安全性
+3.Token的安全性
 1. token被劫持（https）
 2. token绑定mac地址也能被伪造
 3. 用户持续操作延续时间

@@ -68,3 +68,42 @@ POST
 }
 ```
 
+### 3、获取用户信息
+
+#### 请求URL：
+```
+http://47.75.8.64/user/userInfo
+```
+
+#### 示例：
+
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "gender": "x",
+    "isAdmin": true,
+    "_id": "5c8601759b2af91a39c2c788",
+    "name": "gh_wangjy",
+    "password": null,
+    "identifyingCode": "1234",
+    "endLoginTime": "1234",
+    "__v": 0,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2hfd2FuZ2p5IiwiaWF0IjoxNTUyNDQzMDA2LCJleHAiOjE1NTI0NTAyMDZ9.zCJRHa3dTaFpGgcPj7tLymENMOouzk2LG-R8WLZKYGg",
+    "nickName": "光合"
+}
+
+```

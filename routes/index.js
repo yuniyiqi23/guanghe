@@ -14,6 +14,7 @@ module.exports = function (app) {
 	//use Get to URL
 	app.use('/user', require('./user'));
 	app.use('/post', require('./post'));
+	app.use('/qiniu', require('./qiniu'));
 
 	// 404 page
 	app.use(function (req, res) {

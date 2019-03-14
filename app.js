@@ -3,7 +3,7 @@ const express = require('express');
 // 解析body字段模块
 const bodyParser = require('body-parser');
 // 命令行log显示
-const morgan = require('morgan'); 
+const morgan = require('morgan');
 // 用户认证模块passport
 const passport = require('passport');
 // token验证模块
@@ -12,13 +12,14 @@ const Strategy = require('passport-http-bearer').Strategy;
 const path = require('path');
 const winston = require('winston');
 const expressWinston = require('express-winston');
+const cors = require('cors');
 
 const routes = require('./routes');
-
 const app = express();
+
+app.use(cors());// Enable All CORS Requests
 //静态文件目录设置,设置public文件夹为存放静态文件的目录
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(passport.initialize());// 初始化passport模块
 app.use(morgan('dev'));// 命令行中显示程序运行日志,便于bug调试
 app.use(bodyParser.urlencoded({ extended: false }));

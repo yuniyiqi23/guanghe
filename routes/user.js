@@ -78,10 +78,10 @@ router.post('/signin', (req, res, next) => {
 // passport-http-bearer token 中间件验证
 // 通过 header 发送 Authorization -> Bearer  + token
 // 或者通过 ?access_token = token
-router.get('/user_info',
+router.get('/userInfo',
 	passport.authenticate('bearer', { session: false }),
 	function (req, res) {
-		res.json({ username: req.user.name });
+		res.json(req.user);
 	});
 
 module.exports = router;
