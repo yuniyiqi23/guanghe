@@ -48,9 +48,10 @@ router.post('/signup', (req, res, next) => {
  * @since: 2019-03-12 16:42:15
  */
 router.post('/signin', (req, res, next) => {
-	log('user').info('/signin');
+	log('user').info(moment().format('YYYY-MM-DD HH:mm') + '/signin');
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
+			log('user').info(moment().format('YYYY-MM-DD HH:mm') + user);
 			if (!user) {
 				res.json({ result: 'success', message: '认证失败,用户不存在!' });
 			} else if (user) {
