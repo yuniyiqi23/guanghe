@@ -49,15 +49,13 @@ router.post('/signup', (req, res, next) => {
  */
 router.post('/signin', (req, res, next) => {
 	log('user').info('/signin');
-	
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
-			log('user').info(user);
-			if (false) {
-				log('user').info(1);
+			if (!user) {
 				res.json({ result: 'success', message: '认证失败,用户不存在!' });
 			} else if (user) {
-				log('user').info(2);
+				log('user').info(moment().format('YYYY-MM-DD HH:mm'));
+				log('user').info(user);
 				// 检查密码是否正确
 				user.comparePassword(req.body.password, (err, isMatch) => {
 					log('user').error('err = ' + err);
