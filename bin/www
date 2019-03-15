@@ -5,12 +5,15 @@
  */
 'use strict';
 //依赖加载
-const fs = require('fs');
+// const fs = require('fs');
 //引入我们上面导出的app实例
 const app = require('../app');
 const http = require('http');
 const port = normalizePort(process.env.PORT || '3002');
+const log = require("../utils/winston").getDefaultLogger;
 // 打印输出端口号
+log('www').info('模式 ： ' + process.env.NODE_ENV);
+log('www').info('端口号 ： ' + port);
 console.log('模式 ： ' + process.env.NODE_ENV);
 console.log('端口号 ： ' + port);
 app.set('port', port);
