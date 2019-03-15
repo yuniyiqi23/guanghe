@@ -11,7 +11,8 @@ const app = require('../app');
 const http = require('http');
 const port = normalizePort(process.env.PORT || '3002');
 // 打印输出端口号
-console.log('Port ： ' + port);
+console.log('模式 ： ' + process.env.NODE_ENV);
+console.log('端口号 ： ' + port);
 app.set('port', port);
 
 /**
