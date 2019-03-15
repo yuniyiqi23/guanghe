@@ -53,13 +53,7 @@ router.post('/signin', (req, res, next) => {
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
 			log('user').info(user);
-			res.json({
-				result: 'success',
-				message: '登录成功!',
-				token: 'Bearer ' + 'token123',
-				name: user.name
-			});
-			if (!user) {
+			if (false) {
 				log('user').info(1);
 				res.json({ result: 'success', message: '认证失败,用户不存在!' });
 			} else if (user) {
