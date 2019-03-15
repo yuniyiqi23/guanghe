@@ -3,7 +3,7 @@
 const config = require("config-lite")(__dirname);
 const mongoose = require("mongoose");
 const chalk = require("chalk");
-// const plugins = require("./plugins");
+const log = require("../utils/winston").getDefaultLogger;
 // const Schema = mongoose.Schema;
 
 mongoose.connect(config.mongodb, { useNewUrlParser: true });
@@ -12,6 +12,7 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 
 db.once('open', () => {
+    log('mongodb').info('连接数据库成功!');
     console.log(
         chalk.green('连接数据库成功')
     );

@@ -6,6 +6,7 @@ const passport = require('passport');
 const moment = require('moment');
 const UserController = require("../controller/user");
 // const checkToken = require("../utils/checkToken").checkToken;
+const log = require("../utils/winston").getDefaultLogger;
 require('../utils/passport')(passport);
 
 // 注册账户
@@ -47,7 +48,8 @@ router.post('/signup', (req, res, next) => {
  * @since: 2019-03-12 16:42:15
  */
 router.post('/signin', (req, res, next) => {
-
+	log('user').info('/signin');
+	log('user').info('name = ' + req.body.name);
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
 			if (!user) {
