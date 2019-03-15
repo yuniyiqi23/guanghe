@@ -57,13 +57,15 @@ router.post('/signin', (req, res, next) => {
 			} else if (user) {
 				// 检查密码是否正确
 				user.comparePassword(req.body.password, (err, isMatch) => {
+					log('user').info('err = ' + err);
+					log('user').info('isMatch = ' + isMatch);
 					if (isMatch && !err) {
-						console.log('config.secret = ' + config.secret);
 						let token = jwt.sign({ name: user.name }, config.secret, {
 							expiresIn: 60 * 60 * 2// 授权时效2小时
 						});
 						user.token = token;
 						user.save(function (err) {
+							log('user').info('user.save.err = ' + err);
 							if (err) {
 								res.send(err);
 							}
