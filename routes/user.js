@@ -54,11 +54,13 @@ router.post('/signin', (req, res, next) => {
 		.then(function (user) {
 			log('user').info(user);
 			if (!user) {
+				log('user').info(1);
 				res.json({ result: 'success', message: '认证失败,用户不存在!' });
 			} else if (user) {
+				log('user').info(2);
 				// 检查密码是否正确
 				user.comparePassword(req.body.password, (err, isMatch) => {
-					log('user').info('err = ' + err);
+					log('user').error('err = ' + err);
 					log('user').info('isMatch = ' + isMatch);
 					if (isMatch && !err) {
 						let token = jwt.sign({ name: user.name }, config.secret, {
@@ -66,7 +68,7 @@ router.post('/signin', (req, res, next) => {
 						});
 						user.token = token;
 						user.save(function (err) {
-							log('user').info('user.save.err = ' + err);
+							log('user').error('user.save.err = ' + err);
 							if (err) {
 								res.send(err);
 							}
@@ -84,7 +86,7 @@ router.post('/signin', (req, res, next) => {
 			}
 		})
 		.catch(function(err){
-			log('user').info('catch error = ' + err);
+			log('user').error('catch error = ' + err);
 		})
 
 });
