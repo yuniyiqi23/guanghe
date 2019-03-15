@@ -48,14 +48,13 @@ router.post('/signup', (req, res, next) => {
  * @since: 2019-03-12 16:42:15
  */
 router.post('/signin', (req, res, next) => {
-	log('user').info(moment().format('YYYY-MM-DD HH:mm:ss') + '/signin');
+	log('user').info('/signin');
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
-			log('user').info(moment().format('YYYY-MM-DD HH:mm:ss') + user);
+			log('user').info(user);
 			if (!user) {
 				res.json({ result: 'success', message: '认证失败,用户不存在!' });
 			} else if (user) {
-				log('user').info(moment().format('YYYY-MM-DD HH:mm:ss'));
 				log('user').info(user);
 				// 检查密码是否正确
 				user.comparePassword(req.body.password, (err, isMatch) => {

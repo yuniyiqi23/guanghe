@@ -3,6 +3,8 @@
  */
 const winston = require('winston');
 const moment = require('moment');
+const path = require('path');
+const filePath = path.join(__dirname, '../logs');
 
 const myLogFormatter = function (options) {
     const timestamp = options.timestamp();
@@ -25,50 +27,48 @@ const transportConsole = new winston.transports.Console({
     prettyPrint: true,
     colorize: true,
     level: 'debug',
-    timestamp: function () {
-        return moment().format('YYYY-MM-DD HH:MM:ss.SSS');
-    },
     formatter: myLogFormatter,
 });
 const debugTransportFile = new winston.transports.File({
     name: 'full',
-    filename: __dirname + '/logs/debug.log',
+    filename: filePath + '/debug.log',
     json: true,
     level: 'debug',
     maxFiles: 10,
     maxsize: 1024 * 1024 * 10, // 10MB
-    timestamp: function () {
-        return moment().format('YYYY-MM-DD HH:MM:ss.SSS');
-    }
 });
 
 const serviceTransportFile = new winston.transports.File({
     name: 'service',
-    filename: __dirname + '/logs/service.log',
+    filename: filePath + '/service.log',
     json: true,
     level: 'debug',
     maxFiles: 10,
     maxsize: 1024 * 1024 * 10, // 10MB
     timestamp: function () {
-        return moment().format('YYYY-MM-DD HH:MM:ss.SSS');
+        return moment().format('YYYY-MM-DD HH:MM:ss');
     },
     formatter: myLogFormatter,
 });
 
 const daoTransportFile = new winston.transports.File({
     name: 'dao',
-    filename: __dirname + '/logs/dao.log',
+    filename: filePath + '/dao.log',
     json: true,
     level: 'debug',
     maxFiles: 10,
     maxsize: 1024 * 1024 * 10, // 10MB
     timestamp: function () {
-        return moment().format('YYYY-MM-DD HH:MM:ss.SSS');
+        return moment().format('YYYY-MM-DD HH:MM:ss');
     },
     formatter: myLogFormatter,
 });
 
 winston.loggers.add('default', {
+    format: winston.format.combine(
+		winston.format.timestamp({format:'YYYY-MM-DD HH:mm:ss'}),
+		winston.format.json()
+	),
     transports: [
         transportConsole,
         debugTransportFile
@@ -76,6 +76,10 @@ winston.loggers.add('default', {
 });
 
 winston.loggers.add('service', {
+    format: winston.format.combine(
+		winston.format.timestamp({format:'YYYY-MM-DD HH:mm:ss'}),
+		winston.format.json()
+	),
     transports: [
         transportConsole,
         serviceTransportFile,
@@ -84,6 +88,10 @@ winston.loggers.add('service', {
 });
 
 winston.loggers.add('dao', {
+    format: winston.format.combine(
+		winston.format.timestamp({format:'YYYY-MM-DD HH:mm:ss'}),
+		winston.format.json()
+	),
     transports: [
         transportConsole,
         daoTransportFile,
