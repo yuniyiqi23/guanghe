@@ -12,14 +12,14 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 
 db.once('open', () => {
-    log('mongodb').info(moment().format('YYYY-MM-DD HH:mm') + '连接数据库成功!');
+    log('mongodb').info(moment().format('YYYY-MM-DD HH:mm:ss') + '连接数据库成功!');
     console.log(
         chalk.green('连接数据库成功')
     );
 })
 
 db.on('error', function (error) {
-    log('mongodb').error(moment().format('YYYY-MM-DD HH:mm') + error);
+    log('mongodb').error(moment().format('YYYY-MM-DD HH:mm:ss') + error);
     console.error(
         chalk.red('Error in MongoDb connection: ' + error)
     );
@@ -27,7 +27,7 @@ db.on('error', function (error) {
 });
 
 db.on('close', function () {
-    log('mongodb').warn(moment().format('YYYY-MM-DD HH:mm') + '数据库断开，重新连接数据库');
+    log('mongodb').warn(moment().format('YYYY-MM-DD HH:mm:ss') + '数据库断开，重新连接数据库');
     console.log(
         chalk.red('数据库断开，重新连接数据库')
     );

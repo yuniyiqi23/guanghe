@@ -52,7 +52,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         title: req.body.title,
         content: req.body.content,
         audioURL: req.body.radioURL,
-        publishTime: moment().format('YYYY-MM-DD HH:mm')
+        publishTime: moment().format('YYYY-MM-DD HH:mm:ss')
     };
 
     PostController.create(value)

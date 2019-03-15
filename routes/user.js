@@ -22,7 +22,7 @@ router.post('/signup', (req, res, next) => {
 			name: req.body.name,
 			password: req.body.password,
 			identifyingCode: parseInt(Math.random() * 90000 + 10000),// 随机验证码
-			endLoginTime: moment().format('YYYY-MM-DD HH:mm'),
+			endLoginTime: moment().format('YYYY-MM-DD HH:mm:ss'),
 			avatar: req.body.avatar || config.defaultHeadSculpture
 		}
 
@@ -48,14 +48,14 @@ router.post('/signup', (req, res, next) => {
  * @since: 2019-03-12 16:42:15
  */
 router.post('/signin', (req, res, next) => {
-	log('user').info(moment().format('YYYY-MM-DD HH:mm') + '/signin');
+	log('user').info(moment().format('YYYY-MM-DD HH:mm:ss') + '/signin');
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
-			log('user').info(moment().format('YYYY-MM-DD HH:mm') + user);
+			log('user').info(moment().format('YYYY-MM-DD HH:mm:ss') + user);
 			if (!user) {
 				res.json({ result: 'success', message: '认证失败,用户不存在!' });
 			} else if (user) {
-				log('user').info(moment().format('YYYY-MM-DD HH:mm'));
+				log('user').info(moment().format('YYYY-MM-DD HH:mm:ss'));
 				log('user').info(user);
 				// 检查密码是否正确
 				user.comparePassword(req.body.password, (err, isMatch) => {
