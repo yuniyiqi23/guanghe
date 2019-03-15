@@ -49,9 +49,10 @@ router.post('/signup', (req, res, next) => {
  */
 router.post('/signin', (req, res, next) => {
 	log('user').info('/signin');
-	log('user').info('name = ' + req.body.name);
+	
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
+			log('user').info(user);
 			if (!user) {
 				res.json({ result: 'success', message: '认证失败,用户不存在!' });
 			} else if (user) {
@@ -82,7 +83,9 @@ router.post('/signin', (req, res, next) => {
 				});
 			}
 		})
-		.catch(next)
+		.catch(function(err){
+			log('user').info('catch error = ' + err);
+		})
 
 });
 
