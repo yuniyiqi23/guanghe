@@ -56,7 +56,7 @@ router.post('/signin', (req, res, next) => {
 			res.json({
 				result: 'success',
 				message: '登录成功!',
-				token: 'Bearer ' + token,
+				token: 'Bearer ' + 'token123',
 				name: user.name
 			});
 			if (!user) {
