@@ -23,8 +23,10 @@ app.use(cors());// Enable All CORS Requests
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());// 初始化passport模块
 app.use(morgan('dev'));// 命令行中显示程序运行日志,便于bug调试
+// 加载解析json的中间件,接受json请求
+app.use(bodyParser.json());
+// 加载解析urlencoded请求体的中间件
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json()); // 调用bodyParser模块以便程序正确解析body传入值
 
 // 正常请求的日志
 app.use(expressWinston.logger({

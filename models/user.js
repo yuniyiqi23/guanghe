@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 // UserSchema
 const UserSchema = new Schema({
-    nickName: { type: String, required: false },
+    nickName: { type: String, unique: true, required: false },
     name: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     avatar: { type: String, required: false },
@@ -49,7 +49,7 @@ UserSchema.pre('save', function (next) {
     }
 });
 // 校验用户输入密码是否正确
-UserSchema.methods.comparePassword = function(passw, cb) {
+UserSchema.methods.comparePassword = function (passw, cb) {
     bcrypt.compare(passw, this.password, (err, isMatch) => {
         if (err) {
             return cb(err);

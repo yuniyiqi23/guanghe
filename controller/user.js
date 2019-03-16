@@ -15,13 +15,17 @@ module.exports = {
 	// 通过用户名获取用户信息
 	getUserByName: function (name) {
 		return UserModel
-			.findOne({ name: name});
+			.findOne({ name: name });
 	},
 
+	// 通过昵称获取用户信息
+	getUserByNickName: function (nickName) {
+		return UserModel.find({ nickName: { $regex: nickName, $options: 'i' } });
+	},
 
 	// 获取全部用户
 	getAllUsers: function () {
-		return UserModel.find({ });
+		return UserModel.find({});
 	},
 
 };
