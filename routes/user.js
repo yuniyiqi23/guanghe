@@ -41,6 +41,28 @@ router.post('/signup', (req, res, next) => {
 });
 
 /**
+ * @Description: 模拟用户登录
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-16 09:26:50
+ */
+router.post('/getToken', (req, res, next) => {
+	log('user').info('/getToken');
+	const name = 'gh_daom';
+	let token = jwt.sign({ name: name }, config.secret, {
+		expiresIn: 60 * 60 * 2// 授权时效2小时
+	});
+	res.json({
+		result: 'success',
+		message: '登录成功!',
+		token: 'Bearer ' + token,
+		name: name
+	});
+
+});
+
+/**
  * @Description: 用户登录，检查用户名与密码并生成一个accesstoken
  * @Author: yep
  * @LastEditors: 
