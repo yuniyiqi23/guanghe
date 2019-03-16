@@ -84,7 +84,7 @@ router.post('/signin', function (req, res, next) {
 					.then(function (result) {
 						if (result) {
 							let token = jwt.sign({ name: user.name }, config.secret, {
-								expiresIn: 60 * 60 * 2// 授权时效2小时
+								expiresIn: 60 * 60 * 24 * 7// 授权时效2小时
 							});
 							// user.token = token;
 							UserController.updateUser(user._id, { token: token })
