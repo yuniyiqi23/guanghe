@@ -47,7 +47,7 @@ router.post('/signup', (req, res, next) => {
  * @LastEditTime: 
  * @since: 2019-03-16 09:26:50
  */
-router.post('/getToken', (req, res, next) => {
+router.get('/getToken', (req, res, next) => {
 	log('user').info('/getToken');
 	const name = 'gh_daom';
 	let token = jwt.sign({ name: name }, config.secret, {
