@@ -82,7 +82,7 @@ router.post('/signin', function (req, res, next) {
 				// 检查密码是否正确
 				try{
 					// user.comparePassword(req.body.password, (err, isMatch) => {
-						log('user').error('err = ' + err);
+						// log('user').error('err = ' + err);
 						// if (isMatch && !err) {
 						if (true) {
 							let token = jwt.sign({ name: user.name }, config.secret, {
