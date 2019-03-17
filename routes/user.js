@@ -52,7 +52,7 @@ router.get('/getToken', (req, res, next) => {
 	log('user').info('/getToken');
 	const name = 'gh_daom';
 	let token = jwt.sign({ name: name }, config.secret, {
-		expiresIn: 60 * 60 * 2// 授权时效2小时
+		expiresIn: 60 * 60 * 24 * 7// 授权时效7天
 	});
 	res.json({
 		result: 'success',
@@ -80,51 +80,29 @@ router.post('/signin', function (req, res, next) {
 			} else if (user) {
 				log('user').info(user);
 				// 检查密码是否正确
-				validatesPassword(user, req.body.password)
-					.then(function (result) {
-						if (result) {
-							let token = jwt.sign({ name: user.name }, config.secret, {
-								expiresIn: 60 * 60 * 24 * 7// 授权时效2小时
-							});
-							// user.token = token;
-							UserController.updateUser(user._id, { token: token })
-								.then(function (user) {
-									if (user) {
-										res.json({
-											result: 'success',
-											message: '登录成功!',
-											token: 'Bearer ' + token,
-											name: user.name
-										})
-									} else {
-										res.send({ result: 'fail', message: '认证失败,密码错误!' });
-									}
-								})
-								.catch(next)
-
-							// user.comparePassword(req.body.password, (err, isMatch) => {
-							// 	log('user').error('err = ' + err);
-							// 	if (isMatch && !err) {
-							// 		let token = jwt.sign({ name: user.name }, config.secret, {
-							// 			expiresIn: 60 * 60 * 2// 授权时效2小时
-							// 		});
-							// 		user.token = token;
-							// 		user.save(function (err) {
-							// 			log('user').error('user.save.err = ' + err);
-							// 			if (err) {
-							// 				res.send(err);
-							// 			}
-							// 		});
-							// 		res.json({
-							// 			result: 'success',
-							// 			message: '登录成功!',
-							// 			token: 'Bearer ' + token,
-							// 			name: user.name
-							// 		});
-						} else {
-							res.send({ result: 'fail', message: '认证失败,密码错误!' });
-						}
-					});
+				user.comparePassword(req.body.password, (err, isMatch) => {
+					log('user').error('err = ' + err);
+					if (isMatch && !err) {
+						let token = jwt.sign({ name: user.name }, config.secret, {
+							expiresIn: 60 * 60 * 24 * 7// 授权时效7天
+						});
+						user.token = token;
+						// user.save(function (err) {
+						// 	log('user').error('user.save.err = ' + err);
+						// 	if (err) {
+						// 		res.send(err);
+						// 	}
+						// });
+						res.json({
+							result: 'success',
+							message: '登录成功!',
+							token: 'Bearer ' + token,
+							name: user.name
+						});
+					} else {
+						res.send({ result: 'fail', message: '认证失败,密码错误!' });
+					}
+				});
 			}
 		})
 		.catch(function (err) {
@@ -132,23 +110,6 @@ router.post('/signin', function (req, res, next) {
 		})
 
 });
-
-function validatesPassword(user, password) {
-	return Promise.resolve(
-		bcrypt.compare(password, user.password)
-			.then(function (result) {
-				if (result === true) {
-					return true;
-				} else {
-					return false;
-					// res.render("signin", {
-					//   username: user.name,
-					//   error: "密码错误！"
-					// });
-				}
-			})
-	);
-}
 
 // passport-http-bearer token 中间件验证
 // 通过 header 发送 Authorization -> Bearer  + token
