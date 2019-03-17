@@ -46,7 +46,7 @@ POST
 
 #### 请求URL：
 ```
-http://47.75.8.64:3002/user/signup
+http://47.75.8.64:3002/user/registerUser
 ```
 
 #### 请求方式：

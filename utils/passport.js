@@ -18,8 +18,8 @@ module.exports = function () {
                         return done(null, false);
                     }
                     // 删除 password;
+                    // delete user.password;
                     user.password = null;
-                    delete user.password;
                     return done(null, user);
                 })
                 .catch(function (err) {

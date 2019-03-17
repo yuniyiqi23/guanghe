@@ -33,8 +33,8 @@ router.get('/getImg', function (req, res) {
 		}
 
 		if (respInfo.statusCode == 200) {
-			var nextMarker = respBody.marker || '';
-			var items = respBody.items;
+			let nextMarker = respBody.marker || '';
+			let items = respBody.items;
 			res.json({
 				items: items,
 				marker: nextMarker
