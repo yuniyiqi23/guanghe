@@ -12,13 +12,12 @@ const passport = require('passport');
 const path = require('path');
 const winston = require('winston');
 const expressWinston = require('express-winston');
-const cors = require('cors');
+// const cors = require('cors');
 
 const routes = require('./routes');
 const app = express();
 
-
-app.use(cors());// Enable All CORS Requests
+// app.use(cors());// Enable All CORS Requests
 //静态文件目录设置,设置public文件夹为存放静态文件的目录
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());// 初始化passport模块

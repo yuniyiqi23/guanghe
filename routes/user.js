@@ -10,6 +10,19 @@ const log = require('../utils/winston').getDefaultLogger;
 const userRole = require('../utils/enum').UserRole;
 require('../utils/passport')(passport);
 
+// 测试跨域问题
+router.get('/', function (req, res, next) {
+	res.send('请求成功！');
+})
+
+router.post('/', function (req, res, next) {
+	res.json({
+		result: '请求成功！',
+		message: '成功创建新用户!',
+		name: req.body.name
+	});
+})
+
 /**
  * @Description: 注册普通用户
  * @Author: yep
@@ -17,7 +30,7 @@ require('../utils/passport')(passport);
  * @LastEditTime: 
  * @since: 2019-03-17 22:22:53
  */
-router.post('/registerUser', function(req, res, next){
+router.post('/registerUser', function (req, res, next) {
 	if (!req.body.name || !req.body.password) {
 		res.json({
 			result: 'fail',
