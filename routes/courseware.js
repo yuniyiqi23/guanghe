@@ -3,6 +3,8 @@ const router = express.Router();
 const passport = require('passport');
 const CoursewareController = require("../controller/courseware");
 const moment = require('moment');
+const Joi = require('joi');
+
 require('../utils/passport')(passport);
 
 /**
@@ -13,23 +15,39 @@ require('../utils/passport')(passport);
  * @since: 2019-03-12 14:13:58
  */
 router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
-    // 测试的参数
-    const param = {
-        author: req.query.authorId,
-        pageNumber: parseInt(req.query.pageNumber) || 1,
-        pageSize: parseInt(req.query.pageSize) || 3
-    }
+    const paramSchema = Joi.object().keys({
+        pageNumber: Joi.number().integer().min(1),
+        pageSize: Joi.number().integer().min(1),
+    })
+    // 验证数据
+    Joi.validate({
+        pageNumber: parseInt(req.query.pageNumber),
+        pageSize: parseInt(req.query.pageSize)
+    },
+        paramSchema,
+        function (err, value) {
+            if (err) {
+                return res.send(err.message);
+            } else {
+                // 测试的参数
+                const param = {
+                    author: req.query.authorId,
+                    pageNumber: parseInt(req.query.pageNumber) || 1,
+                    pageSize: parseInt(req.query.pageSize) || 3
+                }
 
-    CoursewareController.getCoursewareList(param)
-        .then(function (coursewares) {
-            res.json({
-                result: 'success',
-                message: '获取数据成功！',
-                coursewares: coursewares
-            });
-        })
-        .catch(next);
-
+                CoursewareController.getCoursewareList(param)
+                    .then(function (coursewares) {
+                        res.json({
+                            result: 'success',
+                            message: '获取数据成功！',
+                            coursewares: coursewares
+                        });
+                    })
+                    .catch(next);
+            }
+        }
+    );
 });
 
 /**
@@ -40,14 +58,23 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
  * @since: 2019-03-12 14:15:35
  */
 router.post('/create', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+    // 数据验证
+    const authorSchema = Joi.object().keys({
+        id: Joi.string().required(),
+        avatar: Joi.string().required(),
+        nickName: Joi.string().min(3).max(30).required(),
+    })
+    const paramSchema = Joi.object().keys({
+        title: Joi.string().required(),
+        content: Joi.string().required(),
+    })
     // 测试的老师
     const author = {
         id: req.body.authorId,
         nickName: req.body.nickName,
         avatar: req.body.avatar
     };
-
-    let value = {
+    const value = {
         author: author,
         title: req.body.title,
         content: req.body.content,
@@ -55,6 +82,15 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         publishTime: moment().format('YYYY-MM-DD HH:mm:ss')
     };
 
+    // 校验参数
+    const resultAuthor = Joi.validate(author, authorSchema);
+    if (resultAuthor.error !== null) {
+        return res.send(resultAuthor.error.message);
+    }
+    const resultValue = Joi.validate(value, paramSchema);
+    if (resultValue.error !== null) {
+        return res.send(resultValue.error.message);
+    }
     CoursewareController.create(value)
         .then(function (result) {
             if (result) {
@@ -65,7 +101,6 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
             }
         })
         .catch(next)
-
 });
 
 module.exports = router;

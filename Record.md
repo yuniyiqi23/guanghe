@@ -1,10 +1,7 @@
 ## TodoList
-返回数据的状态码
-系统根据时间hash生成昵称
-获取所有老师信息
-？删除返回的密码字段
 API参数验证
-
+？删除返回的密码字段
+返回数据的状态码
 
 设计数据库结构
 Wechat登录接口openId
@@ -21,9 +18,7 @@ Restful API安全设计 https://github.com/shieldfy/API-Security-Checklist/blob/
 
 
 ## 疑问
-1.Post命名
 2.删除查询到的用户密码
 3.Token的安全性
 token被劫持（https）
 token绑定mac地址也能被伪造
-用户持续操作延续时间
