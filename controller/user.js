@@ -19,13 +19,23 @@ module.exports = {
 	},
 
 	// 通过昵称获取用户信息
-	getUserByNickName: function (nickName) {
-		return UserModel.find({ nickName: { $regex: nickName, $options: 'i' } });
+	getUserByNameAndNickName: function ({ name: name, nickName: nickName }) {
+		if (!nickName) {
+			return UserModel.findOne({ name: name });
+		} else {
+			return UserModel.findOne({ $or: [{ name: name }, { nickName: nickName }] });
+		}
+		// return UserModel.find({ nickName: { $regex: nickName, $options: 'i' } });
 	},
 
 	// 获取全部用户
 	getAllUsers: function () {
 		return UserModel.find({});
 	},
+
+	// 获取全部老师列表
+	getTeacherList: function(identifyingCode){
+		return UserModel.find({identifyingCode : identifyingCode});
+	}
 
 };

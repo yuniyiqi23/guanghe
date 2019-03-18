@@ -12,7 +12,8 @@ require('../utils/passport')(passport);
 
 // 测试跨域问题
 router.get('/', function (req, res, next) {
-	res.send('请求成功！');
+	let a = JSON.parse('{\"{\\\"name\\\":\\\"gh_daom\\\",\\\"password\\\":\\\"111111\\\"}\":\"\"}')
+	res.json(a);
 })
 
 router.post('/', function (req, res, next) {
@@ -69,7 +70,7 @@ router.post('/registerUser', function (req, res, next) {
  * @LastEditTime: 
  * @since: 2019-03-16 09:26:50
  */
-router.post('/registerTeacher', (req, res, next) => {
+router.post('/registerTeacher', passport.authenticate('bearer', { session: false }), (req, res, next) => {
 	if (!req.body.name || !req.body.password || !req.body.nickName) {
 		res.json({
 			result: 'fail',
@@ -90,16 +91,49 @@ router.post('/registerTeacher', (req, res, next) => {
 
 		// 保存用户账号
 		// 检查 name 和 nickname 是否有重
-		UserController.createUser(newUser)
+		UserController.getUserByNameAndNickName({ name: req.body.name, nickName: req.body.nickName })
 			.then(function (user) {
-				res.json({
-					result: 'success',
-					message: '成功创建新用户!',
-					user: user
-				});
+				if (!user) {
+					UserController.createUser(newUser)
+						.then(function (user) {
+							res.json({
+								result: 'success',
+								message: '成功创建新用户!',
+								user: user
+							});
+						})
+						.catch(next)
+				} else {
+					res.json({
+						result: 'fail',
+						message: '已存在用户名、昵称相同的用户!',
+					});
+				}
 			})
 			.catch(next)
+
+
 	}
+});
+
+/**
+ * @Description: 获取全部老师列表
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-16 18:46:56
+ */
+router.get('/teacherList', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+	log('user').info('/teacherList');
+	UserController.getTeacherList(userRole.Teacher)
+		.then(function (teachers) {
+			res.json({
+				result: 'success',
+				message: '获取老师列表成功!',
+				teachers: teachers
+			});
+		})
+		.catch(next)
 });
 
 /**
@@ -112,7 +146,7 @@ router.post('/registerTeacher', (req, res, next) => {
 router.post('/signin', function (req, res, next) {
 	log('user').info('/signin');
 	log('user').info('req.body = ' + JSON.stringify(req.body));
-	// log('user').info('password = ' + req.body.password);
+	// log('user').info('password = ' + req.body.toString());
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
 			log('user').info(user);
@@ -126,6 +160,8 @@ router.post('/signin', function (req, res, next) {
 						let token = jwt.sign({ name: user.name }, config.secret, {
 							expiresIn: 60 * 60 * 24 * 7// 授权时效7天
 						});
+						// 系统生成昵称
+						// user.nickName = 
 						user.token = token;
 						user.save(function (err) {
 							log('user').error('user.save.err = ' + err);
@@ -162,26 +198,6 @@ router.get('/info', passport.authenticate('bearer', { session: false }), functio
 		message: '获取用户信息成功！',
 		user: req.user
 	});
-});
-
-/**
- * @Description: 通过昵称获取用户信息（昵称是唯一的）
- * @Author: yep
- * @LastEditors: 
- * @LastEditTime: 
- * @since: 2019-03-16 18:46:56
- */
-router.get('/searchUser', function (req, res, next) {
-	log('user').info('/searchUser');
-	UserController.getUserByNickName(req.query.nickName)
-		.then(function (users) {
-			res.json({
-				result: 'success',
-				message: '搜索用户成功!',
-				users: users
-			});
-		})
-		.catch(next)
 });
 
 module.exports = router;
