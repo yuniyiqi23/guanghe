@@ -111,6 +111,8 @@ router.post('/registerTeacher', (req, res, next) => {
  */
 router.post('/signin', function (req, res, next) {
 	log('user').info('/signin');
+	log('user').info('name = ' + req.body.name);
+	log('user').info('password = ' + req.body.password);
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
 			log('user').info(user);
