@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     // 账号可验证的时间期限（注册日期+1）
     // date: { type: Number, required: true },
     // 激活验证码
-    checkCode: { type: String, required: true },
+    checkCode: { type: String, required: false },
     // 身份标识（用户、老师、管理员）
     identifyingCode: { type: String, required: true },
     // 最后一次登录时间

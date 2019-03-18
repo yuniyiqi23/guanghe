@@ -111,8 +111,8 @@ router.post('/registerTeacher', (req, res, next) => {
  */
 router.post('/signin', function (req, res, next) {
 	log('user').info('/signin');
-	log('user').info('name = ' + req.body.name);
-	log('user').info('password = ' + req.body.password);
+	log('user').info('req.body = ' + JSON.stringify(req.body));
+	// log('user').info('password = ' + req.body.password);
 	UserController.getUserByName(req.body.name)
 		.then(function (user) {
 			log('user').info(user);
@@ -131,14 +131,16 @@ router.post('/signin', function (req, res, next) {
 							log('user').error('user.save.err = ' + err);
 							if (err) {
 								res.send(err);
+							} else {
+								res.json({
+									result: 'success',
+									message: '登录成功!',
+									token: 'Bearer ' + token,
+									name: user.name
+								});
 							}
 						});
-						res.json({
-							result: 'success',
-							message: '登录成功!',
-							token: 'Bearer ' + token,
-							name: user.name
-						});
+
 					} else {
 						res.send({ result: 'fail', message: '认证失败,密码错误!' });
 					}
