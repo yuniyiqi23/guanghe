@@ -71,7 +71,8 @@ router.post('/registerUser', function (req, res, next) {
  * @since: 2019-03-16 09:26:50
  */
 router.post('/registerTeacher', passport.authenticate('bearer', { session: false }), (req, res, next) => {
-	if (!req.body.name || !req.body.password || !req.body.nickName) {
+	log('user').info('/registerTeacher');
+	if (!req.body.name || !req.body.nickName) {
 		res.json({
 			result: 'fail',
 			message: '请输入您的昵称、账号、密码！'
@@ -81,7 +82,8 @@ router.post('/registerTeacher', passport.authenticate('bearer', { session: false
 		const newUser = {
 			nickName: req.body.nickName,
 			name: req.body.name,
-			password: req.body.password,
+			// 默认初始密码
+			password: '111111',
 			avatar: req.body.avatar || config.defaultHeadSculpture,
 			// 随机验证码
 			checkCode: parseInt(Math.random() * 90000 + 10000),

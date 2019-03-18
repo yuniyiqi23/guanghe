@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const PostController = require("../controller/post");
+const CoursewareController = require("../controller/courseware");
 const moment = require('moment');
 require('../utils/passport')(passport);
 
@@ -20,12 +20,12 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
         pageSize: parseInt(req.query.pageSize) || 3
     }
 
-    PostController.getPostList(param)
-        .then(function (posts) {
+    CoursewareController.getCoursewareList(param)
+        .then(function (coursewares) {
             res.json({
                 result: 'success',
                 message: '获取数据成功！',
-                posts: posts
+                coursewares: coursewares
             });
         })
         .catch(next);
@@ -55,7 +55,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         publishTime: moment().format('YYYY-MM-DD HH:mm:ss')
     };
 
-    PostController.create(value)
+    CoursewareController.create(value)
         .then(function (result) {
             if (result) {
                 res.json({

@@ -2,7 +2,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-03-15 22:04:13
+ * @lastTime: 2019-03-18 20:37:24
  */
 
 module.exports = function (app) {
@@ -13,7 +13,7 @@ module.exports = function (app) {
 
 	//use Get to URL
 	app.use('/user', require('./user'));
-	app.use('/post', require('./post'));
+	app.use('/courseware', require('./courseware'));
 	app.use('/qiniu', require('./qiniu'));
 
 	// 404 page

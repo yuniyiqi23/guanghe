@@ -131,7 +131,7 @@ GET
 
 #### 请求URL：
 ```
-http://47.75.8.64:3002/post/create
+http://47.75.8.64:3002/courseware/create
 ```
 
 #### 请求方式：
@@ -166,13 +166,13 @@ POST
 
 #### 请求URL：
 ```
-http://47.75.8.64:3002/post/list
+http://47.75.8.64:3002/courseware/list
 ```
 
 #### 示例：
 
 ```
-http://47.75.8.64:3002/post/list?pageSize=2&pageNumber=1
+http://47.75.8.64:3002/courseware/list?pageSize=2&pageNumber=1
 ```
 
 #### 请求方式：
@@ -196,7 +196,7 @@ GET
 {
     "result": "success",
     "message": "获取数据成功！",
-    "posts": [
+    "coursewares": [
         {
             "_id": "5c8a65b6d1cfd4dc392c17d6",
             "author": {
@@ -244,7 +244,7 @@ POST
 |:-----|:-------:|:-----|:-----|
 |nickName      |Y       |string  | 昵称 |
 |name          |Y       |string  | 用户名 |
-|password      |Y       |string  | 密码 |
+|password      |N       |string  | 密码 |
 |avatar        |N       |string  | 头像URL |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）

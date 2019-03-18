@@ -1,9 +1,9 @@
-const PostModel = require('../models/post');
+const CoursewareModel = require('../models/courseware');
 
 module.exports = {
     // 创建一条数据
-    create: function (post) {
-        return PostModel.create(post);
+    create: function (courseware) {
+        return CoursewareModel.create(courseware);
     },
 
     /**
@@ -13,14 +13,14 @@ module.exports = {
      * @LastEditTime: 
      * @since: 2019-03-12 15:34:01
      */
-    getPostList: function ({author = null, pageNumber = 1, pageSize = 3}) {
+    getCoursewareList: function ({author = null, pageNumber = 1, pageSize = 3}) {
         let query = {};
         if (author) {
 			query.author = author;
         }
         // 分页 
 		let skipNum = (pageNumber - 1) * pageSize;
-        return PostModel
+        return CoursewareModel
             .find(query)
             .skip(skipNum)
 			.limit(pageSize)
@@ -28,11 +28,9 @@ module.exports = {
     },
 
     // 通过文章 id 获取一条数据
-    getPostById: function (postId) {
-        return PostModel
-            .findOne({ _id: postId })
+    getCoursewareListById: function (coursewareId) {
+        return CoursewareModel
+            .findOne({ _id: coursewareId })
             .populate({ path: 'author', model: 'User' });
     },
-
-
 };

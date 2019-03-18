@@ -3,8 +3,8 @@
 const mongoose = require('../mongodb/db.js');
 const Schema = mongoose.Schema;
 
-// PostSchema
-const PostSchema = new Schema({
+// CoursewareSchema
+const CoursewareSchema = new Schema({
     // 用户信息（id、nickName、头像）
     author: { type: Object, required: true},
     title: { type: String, required: true },
@@ -19,7 +19,7 @@ const PostSchema = new Schema({
     publishTime: { type: String, required: true },
   });
   // 按创建时间降序查看用户的文章列表
-  PostSchema.index({ author: 1, _id: -1 });
-  PostSchema.index({ title: 1 });
+  CoursewareSchema.index({ author: 1, _id: -1 });
+  CoursewareSchema.index({ title: 1 });
 
-  module.exports = mongoose.model('Post', PostSchema);
+  module.exports = mongoose.model('Courseware', CoursewareSchema);
