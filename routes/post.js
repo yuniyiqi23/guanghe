@@ -12,7 +12,7 @@ require('../utils/passport')(passport);
  * @LastEditTime: 
  * @since: 2019-03-12 14:13:58
  */
-router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+router.get('/list', function (req, res, next) {
     // 测试的参数
     const param = {
         author: req.query.authorId,
