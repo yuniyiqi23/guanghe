@@ -19,7 +19,7 @@ router.get('/list', function (req, res, next) {
     log('courseware').info('/list');
     log('courseware').info('req.query = ' + JSON.stringify(req.query));
     log('courseware').info('req.params = ' + JSON.stringify(req.params));
-    log('courseware').info('req.body = ' + JSON.stringify(req.body));
+    log('courseware').info('req.url = ' + req.url);
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
         pageSize: Joi.number().integer().min(1),
@@ -89,14 +89,14 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
     };
 
     // 校验参数
-    const resultAuthor = Joi.validate(author, authorSchema);
-    if (resultAuthor.error !== null) {
-        return res.send(resultAuthor.error.message);
-    }
-    const resultValue = Joi.validate(value, paramSchema);
-    if (resultValue.error !== null) {
-        return res.send(resultValue.error.message);
-    }
+    // const resultAuthor = Joi.validate(author, authorSchema);
+    // if (resultAuthor.error !== null) {
+    //     return res.send(resultAuthor.error.message);
+    // }
+    // const resultValue = Joi.validate(value, paramSchema);
+    // if (resultValue.error !== null) {
+    //     return res.send(resultValue.error.message);
+    // }
     CoursewareController.create(value)
         .then(function (result) {
             if (result) {

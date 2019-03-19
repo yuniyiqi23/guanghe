@@ -30,6 +30,7 @@
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "qiniu": "^7.2.1",
+    "request": "^2.88.0",
     "winston": "^3.2.1"
   }
 }

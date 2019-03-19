@@ -19,6 +19,10 @@ Restful API安全设计 https://github.com/shieldfy/API-Security-Checklist/blob/
 2. Docker部署
 3. Redis（用户信息缓存）
 
+## 光合
+1. 部署服务端
+2. 安装TeamViewer
+3. 联调（courseware/list）用户验证、获取参数
 
 ## 疑问
 2.删除查询到的用户密码
