@@ -24,4 +24,4 @@ const CourseBossModel = new Schema({
   CourseBossModel.index({ author: 1, _id: -1 });
   CourseBossModel.index({ title: 1 });
 
-  module.exports = mongoose.model('Courseware', CourseBossModel);
+  module.exports = mongoose.model('CourseBoss', CourseBossModel);
