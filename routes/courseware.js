@@ -17,7 +17,9 @@ require('../utils/passport')(passport);
 // passport.authenticate('bearer', { session: false }),
 router.get('/list', function (req, res, next) {
     log('courseware').info('/list');
-    log('courseware').info(JSON.stringify(req.query));
+    log('courseware').info('req.query = ' + JSON.stringify(req.query));
+    log('courseware').info('req.params = ' + JSON.stringify(req.params));
+    log('courseware').info('req.body = ' + JSON.stringify(req.body));
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
         pageSize: Joi.number().integer().min(1),
