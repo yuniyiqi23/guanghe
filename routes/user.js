@@ -106,10 +106,10 @@ router.post('/registerTeacher', passport.authenticate('bearer', { session: false
 			endLoginTime: moment().format('YYYY-MM-DD HH:mm:ss')
 		}
 		// 校验参数
-		const result = Joi.validate(newUser, schema);
-		if (result.error !== null) {
-			return res.send(result.error.message);
-		}
+		// const result = Joi.validate(newUser, schema);
+		// if (result.error !== null) {
+		// 	return res.send(result.error.message);
+		// }
 		// 保存用户账号
 		// 检查 name 和 nickname 是否有重
 		UserController.getUserByNameAndNickName({ name: req.body.name, nickName: req.body.nickName })

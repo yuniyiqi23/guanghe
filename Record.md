@@ -23,7 +23,7 @@ Restful API安全设计 https://github.com/shieldfy/API-Security-Checklist/blob/
 1. 部署服务端
 2. 安装TeamViewer
 3. 联调（courseware/list）用户验证、获取参数
-4. 联调创建课件（courseware/create）
+4. 联调创建课件（courseware/create），创建老师账号（参数验证问题）
 
 ## 疑问
 2.删除查询到的用户密码
