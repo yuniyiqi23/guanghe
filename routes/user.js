@@ -9,7 +9,7 @@ const md5 = require('md5-node');
 const UserController = require("../controller/user");
 // const checkToken = require("../utils/checkToken").checkToken;
 const log = require('../utils/winston').getDefaultLogger;
-const userRole = require('../utils/enum').UserRole;
+const userRole = require('../utils/enum').EnumUserRole;
 require('../utils/passport')(passport);
 
 const schema = Joi.object().keys({
@@ -51,6 +51,8 @@ router.post('/registerUser', function (req, res, next) {
 		const newUser = {
 			name: req.body.name,
 			password: req.body.password,
+			// 系统生成昵称
+			nickName: 'user_' + md5(moment()),
 			avatar: req.body.avatar || config.defaultHeadSculpture,
 			identifyingCode: userRole.User,
 			// 随机验证码
@@ -130,8 +132,6 @@ router.post('/registerTeacher', passport.authenticate('bearer', { session: false
 				}
 			})
 			.catch(next)
-
-
 	}
 });
 
@@ -142,7 +142,7 @@ router.post('/registerTeacher', passport.authenticate('bearer', { session: false
  * @LastEditTime: 
  * @since: 2019-03-16 18:46:56
  */
-router.get('/teacherList', passport.authenticate('bearer', { session: false }), function (res, next) {
+router.get('/teacherList', passport.authenticate('bearer', { session: false }), function (req, res, next) {
 	log('user').info('/teacherList');
 	UserController.getTeacherList(userRole.Teacher)
 		.then(function (teachers) {
@@ -184,8 +184,6 @@ router.post('/signin', function (req, res, next) {
 							let token = jwt.sign({ name: user.name }, config.secret, {
 								expiresIn: 60 * 60 * 24 * 7// 授权时效7天
 							});
-							// 系统生成昵称
-							user.nickName = 'user_' + md5(moment())
 							user.token = token;
 							user.save(function (err) {
 								log('user').error('user.save.err = ' + err);

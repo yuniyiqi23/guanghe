@@ -12,12 +12,10 @@ const http = require('http');
 const port = normalizePort(process.env.PORT || '3002');
 const log = require("../utils/winston").getDefaultLogger;
 // 打印输出端口号
-log('www').info('启动服务：');
-log('www').info('模式： ' + process.env.NODE_ENV);
-log('www').info('端口号： ' + port);
-console.log('启动服务：');
-console.log('模式： ' + process.env.NODE_ENV);
-console.log('端口号： ' + port);
+log('www').info('启动服务!');
+log('www').info('模式：' + process.env.NODE_ENV + '; 端口号：' + port);
+console.log('启动服务!');
+console.log('模式：' + process.env.NODE_ENV + '; 端口号：' + port);
 app.set('port', port);
 
 /**

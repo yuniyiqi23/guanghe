@@ -3,11 +3,12 @@
 const mongoose = require('../mongodb/db.js');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 // UserSchema
 const UserSchema = new Schema({
     // 昵称
-    nickName: { type: String, unique: true, required: false },
+    nickName: { type: String, unique: true, required: true },
     // 用户名
     name: { type: String, unique: true, required: true },
     // 密码
@@ -20,16 +21,15 @@ const UserSchema = new Schema({
     bio: { type: String, required: false },
     // 手机号码
     mobile: { type: Number, required: false },
-    // 账号可验证的时间期限（注册日期+1）
-    // date: { type: Number, required: true },
     // 激活验证码
     checkCode: { type: String, required: false },
     // 身份标识（用户、老师、管理员）
     identifyingCode: { type: String, required: true },
     // 最后一次登录时间
     endLoginTime: { type: String, required: true },
-    // 判断是否是管理员
-    isAdmin: { type: Boolean, default: false },
+    // 数据状态（是否有效）
+    dataStatus: { type: String, default: enumDateStatus.Avail },
+    // 用户登录Token
     token: { type: String }
 });
 

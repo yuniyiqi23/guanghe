@@ -2,6 +2,7 @@
 
 const mongoose = require('../mongodb/db.js');
 const Schema = mongoose.Schema;
+const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 // CoursewareSchema
 const CoursewareSchema = new Schema({
@@ -15,7 +16,8 @@ const CoursewareSchema = new Schema({
     audioURL: { type: String, required: false },
     // 浏览数
     pv: { type: Number, required: false },
-    // state: { type: Number, required: false }
+    // 数据状态（是否有效）
+    dataStatus: { type: String, default: enumDateStatus.Avail },
     publishTime: { type: String, required: true },
   });
   // 按创建时间降序查看用户的文章列表
