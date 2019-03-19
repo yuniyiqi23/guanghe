@@ -4,7 +4,7 @@ const passport = require('passport');
 const CoursewareController = require("../controller/courseware");
 const moment = require('moment');
 const Joi = require('joi');
-
+const log = require('../utils/winston').getDefaultLogger;
 require('../utils/passport')(passport);
 
 /**
@@ -15,6 +15,8 @@ require('../utils/passport')(passport);
  * @since: 2019-03-12 14:13:58
  */
 router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+    log('courseware').info('/list');
+    log('courseware').info(JSON.stringify(req.query));
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
         pageSize: Joi.number().integer().min(1),
@@ -27,6 +29,7 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
         paramSchema,
         function (err, value) {
             if (err) {
+                log('courseware').error(err.message);
                 return res.send(err.message);
             } else {
                 // 测试的参数
