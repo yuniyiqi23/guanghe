@@ -14,7 +14,8 @@ require('../utils/passport')(passport);
  * @LastEditTime: 
  * @since: 2019-03-12 14:13:58
  */
-router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+// passport.authenticate('bearer', { session: false }),
+router.get('/list', function (req, res, next) {
     log('courseware').info('/list');
     log('courseware').info(JSON.stringify(req.query));
     const paramSchema = Joi.object().keys({
