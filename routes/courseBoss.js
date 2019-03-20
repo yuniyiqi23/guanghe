@@ -83,10 +83,10 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
     const value = {
         author: author,
         title: req.body.title,
-        vodioURL: req.body.vodioURL,
+        videoURL: req.body.videoURL,
         cover: req.body.cover,
         content: req.body.content,
-        vodioPictures: req.body.vodioPictures,
+        videoPictures: req.body.vodioPictures,
         publishTime: req.body.publishTime
     };
 

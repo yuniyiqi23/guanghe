@@ -10,11 +10,11 @@ const CourseBossModel = new Schema({
   author: { type: Object, required: true },
   title: { type: String, required: true },
   // 视频路径
-  vodioURL: { type: String, required: true },
+  videoURL: { type: String, required: true },
   // 视频封面
   cover: { type: String, required: true },
   // 视频切片
-  vodioPictures: { type: Array, default: [] },
+  videoPictures: { type: Array, default: [] },
   content: { type: String, required: true },
   // 浏览数
   pv: { type: Number, required: false },

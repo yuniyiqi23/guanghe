@@ -2,7 +2,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-03-19 19:07:37
+ * @lastTime: 2019-03-20 14:41:26
  */
 
 module.exports = function (app) {
@@ -17,6 +17,7 @@ module.exports = function (app) {
 	app.use('/courseBoss', require('./courseBoss'));
 	app.use('/qiniu', require('./qiniu'));
 	app.use('/wechat', require('./wechat'));
+	app.use('/server', require('./server'));
 
 	// 404 page
 	app.use(function (req, res) {
