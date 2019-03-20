@@ -7,7 +7,7 @@ module.exports = {
     },
 
     /**
-     * @Description: 获取最新的数据
+     * @Description: 获取数据，实现按用户搜索和分页功能
      * @Author: yep
      * @LastEditors: 
      * @LastEditTime: 

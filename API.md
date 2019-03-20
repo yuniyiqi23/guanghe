@@ -5,12 +5,14 @@
 [1、用户登录](#1用户登录)<br/>
 [2、用户注册](#2用户注册)<br/>
 [3、获取用户信息](#3获取用户信息)<br/>
-[4、更新用户信息？](#4更新用户信息)<br/>
-[5、删除用户？](#5删除用户)<br/>
-[6、上传课程](#6上传课程)<br/>
-[7、获取课程](#7获取课程)<br/>
+?[4、更新用户信息](#4更新用户信息)<br/>
+?[5、删除用户](#5删除用户)<br/>
+[6、创建音频课程](#6创建音频课程)<br/>
+[7、获取音频课程](#7获取音频课程)<br/>
 [8、老师注册](#8老师注册)<br/>
 [9、获取全部老师数据](#9获取全部老师数据)<br/>
+[10、创建Boss说课程](#10创建Boss说课程)<br/>
+[11、获取Boss说课程](#11获取Boss说课程)<br/>
 
 ## 接口列表：
 
@@ -127,7 +129,7 @@ GET
 
 ```
 
-### 6、上传课程
+### 6、创建音频课程
 
 #### 请求URL：
 ```
@@ -162,7 +164,7 @@ POST
   
 ```
 
-### 7、获取课程
+### 7、获取音频课程
 
 #### 请求URL：
 ```
@@ -324,6 +326,100 @@ GET
             "checkCode": "15637",
             "identifyingCode": "6",
             "endLoginTime": "2019-03-18 13:44:13",
+            "__v": 0
+        }
+    ]
+}
+
+```
+
+### 10、创建Boss说课程
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseboss/create
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|authorId      |Y       |string   | 用户id |
+|nickName      |Y       |string   | 用户昵称 |
+|avatar        |Y       |string   | 头像URL |
+|title         |Y       |string   | 标题 |
+|content       |Y       |string   | 内容 |
+|vodioURL      |Y       |string   | 视频URL |
+|cover         |Y       |string   | 封面 |
+|publishTime   |Y       |string   | 发布时间 |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "发布信息成功!"
+}
+  
+```
+
+### 7、获取Boss说课程
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseboss/list
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseboss/list?pageSize=2&pageNumber=1
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|nickName      |N       |string   | 用户昵称 |
+|pageNumber    |N       |string   | 第几页（默认值：1） |
+|pageSize      |N       |string   | 数量（默认值：3） |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    {
+    "result": "success",
+    "message": "获取数据成功！",
+    "courseBosss": [
+        {
+            "vodioPictures": [],
+            "dataStatus": "1",
+            "_id": "5c91a9d80cf71bd3ed36cc2e",
+            "author": {
+                "id": "5c8744bdc71400367afd3ad7",
+                "nickName": "明道老师",
+                "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
+            },
+            "title": "测试_浪漫的婚庆台词",
+            "vodioURL": "vodioURL",
+            "cover": "coverList",
+            "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
+            "publishTime": "2019-03-18 21:35:38",
             "__v": 0
         }
     ]

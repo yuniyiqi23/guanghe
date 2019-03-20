@@ -8,7 +8,7 @@ const log = require('../utils/winston').getDefaultLogger;
 require('../utils/passport')(passport);
 
 /**
- * @Description: 获取最近发布的数据
+ * @Description: 获取“Boss说”模块数据，实现按用户搜索和分页功能
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 
@@ -25,35 +25,35 @@ router.get('/list', function (req, res, next) {
         pageSize: Joi.number().integer().min(1),
     })
     // 验证数据
-    Joi.validate({
-        pageNumber: parseInt(req.query.pageNumber),
-        pageSize: parseInt(req.query.pageSize)
-    },
-        paramSchema,
-        function (err, value) {
-            if (err) {
-                log('courseBoss').error(err.message);
-                return res.send(err.message);
-            } else {
-                // 测试的参数
-                const param = {
-                    author: req.query.authorId,
-                    pageNumber: parseInt(req.query.pageNumber) || 1,
-                    pageSize: parseInt(req.query.pageSize) || 3
-                }
+    // Joi.validate({
+    //     pageNumber: parseInt(req.query.pageNumber),
+    //     pageSize: parseInt(req.query.pageSize)
+    // },
+    //     paramSchema,
+    //     function (err, value) {
+    //         if (err) {
+    //             log('courseBoss').error(err.message);
+    //             return res.send(err.message);
+    //         } else {
+    // 测试的参数
+    const param = {
+        author: req.query.authorId,
+        pageNumber: parseInt(req.query.pageNumber) || 1,
+        pageSize: parseInt(req.query.pageSize) || 3
+    }
 
-                CourseBossController.getcourseBossList(param)
-                    .then(function (courseBosss) {
-                        res.json({
-                            result: 'success',
-                            message: '获取数据成功！',
-                            courseBosss: courseBosss
-                        });
-                    })
-                    .catch(next);
-            }
-        }
-    );
+    CourseBossController.getcourseBossList(param)
+        .then(function (courseBosss) {
+            res.json({
+                result: 'success',
+                message: '获取数据成功！',
+                courseBosss: courseBosss
+            });
+        })
+        .catch(next);
+    //         }
+    //     }
+    // );
 });
 
 /**
@@ -83,9 +83,11 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
     const value = {
         author: author,
         title: req.body.title,
+        vodioURL: req.body.vodioURL,
+        cover: req.body.cover,
         content: req.body.content,
-        audioURL: req.body.radioURL,
-        publishTime: moment().format('YYYY-MM-DD HH:mm:ss')
+        vodioPictures: req.body.vodioPictures,
+        publishTime: req.body.publishTime
     };
 
     // 校验参数

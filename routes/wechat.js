@@ -10,7 +10,9 @@ const request = require('request')
  * @since: 2019-03-19 10:51:45
  */
 router.get('/onlogin', function (req, res, next) {
-    let code = req.query.code
+    // let code = req.query.code
+    // let code = '011pcuQg1vPTnt0rL7Rg1cPwQg1pcuQ4';
+    let code = '011BSZra0YkQez1ebnra0MoZra0BSZr5';
   
     request.get({
       uri: 'https://api.weixin.qq.com/sns/jscode2session',
@@ -29,7 +31,7 @@ router.get('/onlogin', function (req, res, next) {
         //TODO: 生成一个唯一字符串sessionid作为键，将openid和session_key作为值，存入redis，超时时间设置为2小时
         //伪代码: redisStore.set(sessionid, openid + session_key, 7200)
   
-        res.json({ sessionid: sessionid })
+        res.json('{ sessionid: sessionid }')
       } else {
         console.log("[error]", err)
         res.json(err)

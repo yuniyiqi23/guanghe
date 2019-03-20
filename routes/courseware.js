@@ -8,7 +8,7 @@ const log = require('../utils/winston').getDefaultLogger;
 require('../utils/passport')(passport);
 
 /**
- * @Description: 获取最近发布的数据
+ * @Description: 获取课件数据，实现按用户搜索和分页功能
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 

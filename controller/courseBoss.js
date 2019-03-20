@@ -7,13 +7,13 @@ module.exports = {
     },
 
     /**
-     * @Description: 获取最新的数据
+     * @Description: 获取数据，实现按用户搜索和分页功能
      * @Author: yep
      * @LastEditors: 
      * @LastEditTime: 
-     * @since: 2019-03-12 15:34:01
+     * @since: 2019-03-20 10:21:28
      */
-    getCoursewareList: function ({author = null, pageNumber = 1, pageSize = 3}) {
+    getcourseBossList: function ({author = null, pageNumber = 1, pageSize = 3}) {
         let query = {};
         if (author) {
 			query.author = author;
