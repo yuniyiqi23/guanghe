@@ -356,7 +356,7 @@ POST
 |content       |Y       |string   | 内容 |
 |videoURL      |Y       |string   | 视频URL |
 |cover         |Y       |string   | 封面 |
-|videoPictures |N       |Array    | 视频切片 |
+|videoPictures |N       |string   | 视频切片 |
 |publishTime   |Y       |string   | 发布时间 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）

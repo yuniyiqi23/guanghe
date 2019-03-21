@@ -12,6 +12,12 @@ module.exports = {
 		return UserModel.findOneAndUpdate({ _id: userId }, { $set: data }, { upsert: true, new: true })
 	},
 
+	// 通过微信 OpenId 获取用户信息
+	getUserByWechatId: function (wechatId) {
+		return UserModel
+			.findOne({ wechatId: wechatId });
+	},
+
 	// 通过用户名获取用户信息
 	getUserByName: function (name) {
 		return UserModel

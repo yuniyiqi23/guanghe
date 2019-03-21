@@ -67,7 +67,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
     // 数据验证
     const authorSchema = Joi.object().keys({
         id: Joi.string().required(),
-        avatar: Joi.string().required(),
+        // avatar: Joi.string().required(),
         nickName: Joi.string().min(3).max(30).required(),
     })
     const paramSchema = Joi.object().keys({
@@ -78,7 +78,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
     const author = {
         id: req.body.authorId,
         nickName: req.body.nickName,
-        avatar: req.body.avatar
+        // avatar: req.body.avatar
     };
     const value = {
         author: author,

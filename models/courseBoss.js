@@ -14,7 +14,7 @@ const CourseBossModel = new Schema({
   // 视频封面
   cover: { type: String, required: true },
   // 视频切片
-  videoPictures: { type: Array, default: [] },
+  videoPictures: { type: String, required: false },
   content: { type: String, required: true },
   // 浏览数
   pv: { type: Number, required: false },

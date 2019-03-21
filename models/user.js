@@ -29,6 +29,8 @@ const UserSchema = new Schema({
     endLoginTime: { type: String, required: true },
     // 数据状态（是否有效）
     dataStatus: { type: String, default: enumDateStatus.Avail },
+    // 微信登录凭证
+    wechatId: { type: String, required: false },
     // 用户登录Token
     token: { type: String }
 });

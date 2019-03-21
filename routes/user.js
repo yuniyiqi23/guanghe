@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const config = require('config-lite')(__dirname);
 const passport = require('passport');
 const moment = require('moment');
 const Joi = require('joi');
 const md5 = require('md5-node');
 const UserController = require("../controller/user");
-// const checkToken = require("../utils/checkToken").checkToken;
+const getToken = require("../utils/token").getToken;
 const log = require('../utils/winston').getDefaultLogger;
 const userRole = require('../utils/enum').EnumUserRole;
 require('../utils/passport')(passport);
@@ -181,9 +181,10 @@ router.post('/signin', function (req, res, next) {
 					// 检查密码是否正确
 					user.comparePassword(req.body.password, (err, isMatch) => {
 						if (isMatch && !err) {
-							let token = jwt.sign({ name: user.name }, config.secret, {
-								expiresIn: 60 * 60 * 24 * 7// 授权时效7天
-							});
+							// let token = jwt.sign({ name: user.name }, config.secret, {
+							// 	expiresIn: 60 * 60 * 24 * 7// 授权时效7天
+							// });
+							let token = getToken(user.name);
 							user.token = token;
 							user.save(function (err) {
 								log('user').error('user.save.err = ' + err);
