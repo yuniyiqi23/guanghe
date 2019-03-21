@@ -24,7 +24,7 @@ const UserSchema = new Schema({
     // 激活验证码
     checkCode: { type: String, required: false },
     // 身份标识（用户、老师、管理员）
-    identifyingCode: { type: String, required: true },
+    role: { type: String, required: true },
     // 最后一次登录时间
     endLoginTime: { type: String, required: true },
     // 数据状态（是否有效）

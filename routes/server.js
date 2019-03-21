@@ -1,8 +1,3 @@
-/*
-* 作者：刘焱旺 yw@getweapp.com
-* 答疑交流QQ群：499859691
-*/
-
 // api服务
 // const Restify = require('restify')
 // const Server = Restify.createServer()
@@ -20,7 +15,7 @@ const router = express.Router();
 const Request = require('request')
 
 // 小程序解密库
-const WXBizDataCrypt = require('./WXBizDataCrypt')
+const WXBizDataCrypt = require('../utils/WXBizDataCrypt')
 
 // redis
 // const Redis = require('redis')
@@ -110,9 +105,9 @@ const decrypt = (sessionKey, encryptedData, iv, callback) => {
 router.get('/signIn', (req, res) => {
 	// const data = req.body
 	const data = {
-		code: '021gbX4e2I4j4G086f3e2S8T4e2gbX4E',
-		encryptedData: 'Q3weOP8jrbJGnLKJTUBgkdHuTXvfyvzSidtM6Rat52MuhPF6YuhBMe2AIqRXAMOXreKh1CAb5fS5qmiKV6lr8NbEoomnAUe7Sd1yy5z0BlPW0GLmvZk3E0/7qIYAiBeJryExeltAgs542Fe6W857VyXbb8THofX/nqxfSUCfSvDEfaOBMusJ+2vOBXIGn40qynmCMLBqFu5N+vVy1rHS0y5ONdmVSZQ14mlCSTQnFFE1eOw6k7K9xhqAjQUoVkuBwb2nk8eMC5Ab+JHKBPeGjxPIfE6EkzlJs867mHbohE95n6n0h42+tM6bKfOYaR+D1oOjyoGCZj2GnXdP3+WFbTp4rWUIPe44uOh28jmO17nwpIXltHQqxc74Qd6tYAyit4z8fMfDqCU+Mt+Tx0KU7Kzs0RfM8lTTxr86nHGbjT5KJFHN4u6x5kdSpFY6Bn6OyuZku6Wu71jn4r1FNGFjHNRslgoO0RBlP7qJpAAEzxQ=',
-		iv: '4ByrP37USaPU2Wk813RG8Q=='
+		code: '061Gk3TF1gA8090L8QSF19K7TF1Gk3TN',
+		encryptedData: 'lEcdlZ4NxEZidiNMnrKrfwRFWIB2dk/04wNEb3e24BWABIGgvh7FpNBOZ3BmCzumb0NXZB+Q+rWwNed27ei+nySTk6gd/BYdR98XMfimrQWKtvEPu/IQBO6xHOZ/x31rM9ZcTKroWGhyXVK8neNRphd6VDJgOONUPXuAb4bMSOAECNCld+mIG5D4pbSbojmZ1aNFy0uFUPePUCvFd7NfYfi3lVt/13oemmuYTf5ux91zmxlLfCkcIGG/Oaud2NWzvk4hhJdlBYZxZZV6JLrg1Cz4aH9ngPLXtadoXFnId35qaFElg+xYy+umQJY+vhA4iKSWIlqKiy+7hY1wwLxj5+H6Sh6BSHEkyFWvzNez9sCcK9qp00v2tO9xthpBSzRQDaws2DjoJzJndmRo5OV92D+Gkhz3SlroDIEXi+e9TFZx+yZLSVMRF7kZXwdHepSXFWrwzZQrMiITQEEF5BwqEeXZiAdMOO6uaCK8lBxroDU=',
+		iv: 'tQGApXCr3JB35M9QQq8r5g=='
 	}
 	console.log('POST：/signIn, 参数：', data)
 

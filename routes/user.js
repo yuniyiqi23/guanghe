@@ -54,7 +54,7 @@ router.post('/registerUser', function (req, res, next) {
 			// 系统生成昵称
 			nickName: 'user_' + md5(moment()),
 			avatar: req.body.avatar || config.defaultHeadSculpture,
-			identifyingCode: userRole.User,
+			role: userRole.User,
 			// 随机验证码
 			checkCode: parseInt(Math.random() * 90000 + 10000),
 			endLoginTime: moment().format('YYYY-MM-DD HH:mm:ss')
@@ -102,7 +102,7 @@ router.post('/registerTeacher', passport.authenticate('bearer', { session: false
 			avatar: req.body.avatar || config.defaultHeadSculpture,
 			// 随机验证码
 			checkCode: parseInt(Math.random() * 90000 + 10000),
-			identifyingCode: userRole.Teacher,
+			role: userRole.Teacher,
 			endLoginTime: moment().format('YYYY-MM-DD HH:mm:ss')
 		}
 		// 校验参数

@@ -34,8 +34,8 @@ module.exports = {
 	},
 
 	// 获取全部老师列表
-	getTeacherList: function(identifyingCode){
-		return UserModel.find({identifyingCode : identifyingCode});
+	getTeacherList: function(role){
+		return UserModel.find({role : role});
 	}
 
 };

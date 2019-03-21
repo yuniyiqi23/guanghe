@@ -77,7 +77,7 @@ POST
         "_id": "5c8a594bfdc0beca6d2dce93",
         "name": "adam",
         "password": "$2b$10$mUBI3i0W.2wYwPRj93OsCugpnu.TDjgbhzHdQNfWahrki7.J21z9W",
-        "identifyingCode": "33819",
+        "role": "33819",
         "endLoginTime": "2019-03-14 21:37",
         "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
         "__v": 0
@@ -119,7 +119,7 @@ GET
         "_id": "5c8601759b2af91a39c2c788",
         "name": "gh_wangjy",
         "password": null,
-        "identifyingCode": "1234",
+        "role": "1234",
         "endLoginTime": "1234",
         "__v": 0,
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2hfd2FuZ2p5IiwiaWF0IjoxNTUyNTcwNzc0LCJleHAiOjE1NTI1Nzc5NzR9.-fKbIi6-hmMHnDPYN5VXYDOquX6w7jinhf5MgfPO30c",
@@ -266,7 +266,7 @@ POST
         "password": "$2a$10$x6uyDBRhPwWmSjQmSx8WpuqXidLV58aBNuRL5WRI9.Q5oYMTuF47K",
         "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
         "checkCode": "15637",
-        "identifyingCode": "6",
+        "role": "6",
         "endLoginTime": "2019-03-18 13:44:13",
         "__v": 0
     }
@@ -311,7 +311,7 @@ GET
             "password": "$2a$10$rpm.bMhXl585gFgdWERT3uCwQ4pM1r4klQ8gYoqaXSiMrjUEZz8WO",
             "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
             "checkCode": "77474",
-            "identifyingCode": "6",
+            "role": "6",
             "endLoginTime": "2019-03-17 22:37:39",
             "__v": 0
         },
@@ -324,7 +324,7 @@ GET
             "password": "$2a$10$x6uyDBRhPwWmSjQmSx8WpuqXidLV58aBNuRL5WRI9.Q5oYMTuF47K",
             "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
             "checkCode": "15637",
-            "identifyingCode": "6",
+            "role": "6",
             "endLoginTime": "2019-03-18 13:44:13",
             "__v": 0
         }
