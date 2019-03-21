@@ -86,7 +86,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         videoURL: req.body.videoURL,
         cover: req.body.cover,
         content: req.body.content,
-        videoPictures: req.body.vodioPictures,
+        videoPictures: req.body.videoPictures,
         publishTime: req.body.publishTime
     };
 
