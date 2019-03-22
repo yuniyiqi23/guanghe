@@ -13,6 +13,8 @@
 [9、获取全部老师数据](#9获取全部老师数据)<br/>
 [10、创建Boss说课程](#10创建Boss说课程)<br/>
 [11、获取Boss说课程](#11获取Boss说课程)<br/>
+[12、获取音频课程详情](#12获取音频课程详情)<br/>
+[13、获取Boss说课程详情](#13获取Boss说课程详情)<br/>
 
 ## 接口列表：
 
@@ -371,7 +373,7 @@ POST
   
 ```
 
-### 7、获取Boss说课程
+### 11、获取Boss说课程
 
 #### 请求URL：
 ```
@@ -427,3 +429,103 @@ GET
 }
 
 ```
+
+### 12、获取音频课程详情
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseware/info
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseware/info?courseId=5c944cff5f1e9851f59d41ba
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|courseId        |Y       |string   | 课程Id |
+|Authorization   |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取课程成功!",
+    "courseBoss": {
+        "dataStatus": "1",
+        "_id": "5c944cff5f1e9851f59d41ba",
+        "author": {
+            "id": "5c8744bdc71400367afd3ad7",
+            "nickName": "明道老师"
+        },
+        "title": "测试_1",
+        "videoURL": "videoURL",
+        "cover": "coverPicture",
+        "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
+        "publishTime": "2019-03-2T02:34:00.000Z",
+        "__v": 0
+    }
+}
+```
+
+
+### 13、获取Boss说课程详情
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseboss/info
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseboss/info?courseId=5c944cff5f1e9851f59d41ba
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|courseId        |Y       |string   | 课程Id |
+|Authorization   |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取课程成功!",
+    "courseBoss": {
+        "dataStatus": "1",
+        "_id": "5c944cff5f1e9851f59d41ba",
+        "author": {
+            "id": "5c8744bdc71400367afd3ad7",
+            "nickName": "明道老师"
+        },
+        "title": "测试_1",
+        "videoURL": "videoURL",
+        "cover": "coverPicture",
+        "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
+        "publishTime": "2019-03-2T02:34:00.000Z",
+        "__v": 0
+    }
+}
+```
+

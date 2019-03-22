@@ -109,4 +109,38 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         .catch(next)
 });
 
+/**
+ * @Description: 获取单独一个课程的详情
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-22 13:20:12
+ */
+router.get('/info', function (req, res, next) {
+    const courseId = req.query.courseId;
+    if (courseId) {
+        CoursewareController.getCoursewareById(courseId)
+            .then(function (courseware) {
+                if(courseware){
+                    res.json({
+                        result: 'success',
+                        message: '获取课程成功!',
+                        courseware: courseware
+                    });
+                }else{
+                    res.json({
+                        result: 'fail',
+                        message: '无法根据此ID获取到相应的课程!'
+                    });
+                }
+            })
+            .catch(next)
+    } else {
+        res.json({
+            result: 'fail',
+            message: '参数courseId为空!'
+        });
+    }
+})
+
 module.exports = router;

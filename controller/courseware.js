@@ -28,9 +28,9 @@ module.exports = {
     },
 
     // 通过文章 id 获取一条数据
-    getCoursewareListById: function (coursewareId) {
+    getCoursewareById: function (coursewareId) {
         return CoursewareModel
             .findOne({ _id: coursewareId })
-            .populate({ path: 'author', model: 'User' });
+            // .populate({ path: 'author', model: 'User' });
     },
 };

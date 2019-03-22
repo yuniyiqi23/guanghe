@@ -14,6 +14,7 @@ module.exports = {
      * @since: 2019-03-20 10:21:28
      */
     getcourseBossList: function ({author = null, pageNumber = 1, pageSize = 3}) {
+        // console.log(new Date());
         let query = {};
         if (author) {
 			query.author = author;
@@ -24,13 +25,14 @@ module.exports = {
             .find(query)
             .skip(skipNum)
 			.limit(pageSize)
-            .sort({ _id: -1 });
+            .sort({ _id: -1 })
+            // .where('publishTime').lt(new Date());
     },
 
     // 通过文章 id 获取一条数据
-    getCoursewareListById: function (coursewareId) {
+    getCoursebossById: function (coursebossId) {
         return CourseBossModel
-            .findOne({ _id: coursewareId })
-            .populate({ path: 'author', model: 'User' });
+            .findOne({ _id: coursebossId })
+            // .populate({ path: 'author', model: 'User' });
     },
 };
