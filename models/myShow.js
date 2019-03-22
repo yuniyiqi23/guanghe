@@ -12,7 +12,7 @@ const MyShowSchema = new Schema({
     // 图片列表
     pictures: { type: Array, required: false },
     // 点赞数
-
+    likeNum: { type: String, required: true },
     // 数据状态（是否有效）
     dataStatus: { type: String, default: enumDateStatus.Avail },
 });
