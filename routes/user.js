@@ -41,12 +41,15 @@ router.post('/', function (req, res, next) {
  * @since: 2019-03-17 22:22:53
  */
 router.post('/registerUser', function (req, res, next) {
-	if (!req.body.name || !req.body.password) {
-		res.json({
-			result: 'fail',
-			message: '请输入您的账号密码！'
-		});
-	} else {
+	// 校验参数
+	const result = Joi.validate({
+		name: req.body.name,
+		password: req.body.password,
+	}, schema);
+	
+	if (result.error !== null) {
+		return res.send(result.error.message);
+	}else {
 		// 需要验证数据是否符合要求
 		const newUser = {
 			name: req.body.name,
@@ -59,11 +62,6 @@ router.post('/registerUser', function (req, res, next) {
 			checkCode: parseInt(Math.random() * 90000 + 10000),
 			endLoginTime: moment().format('YYYY-MM-DD HH:mm:ss')
 		}
-		// 校验参数
-		const result = Joi.validate(newUser, schema);
-		if (result.error !== null) {
-			return res.send(result.error.message);
-		}
 
 		// 创建用户
 		UserController.createUser(newUser)
@@ -71,7 +69,7 @@ router.post('/registerUser', function (req, res, next) {
 				res.json({
 					result: 'success',
 					message: '成功创建新用户!',
-					user: user
+					// user: user
 				});
 			})
 			.catch(next)

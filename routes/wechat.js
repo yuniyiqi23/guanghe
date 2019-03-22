@@ -6,6 +6,8 @@ const WXBizDataCrypt = require('../utils/WXBizDataCrypt');
 const getToken = require("../utils/token").getToken;
 const moment = require('moment');
 const md5 = require('md5-node');
+const config = require('config-lite')(__dirname);
+const userRole = require('../utils/enum').EnumUserRole;
 const UserController = require("../controller/user");
 
 // 小程序参数
@@ -62,13 +64,13 @@ const decrypt = (sessionKey, encryptedData, iv, callback) => {
  * @LastEditTime: 
  * @since: 2019-03-19 10:51:45
  */
-router.get('/signin', function (req, res, next) {
+router.post('/signin', function (req, res, next) {
   // let code = req.query.code
   // let code = '011pcuQg1vPTnt0rL7Rg1cPwQg1pcuQ4';
   const data = {
-    code: req.query.code,
-    encryptedData: req.query.encryptedData,
-    iv: req.query.iv
+    code: req.body.code,
+    encryptedData: req.body.encryptedData,
+    iv: req.body.iv
   }
 
   // 校验参数
@@ -86,14 +88,14 @@ router.get('/signin', function (req, res, next) {
     }
     console.log(ret);
     // 解密
-    decrypt(ret.session_key, data.encryptedData, data.iv, (err, user) => {
+    decrypt(ret.session_key, data.encryptedData, data.iv, (err, wechatUser) => {
       if (err) {
         return res.end(err);
       }
-      console.log(user);
+      console.log(wechatUser);
 
       // 根据 openId 搜索用户，没有创建用户
-      UserController.getUserByWechatId(user.openId)
+      UserController.getUserByWechatId(wechatUser.openId)
         .then(function (user) {
           if (user) {
             let token = getToken(user.name);
@@ -112,27 +114,29 @@ router.get('/signin', function (req, res, next) {
 								}
 							});
           } else {
-            let token = getToken(user.openId);
+            let token = getToken(wechatUser.openId);
             const newUser = {
               name: 'user_' + md5(moment()),
               password: 'ResetPassword',
               // 系统生成昵称
-              nickName: user.nickName,
-              avatar: user.avatarUrl || config.defaultHeadSculpture,
-              wechatId: user.openId,
+              nickName: wechatUser.nickName,
+              avatar: wechatUser.avatarUrl || config.defaultHeadSculpture,
+              wechatId: wechatUser.openId,
               role: userRole.User,
               token: token,
               // 随机验证码
               checkCode: parseInt(Math.random() * 90000 + 10000),
               endLoginTime: moment().format('YYYY-MM-DD HH:mm:ss')
             }
+            console.log('newUser :');
+            console.log(newUser);
             // 创建用户
             UserController.createUser(newUser)
               .then(function (user) {
                 res.json({
                   result: 'success',
                   message: '成功创建新用户!',
-                  user: user
+                  // user: user
                 });
               })
               .catch(function (err) {
