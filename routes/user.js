@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const jwt = require('jsonwebtoken');
 const config = require('config-lite')(__dirname);
 const passport = require('passport');
 const moment = require('moment');
@@ -17,21 +16,6 @@ const schema = Joi.object().keys({
 	password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
 	avatar: Joi.string()
 });
-
-// 测试跨域问题
-router.get('/', function (req, res, next) {
-	let name = md5(moment());
-	console.log(moment());
-	res.json(name);
-})
-
-router.post('/', function (req, res, next) {
-	res.json({
-		result: '请求成功！',
-		message: '成功创建新用户!',
-		name: req.body.name
-	});
-})
 
 /**
  * @Description: 注册普通用户

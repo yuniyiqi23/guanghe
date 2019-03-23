@@ -6,7 +6,7 @@ const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 // CoursewareSchema
 const CoursewareSchema = new Schema({
-    // 用户信息（id、nickName、头像）
+    // 作者信息（id、nickName、头像）
     author: { type: Object, required: true},
     title: { type: String, required: true },
     content: { type: String, required: true },
@@ -20,7 +20,7 @@ const CoursewareSchema = new Schema({
     dataStatus: { type: String, default: enumDateStatus.Avail },
     publishTime: { type: String, required: true },
   });
-  // 按创建时间降序查看用户的文章列表
+  // 按创建时间降序查找
   CoursewareSchema.index({ author: 1, _id: -1 });
   CoursewareSchema.index({ title: 1 });
 

@@ -6,7 +6,7 @@ const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 // CourseBossModel
 const CourseBossModel = new Schema({
-  // 用户信息（id、nickName、头像）
+  // 作者信息（id、nickName、头像）
   author: { type: Object, required: true },
   title: { type: String, required: true },
   // 视频路径
@@ -22,7 +22,7 @@ const CourseBossModel = new Schema({
   dataStatus: { type: String, default: enumDateStatus.Avail },
   publishTime: { type: String, required: true }
 });
-// 按创建时间降序查看用户的文章列表
+// 按创建时间降序查找
 CourseBossModel.index({ author: 1, _id: -1 });
 CourseBossModel.index({ title: 1 });
 

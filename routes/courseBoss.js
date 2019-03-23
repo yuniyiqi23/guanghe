@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const CourseBossController = require("../controller/courseBoss");
-const moment = require('moment');
+// const moment = require('moment');
 const Joi = require('joi');
 const log = require('../utils/winston').getDefaultLogger;
 require('../utils/passport')(passport);
@@ -14,8 +14,7 @@ require('../utils/passport')(passport);
  * @LastEditTime: 
  * @since: 2019-03-12 14:13:58
  */
-// passport.authenticate('bearer', { session: false }),
-router.get('/list', function (req, res, next) {
+router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     log('courseBoss').info('/list');
     log('courseBoss').info('req.query = ' + JSON.stringify(req.query));
     log('courseBoss').info('req.params = ' + JSON.stringify(req.params));
@@ -118,18 +117,18 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  * @LastEditTime: 
  * @since: 2019-03-22 13:20:12
  */
-router.get('/info', function (req, res, next) {
+router.get('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     const courseId = req.query.courseId;
     if (courseId) {
         CourseBossController.getCoursebossById(courseId)
             .then(function (courseBoss) {
-                if(courseBoss){
+                if (courseBoss) {
                     res.json({
                         result: 'success',
                         message: '获取课程成功!',
                         courseBoss: courseBoss
                     });
-                }else{
+                } else {
                     res.json({
                         result: 'fail',
                         message: '无法根据此ID获取到相应的课程!'

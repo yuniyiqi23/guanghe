@@ -14,8 +14,7 @@ require('../utils/passport')(passport);
  * @LastEditTime: 
  * @since: 2019-03-12 14:13:58
  */
-// passport.authenticate('bearer', { session: false }),
-router.get('/list', function (req, res, next) {
+router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     log('courseware').info('/list');
     log('courseware').info('req.query = ' + JSON.stringify(req.query));
     log('courseware').info('req.params = ' + JSON.stringify(req.params));
@@ -116,18 +115,18 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  * @LastEditTime: 
  * @since: 2019-03-22 13:20:12
  */
-router.get('/info', function (req, res, next) {
+router.get('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     const courseId = req.query.courseId;
     if (courseId) {
         CoursewareController.getCoursewareById(courseId)
             .then(function (courseware) {
-                if(courseware){
+                if (courseware) {
                     res.json({
                         result: 'success',
                         message: '获取课程成功!',
                         courseware: courseware
                     });
-                }else{
+                } else {
                     res.json({
                         result: 'fail',
                         message: '无法根据此ID获取到相应的课程!'
