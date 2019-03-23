@@ -84,7 +84,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         title: req.body.title,
         content: req.body.content,
         audioURL: req.body.audioURL,
-        publishTime: moment().format('YYYY-MM-DD HH:mm:ss')
+        publishTime: req.body.publishTime
     };
 
     // 校验参数

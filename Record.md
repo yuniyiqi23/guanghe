@@ -35,9 +35,9 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 *5. 联调创建Boss说（courseBoss/create）
 6. 子域名指向服务，HTTPS
 7. 证书acme.sh自动创建
-8. 视频切片需求（图片数量）
-9. 富文本编辑器（后台转换成网页）
-10.每日主持词加一个发布时间字段
+    8. 视频切片需求（图片数量）
+    9. 富文本编辑器（后台转换成网页）
+    10.每日主持词加一个发布时间字段
 11.“Boss说”根据时间来筛选内容
 12.搜索
 

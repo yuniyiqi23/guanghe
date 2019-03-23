@@ -15,6 +15,8 @@
 [11、获取Boss说课程](#11获取Boss说课程)<br/>
 [12、获取音频课程详情](#12获取音频课程详情)<br/>
 [13、获取Boss说课程详情](#13获取Boss说课程详情)<br/>
+[14、发布我秀](#14发布我秀)<br/>
+[15、获取我秀数据](#15获取我秀数据)<br/>
 
 ## 接口列表：
 
@@ -153,6 +155,7 @@ POST
 |title         |Y       |string   | 标题 |
 |content       |Y       |string   | 内容 |
 |audioURL      |N       |string   | 音频URL |
+|publishTime   |Y       |string   | 发布时间 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -189,8 +192,8 @@ GET
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
 |nickName      |N       |string   | 用户昵称 |
-|pageNumber    |N       |string   | 第几页（默认值：1） |
-|pageSize      |N       |string   | 数量（默认值：3） |
+|pageNumber    |Y      |string   | 第几页（默认值：1） |
+|pageSize      |Y       |string   | 数量（默认值：3） |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -396,8 +399,8 @@ GET
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
 |nickName      |N       |string   | 用户昵称 |
-|pageNumber    |N       |string   | 第几页（默认值：1） |
-|pageSize      |N       |string   | 数量（默认值：3） |
+|pageNumber    |Y      |string   | 第几页（默认值：1） |
+|pageSize      |Y       |string   | 数量（默认值：3） |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -529,3 +532,83 @@ GET
 }
 ```
 
+
+### 14、发布我秀
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/myshow/create
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|pictures     |Y       |string   | 图片列表 |
+|content      |Y       |string   | 文字内容 |
+|Authorization   |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "发布我秀成功!"
+}
+```
+
+### 15、获取我秀数据
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/myshow/list
+```
+
+#### 示例：
+```
+http://47.75.8.64:3002/myshow/list?pageSize=1&pageNumber=1
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|pageNumber    |Y      |string   | 第几页（默认值：1） |
+|pageSize      |Y       |string   | 数量（默认值：3） |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取数据成功！",
+    "myshowList": [
+        {
+            "pictures": [
+                "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
+            ],
+            "likeNumber": 0,
+            "commentNumber": 0,
+            "dataStatus": "1",
+            "_id": "5c94d46804c629d82086cba5",
+            "userId": "5c86032f689b0b1ce6fe8fd1",
+            "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
+            "__v": 0
+        }
+    ]
+}
+
+```

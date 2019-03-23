@@ -7,8 +7,8 @@ const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 // UserSchema
 const UserSchema = new Schema({
-    // 昵称
-    nickName: { type: String, unique: true, required: true },
+    // 昵称（不唯一）
+    nickName: { type: String, unique: false, required: true },
     // 用户名
     name: { type: String, unique: true, required: true },
     // 密码
