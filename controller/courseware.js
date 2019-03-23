@@ -13,24 +13,30 @@ module.exports = {
      * @LastEditTime: 
      * @since: 2019-03-12 15:34:01
      */
-    getCoursewareList: function ({author = null, pageNumber = 1, pageSize = 3}) {
-        let query = {};
-        if (author) {
-			query.author = author;
+    getCoursewareList: function (param) {
+        let query = {
+            courseType: param.courseType
+        };
+        if (param.author) {
+            query.author = param.author;
         }
         // 分页 
-		let skipNum = (pageNumber - 1) * pageSize;
+        let skipNum = (param.pageNumber - 1) * param.pageSize;
         return CoursewareModel
             .find(query)
             .skip(skipNum)
-			.limit(pageSize)
+            .limit(param.pageSize)
             .sort({ _id: -1 });
     },
 
     // 通过文章 id 获取一条数据
-    getCoursewareById: function (coursewareId) {
+    getCoursewareById: function (param) {
+        let query = {
+            _id: param.courseId,
+            courseType: param.courseType
+        };
         return CoursewareModel
-            .findOne({ _id: coursewareId })
-            // .populate({ path: 'author', model: 'User' });
+            .findOne(query)
+        // .populate({ path: 'author', model: 'User' });
     },
 };

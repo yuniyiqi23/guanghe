@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const CourseBossController = require("../controller/courseBoss");
-// const moment = require('moment');
+const CoursewareController = require("../controller/courseware");
 const Joi = require('joi');
 const log = require('../utils/winston').getDefaultLogger;
+const EnumCourseType = require('../utils/enum').EnumCourseType;
 require('../utils/passport')(passport);
 
 /**
@@ -16,8 +16,6 @@ require('../utils/passport')(passport);
  */
 router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     log('courseBoss').info('/list');
-    log('courseBoss').info('req.query = ' + JSON.stringify(req.query));
-    log('courseBoss').info('req.params = ' + JSON.stringify(req.params));
     log('courseBoss').info('req.url = ' + req.url);
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
@@ -37,11 +35,12 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
     // 测试的参数
     const param = {
         author: req.query.authorId,
+        courseType: EnumCourseType.BossSay,
         pageNumber: parseInt(req.query.pageNumber) || 1,
         pageSize: parseInt(req.query.pageSize) || 3,
     }
 
-    CourseBossController.getcourseBossList(param)
+    CoursewareController.getCoursewareList(param)
         .then(function (courseBosss) {
             res.json({
                 result: 'success',
@@ -86,7 +85,8 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         cover: req.body.cover,
         content: req.body.content,
         videoPictures: req.body.videoPictures,
-        publishTime: req.body.publishTime
+        publishTime: req.body.publishTime,
+        courseType: EnumCourseType.BossSay
     };
 
     // 校验参数
@@ -98,7 +98,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
     // if (resultValue.error !== null) {
     //     return res.send(resultValue.error.message);
     // }
-    CourseBossController.create(value)
+    CoursewareController.create(value)
         .then(function (result) {
             if (result) {
                 res.json({
@@ -118,9 +118,12 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  * @since: 2019-03-22 13:20:12
  */
 router.get('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
-    const courseId = req.query.courseId;
-    if (courseId) {
-        CourseBossController.getCoursebossById(courseId)
+    const param = {
+        courseId: req.query.courseId,
+        courseType: EnumCourseType.BossSay,
+    }
+    if (param.courseId) {
+        CoursewareController.getCoursewareById(param)
             .then(function (courseBoss) {
                 if (courseBoss) {
                     res.json({

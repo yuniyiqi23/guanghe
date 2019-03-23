@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const CoursewareController = require("../controller/courseware");
-const moment = require('moment');
 const Joi = require('joi');
 const log = require('../utils/winston').getDefaultLogger;
+const EnumCourseType = require('../utils/enum').EnumCourseType;
 require('../utils/passport')(passport);
 
 /**
@@ -34,9 +34,10 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
                 log('courseware').error(err.message);
                 return res.send(err.message);
             } else {
-                // 测试的参数
+                // 查询参数
                 const param = {
                     author: req.query.authorId,
+                    courseType: EnumCourseType.AudioDaily,
                     pageNumber: parseInt(req.query.pageNumber) || 1,
                     pageSize: parseInt(req.query.pageSize) || 3
                 }
@@ -84,7 +85,8 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         title: req.body.title,
         content: req.body.content,
         audioURL: req.body.audioURL,
-        publishTime: req.body.publishTime
+        publishTime: req.body.publishTime,
+        courseType: EnumCourseType.AudioDaily
     };
 
     // 校验参数
@@ -116,9 +118,12 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  * @since: 2019-03-22 13:20:12
  */
 router.get('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
-    const courseId = req.query.courseId;
-    if (courseId) {
-        CoursewareController.getCoursewareById(courseId)
+    const param = {
+        courseId: req.query.courseId,
+        courseType: EnumCourseType.AudioDaily,
+    }
+    if (param.courseId) {
+        CoursewareController.getCoursewareById(param)
             .then(function (courseware) {
                 if (courseware) {
                     res.json({
