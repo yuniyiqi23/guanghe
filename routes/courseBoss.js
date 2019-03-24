@@ -19,7 +19,7 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
     log('courseBoss').info('req.url = ' + req.url);
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
-        pageSize: Joi.number().integer().min(1),
+        pageSize: Joi.number().integer().min(1).max(30),
     })
     // 验证数据
     // Joi.validate({

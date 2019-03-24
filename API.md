@@ -17,6 +17,9 @@
 [13、获取Boss说课程详情](#13获取Boss说课程详情)<br/>
 [14、发布我秀](#14发布我秀)<br/>
 [15、获取我秀数据](#15获取我秀数据)<br/>
+[16、创建我秀评论](#16创建我秀评论)<br/>
+[17、获取我秀评论](#17获取我秀评论)<br/>
+[18、删除我秀评论](#18删除我秀评论)<br/>
 
 ## 接口列表：
 
@@ -611,4 +614,119 @@ GET
     ]
 }
 
+```
+
+### 16、创建我秀评论
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/myshowcomment/create
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|myShowId      |Y       |string   | 用户id |
+|content       |Y       |string   | 内容 |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "评论成功!"
+}
+```
+
+### 17、获取我秀评论
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/myshowcomment/list
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/myshowcomment/list?myShowId=5c94d46804c629d82086cba5&pageSize=3&pageNumber=1
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|myShowId      |N       |string   | 我秀id |
+|pageNumber    |Y       |string   | 第几页（范围：大于1）|
+|pageSize      |Y       |string   | 数量（范围：1～30） |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取数据成功！",
+    "myShowCommentList": [
+        {
+            "dataStatus": "1",
+            "_id": "5c971e04588a3d5300f11298",
+            "user": {
+                "_id": "5c86032f689b0b1ce6fe8fd1",
+                "nickName": "光合"
+            },
+            "myShowId": "5c94d46804c629d82086cba5",
+            "content": "真棒！",
+            "__v": 0
+        }
+    ]
+}
+```
+
+### 18、删除我秀评论
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/myshowcomment
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/myshowcomment?commentId=5c971dff588a3d5300f11297
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|commentId      |Y       |string  | 评论id |
+|Authorization  |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "删除成功！"
+}
 ```

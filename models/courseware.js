@@ -29,5 +29,6 @@ const CoursewareSchema = new Schema({
 // 按创建时间降序查找
 CoursewareSchema.index({ author: 1, _id: -1 });
 CoursewareSchema.index({ title: 1 });
+CoursewareSchema.index({ courseType: 1, _id: 1 });
 
 module.exports = mongoose.model('Courseware', CoursewareSchema);

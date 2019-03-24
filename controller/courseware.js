@@ -1,4 +1,5 @@
 const CoursewareModel = require('../models/courseware');
+const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 module.exports = {
     // 创建一条数据
@@ -15,7 +16,8 @@ module.exports = {
      */
     getCoursewareList: function (param) {
         let query = {
-            courseType: param.courseType
+            courseType: param.courseType,
+            dataStatus: enumDateStatus.Avail
         };
         if (param.author) {
             query.author = param.author;
@@ -33,10 +35,9 @@ module.exports = {
     getCoursewareById: function (param) {
         let query = {
             _id: param.courseId,
-            courseType: param.courseType
+            courseType: param.courseType,
+            dataStatus: enumDateStatus.Avail
         };
-        return CoursewareModel
-            .findOne(query)
-        // .populate({ path: 'author', model: 'User' });
+        return CoursewareModel.findOne(query);
     },
 };

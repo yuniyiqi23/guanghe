@@ -1,4 +1,5 @@
 const MyShowModel = require('../models/myShow');
+const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 module.exports = {
     /**
@@ -21,9 +22,10 @@ module.exports = {
      */
     getMyshowList: function (params) {
         let query = {};
-		if (params.userId) {
-			query.userId = params.userId;
-		}
+        if (params.userId) {
+            query.userId = params.userId;
+            query.dataStatus = enumDateStatus.Avail;
+        }
         // 实现分页 
         let skipNum = (params.pageNumber - 1) * params.pageSize;
         return MyShowModel
@@ -36,7 +38,9 @@ module.exports = {
     // 通过文章 id 获取一条数据
     getMyshowById: function (myshowId) {
         return MyShowModel
-            .findOne({ _id: myshowId })
-        // .populate({ path: 'author', model: 'User' });
+            .findOne({
+                _id: myshowId,
+                dataStatus: enumDateStatus.Avail
+            })
     },
 };

@@ -1,6 +1,18 @@
 ## TodoList
-Wechat登录接口openId
-3. mencache、Redis（用户信息缓存）
+1. 评论课程、收藏课程
+    记录课程创建者
+    用户登录记录
+2. Wechat登录接口openId
+    域名http://xcx.guanghe520.com/
+    阿里云HTTPS
+    证书acme.sh自动创建
+3. “Boss说”根据时间来筛选内容
+3.0 _id转换成时间表达（3小时前， 昨天20:00）
+3.1 参数验证问题
+4. 搜索
+5. 增删改查   
+6. 部署服务端
+7. mencache、Redis（用户信息缓存）
 点赞过于频繁的处理方案
 https://www.jianshu.com/p/f9e27a96da89
 https://www.jb51.net/article/113210.htm
@@ -12,7 +24,6 @@ https://www.jb51.net/article/113210.htm
 开源项目数据设计
 data migration
 
-定时更新数据（每天七点）
 ？删除返回的密码字段
 返回数据的状态码
 开放跨域访问安全性问题
@@ -26,23 +37,4 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 技术选型（至少两个方案）
 
 
-## 光合
-1. 部署服务端
-   探讨数据结构
-2. 安装TeamViewer
-*3. 联调（courseware/list）用户验证、获取参数
-*4. 联调创建课件（courseware/create），创建老师账号（参数验证问题）
-*5. 联调创建Boss说（courseBoss/create）
-6. 子域名指向服务，HTTPS
-    http://xcx.guanghe520.com/
-    阿里云HTTPS
-7. 证书acme.sh自动创建
-    8. 视频切片需求（图片数量）
-    9. 富文本编辑器（后台转换成网页）
-    10.每日主持词加一个发布时间字段
-11.“Boss说”根据时间来筛选内容
-12.搜索
-
-
 ## 疑问
-1. 老师的昵称是否唯一（中台上传课程者无法确认老师信息）

@@ -1,5 +1,5 @@
 const UserModel = require('../models/user');
-// const DataStateEnum = require('../utils/enum').DataStateEnum;
+const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 module.exports = {
 	// 注册一个用户
@@ -9,7 +9,11 @@ module.exports = {
 
 	// 更新一个用户
 	updateUser: function (userId, data) {
-		return UserModel.findOneAndUpdate({ _id: userId }, { $set: data }, { upsert: true, new: true })
+		return UserModel
+			.findOneAndUpdate(
+				{ _id: userId, dataStatus: enumDateStatus.Avail },
+				{ $set: data },
+				{ upsert: true, new: true })
 	},
 
 	// 通过微信 OpenId 获取用户信息
@@ -21,27 +25,32 @@ module.exports = {
 	// 通过用户名获取用户信息
 	getUserByName: function (name) {
 		return UserModel
-			.findOne({ name: name });
+			.findOne({ name: name, dataStatus: enumDateStatus.Avail });
 	},
 
 	// 通过昵称获取用户信息
 	getUserByNameAndNickName: function ({ name: name, nickName: nickName }) {
 		if (!nickName) {
-			return UserModel.findOne({ name: name });
+			return UserModel.findOne({ name: name, dataStatus: enumDateStatus.Avail });
 		} else {
-			return UserModel.findOne({ $or: [{ name: name }, { nickName: nickName }] });
+			return UserModel.findOne({
+				$or: [
+					{ name: name, dataStatus: enumDateStatus.Avail },
+					{ nickName: nickName, dataStatus: enumDateStatus.Avail }
+				]
+			});
 		}
 		// return UserModel.find({ nickName: { $regex: nickName, $options: 'i' } });
 	},
 
 	// 获取全部用户
 	getAllUsers: function () {
-		return UserModel.find({});
+		return UserModel.find({ dataStatus: enumDateStatus.Avail });
 	},
 
 	// 获取全部老师列表
-	getTeacherList: function(role){
-		return UserModel.find({role : role});
+	getTeacherList: function (role) {
+		return UserModel.find({ role: role, dataStatus: enumDateStatus.Avail });
 	}
 
 };

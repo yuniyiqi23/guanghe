@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const MyShowController = require("../controller/myshow");
-// const moment = require('moment');
+const MyShowController = require("../controller/myShow");
 const Joi = require('joi');
 const log = require('../utils/winston').getDefaultLogger;
 require('../utils/passport')(passport);
@@ -56,7 +55,7 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
     log('myshow').info('/list');
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
-        pageSize: Joi.number().integer().min(1),
+        pageSize: Joi.number().integer().min(1).max(30),
     })
     // 验证数据
     // Joi.validate({
