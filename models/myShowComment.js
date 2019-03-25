@@ -6,7 +6,7 @@ const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 // MyShowCommentSchema
 const MyShowCommentSchema = new Schema({
-  // 用户id，连表查询时会返回名为user的key
+  // 用户id，连表查询时会返回名为user的用户对象
   user: { type: Schema.Types.ObjectId, required: true},
   myShowId: { type: Schema.Types.ObjectId, required: true },
   content: { type: String, required: true },

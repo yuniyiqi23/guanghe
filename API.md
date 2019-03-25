@@ -20,6 +20,12 @@
 [16、创建我秀评论](#16创建我秀评论)<br/>
 [17、获取我秀评论](#17获取我秀评论)<br/>
 [18、删除我秀评论](#18删除我秀评论)<br/>
+[19、创建课程评论](#19创建课程评论)<br/>
+[20、获取课程评论](#20获取课程评论)<br/>
+[21、删除课程评论](#21删除课程评论)<br/>
+[22、创建课程收藏](#22创建课程收藏)<br/>
+[23、获取课程收藏](#23获取课程收藏)<br/>
+[24、取消课程收藏](#24取消课程收藏)<br/>
 
 ## 接口列表：
 
@@ -632,7 +638,7 @@ POST
 
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
-|myShowId      |Y       |string   | 用户id |
+|myShowId      |Y       |string   | 我秀id |
 |content       |Y       |string   | 内容 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
@@ -686,7 +692,8 @@ GET
             "_id": "5c971e04588a3d5300f11298",
             "user": {
                 "_id": "5c86032f689b0b1ce6fe8fd1",
-                "nickName": "光合"
+                "nickName": "光合",
+                "avatar": "http://poaadnrl9.bkt.clouddn.com/image/test/1553047757769_17.jpg"
             },
             "myShowId": "5c94d46804c629d82086cba5",
             "content": "真棒！",
@@ -711,7 +718,7 @@ http://47.75.8.64:3002/myshowcomment?commentId=5c971dff588a3d5300f11297
 
 #### 请求方式：
 ```
-GET
+DELETE
 ```
 
 #### 参数类型：
@@ -728,5 +735,245 @@ GET
 {
     "result": "success",
     "message": "删除成功！"
+}
+```
+
+### 19、创建课程评论
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseComment/create
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|courseId      |Y       |string   | 课程id |
+|content       |Y       |string   | 内容 |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "评论成功!"
+}
+```
+
+### 20、获取课程评论
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseComment/list
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseComment/list?courseId=5c94d46804c629d82086cba5&pageSize=3&pageNumber=1
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|courseId      |N       |string   | 课程id |
+|pageNumber    |Y       |string   | 第几页（范围：大于1）|
+|pageSize      |Y       |string   | 数量（范围：1～30） |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取数据成功！",
+    "courseCommentList": [
+        {
+            "dataStatus": "1",
+            "_id": "5c9866fa6200876ea0ae2dab",
+            "user": {
+                "_id": "5c86032f689b0b1ce6fe8fd1",
+                "nickName": "光合",
+                "avatar": "http://poaadnrl9.bkt.clouddn.com/image/test/1553047757769_17.jpg"
+            },
+            "courseId": "5c9604134dc72c204aafadbc",
+            "content": "测试_课程评论1",
+            "__v": 0
+        }
+    ]
+}
+```
+
+### 21、删除课程评论
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseComment
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseComment?commentId=5c971dff588a3d5300f11297
+```
+
+#### 请求方式：
+```
+DELETE
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|commentId      |Y       |string   | 评论id |
+|Authorization  |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "删除成功！"
+}
+```
+
+### 22、创建课程收藏
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseCollection/create
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|myShowId      |Y       |string   | 我秀id |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "收藏成功!"
+}
+```
+
+### 23、获取课程收藏
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseCollection/list
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseCollection/list?userId=5c94d46804c629d82086cba5&pageSize=3&pageNumber=1
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|userId      |N       |string   | 用户id |
+|pageNumber    |Y       |string   | 第几页（范围：大于1）|
+|pageSize      |Y       |string   | 数量（范围：1～30） |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取数据成功！",
+    "courseCollectionList": [
+        {
+            "dataStatus": "1",
+            "_id": "5c98775606fb82771993e575",
+            "userId": "5c86032f689b0b1ce6fe8fd1",
+            "course": {
+                "dataStatus": "1",
+                "_id": "5c9604134dc72c204aafadbc",
+                "author": {
+                    "id": "5c8744bdc71400367afd3ad7",
+                    "nickName": "明道老师"
+                },
+                "title": "测试_1",
+                "videoURL": "videoURL",
+                "cover": "coverPicture",
+                "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
+                "publishTime": "2019-04-21T02:34:00.000Z",
+                "courseType": "2",
+                "__v": 0
+            },
+            "__v": 0
+        }
+    ]
+}
+```
+
+### 24、取消课程收藏
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseCollection
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseCollection?collectionId=5c971dff588a3d5300f11297
+```
+
+#### 请求方式：
+```
+DELETE
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|collectionId      |Y       |string  | 收藏id |
+|Authorization     |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "取消收藏成功！"
 }
 ```
