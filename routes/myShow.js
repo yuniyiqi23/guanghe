@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const MyShowController = require('../controller/myShow1');
+const MyShowController = require('../controller/myShow');
 const Joi = require('joi');
 const log = require('../utils/winston').getDefaultLogger;
 require('../utils/passport')(passport);
