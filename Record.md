@@ -7,6 +7,7 @@
     阿里云HTTPS
     证书acme.sh自动创建
 3. “Boss说”根据时间来筛选内容
+    
 3.0 _id转换成时间表达（3小时前， 昨天20:00）
 3.1 参数验证问题
 4. 搜索
@@ -38,3 +39,6 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 
 
 ## 疑问
+部署问题：
+1. 代码checkout有相同的是否还会覆盖？
+2. npm install 有安装过的是否还会安装
