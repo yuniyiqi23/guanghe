@@ -26,6 +26,7 @@
 [22、创建课程收藏](#22创建课程收藏)<br/>
 [23、获取课程收藏](#23获取课程收藏)<br/>
 [24、取消课程收藏](#24取消课程收藏)<br/>
+[25、更新用户信息](#25更新用户信息)<br/>
 
 ## 接口列表：
 
@@ -975,5 +976,49 @@ DELETE
 {
     "result": "success",
     "message": "取消收藏成功！"
+}
+```
+
+### 25、更新用户信息
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/user/info
+```
+
+#### 请求方式：
+```
+PUT
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|nickName    |N       |string   | 昵称 |
+|avatar      |N       |string   | 头像URL |
+|Authorization     |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "更新用户信息成功!",
+    "user": {
+        "gender": "x",
+        "dataStatus": "1",
+        "_id": "5c86032f689b0b1ce6fe8fd1",
+        "name": "gh_sunwh",
+        "password": "$2b$10$cnId5PbrjlOiYcO3v3lwH./mzguXnVEkf95FTsdsqNd4R70Lyo5Ju",
+        "endLoginTime": "1234",
+        "__v": 0,
+        "isAdmin": true,
+        "nickName": "user01",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2hfc3Vud2giLCJpYXQiOjE1NTMyNTY0NTIsImV4cCI6MTU1Mzg2MTI1Mn0.rvJ4K6ZmGY555h6wQwgHvT3IVRWPPmVzf6j2p7bjmGU",
+        "role": "1234",
+        "avatar": "avatarURL"
+    }
 }
 ```

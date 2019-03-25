@@ -12,7 +12,7 @@ module.exports = {
 		return UserModel
 			.findOneAndUpdate(
 				{ _id: userId, dataStatus: enumDateStatus.Avail },
-				{ $set: data },
+				{ $set: data, password: 0, endLoginTime: 0, isAdmin: 0, token: 0 },
 				{ upsert: true, new: true })
 	},
 

@@ -21,7 +21,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
     if (content === undefined && pictures === undefined) {
         res.json({
             result: 'fail',
-            message: '参数content和pictures都为空!'
+            message: '参数（内容和图片）都为空!'
         });
     } else {
         const value = {
@@ -58,37 +58,35 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
         pageSize: Joi.number().integer().min(1).max(30),
     })
     // 验证数据
-    // Joi.validate({
-    //     pageNumber: parseInt(req.query.pageNumber),
-    //     pageSize: parseInt(req.query.pageSize)
-    // },
-    //     paramSchema,
-    //     function (err, value) {
-    //         if (err) {
-    //             log('courseBoss').error(err.message);
-    //             return res.send(err.message);
-    //         } else {
-
-    const userId = req.user.id;
-    // 测试的参数
-    const param = {
-        userId: userId,
-        pageNumber: parseInt(req.query.pageNumber) || 1,
-        pageSize: parseInt(req.query.pageSize) || 3,
-    }
-
-    MyShowController.getMyshowList(param)
-        .then(function (myshowList) {
-            res.json({
-                result: 'success',
-                message: '获取数据成功！',
-                myshowList: myshowList
-            });
-        })
-        .catch(next);
-    //         }
-    //     }
-    // );
+    Joi.validate({
+        pageNumber: parseInt(req.query.pageNumber),
+        pageSize: parseInt(req.query.pageSize)
+    },
+        paramSchema,
+        function (err, value) {
+            if (err) {
+                log('myshow').error(err.message);
+                return res.send(err.message);
+            } else {
+                const userId = req.user.id;
+                // 测试的参数
+                const param = {
+                    userId: userId,
+                    pageNumber: parseInt(req.query.pageNumber) || 1,
+                    pageSize: parseInt(req.query.pageSize) || 3,
+                }
+                MyShowController.getMyshowList(param)
+                    .then(function (myshowList) {
+                        res.json({
+                            result: 'success',
+                            message: '获取数据成功！',
+                            myshowList: myshowList
+                        });
+                    })
+                    .catch(next);
+            }
+        }
+    );
 });
 
 module.exports = router;

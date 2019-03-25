@@ -11,8 +11,9 @@ const log = require('../utils/winston').getDefaultLogger;
 const userRole = require('../utils/enum').EnumUserRole;
 require('../utils/passport')(passport);
 
+// 验证参数
 const schema = Joi.object().keys({
-	name: Joi.string().alphanum().min(3).max(30).required(),
+	name: Joi.string().min(3).max(30).required(),
 	password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
 	avatar: Joi.string()
 });
@@ -30,10 +31,10 @@ router.post('/registerUser', function (req, res, next) {
 		name: req.body.name,
 		password: req.body.password,
 	}, schema);
-	
+
 	if (result.error !== null) {
 		return res.send(result.error.message);
-	}else {
+	} else {
 		// 需要验证数据是否符合要求
 		const newUser = {
 			name: req.body.name,
@@ -50,14 +51,117 @@ router.post('/registerUser', function (req, res, next) {
 		// 创建用户
 		UserController.createUser(newUser)
 			.then(function (user) {
-				res.json({
-					result: 'success',
-					message: '成功创建新用户!',
-					// user: user
-				});
+				if(user){
+					res.json({
+						result: 'success',
+						message: '成功创建新用户!',
+					});
+				}else{
+					res.json({
+						result: 'fail',
+						message: '创建新用户失败!',
+					});
+				}
 			})
 			.catch(next)
 	}
+});
+
+/**
+ * @Description: 用户登录，检查用户名与密码并生成一个accesstoken
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-12 16:42:15
+ */
+router.post('/signin', function (req, res, next) {
+	log('user').info('/signin');
+	log('user').info('req.body = ' + JSON.stringify(req.body));
+	// 校验参数
+	const result = Joi.validate({
+		name: req.body.name,
+		password: req.body.password,
+	}, schema);
+	if (result.error !== null) {
+		return res.send(result.error.message);
+	} else {
+		UserController.getUserByName(req.body.name)
+			.then(function (user) {
+				log('user').info(user);
+				if (!user) {
+					res.json({ result: 'success', message: '认证失败,用户不存在!' });
+				} else if (user) {
+					log('user').info(user);
+					// 检查密码是否正确
+					user.comparePassword(req.body.password, (err, isMatch) => {
+						if (isMatch && !err) {
+							let token = getToken(user.name);
+							user.token = token;
+							user.save(function (err) {
+								log('user').error('user.save.err = ' + err);
+								if (err) {
+									res.send(err);
+								} else {
+									res.json({
+										result: 'success',
+										message: '登录成功!',
+										username: user.name,
+										token: 'Bearer ' + token
+									});
+								}
+							});
+
+						} else {
+							res.send({ result: 'fail', message: '认证失败,密码错误!' });
+						}
+					});
+				}
+			})
+			.catch(function (err) {
+				log('user').error('catch error = ' + err);
+			})
+	}
+});
+
+/**
+ * @Description: 更新用户信息
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-25 16:03:37
+ */
+router.put('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+	const userId = req.user.id;
+	const nickName = req.body.nickName;
+	const avatar = req.body.avatar;
+	if (nickName === undefined && avatar === undefined) {
+		res.json({
+			result: 'fail',
+			message: '参数（昵称和头像）都为空!'
+		});
+	} else {
+		const data = {
+			nickName: nickName,
+			avatar : avatar
+		};
+		UserController.updateUser(userId, data)
+			.then(function (user) {
+				if(user){
+					res.json({
+                        result: 'success',
+						message: '更新用户信息成功!',
+						user: user
+                    });
+				}else{
+					res.json({
+                        result: 'fail',
+						message: '更新用户信息失败!',
+                    });
+				}
+			})
+			.catch(next)
+	}
+
 });
 
 /**
@@ -135,63 +239,6 @@ router.get('/teacherList', passport.authenticate('bearer', { session: false }), 
 			});
 		})
 		.catch(next)
-});
-
-/**
- * @Description: 用户登录，检查用户名与密码并生成一个accesstoken
- * @Author: yep
- * @LastEditors: 
- * @LastEditTime: 
- * @since: 2019-03-12 16:42:15
- */
-router.post('/signin', function (req, res, next) {
-	log('user').info('/signin');
-	log('user').info('req.body = ' + JSON.stringify(req.body));
-	if (!req.body.name || !req.body.password) {
-		res.json({
-			result: 'fail',
-			message: '请输入您的账号密码！'
-		});
-	} else {
-		UserController.getUserByName(req.body.name)
-			.then(function (user) {
-				log('user').info(user);
-				if (!user) {
-					res.json({ result: 'success', message: '认证失败,用户不存在!' });
-				} else if (user) {
-					log('user').info(user);
-					// 检查密码是否正确
-					user.comparePassword(req.body.password, (err, isMatch) => {
-						if (isMatch && !err) {
-							// let token = jwt.sign({ name: user.name }, config.secret, {
-							// 	expiresIn: 60 * 60 * 24 * 7// 授权时效7天
-							// });
-							let token = getToken(user.name);
-							user.token = token;
-							user.save(function (err) {
-								log('user').error('user.save.err = ' + err);
-								if (err) {
-									res.send(err);
-								} else {
-									res.json({
-										result: 'success',
-										message: '登录成功!',
-										token: 'Bearer ' + token,
-										name: user.name
-									});
-								}
-							});
-
-						} else {
-							res.send({ result: 'fail', message: '认证失败,密码错误!' });
-						}
-					});
-				}
-			})
-			.catch(function (err) {
-				log('user').error('catch error = ' + err);
-			})
-	}
 });
 
 // passport-http-bearer token 中间件验证

@@ -3,7 +3,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-14 17:12:46
- * @lastTime: 2019-03-22 09:29:35
+ * @lastTime: 2019-03-25 15:51:52
  */
 const jwt = require('jsonwebtoken');
 const config = require('config-lite')(__dirname);
@@ -16,7 +16,7 @@ module.exports = {
 	getToken: function getToken(value) {
 		try {
 			const token = jwt.sign({ name: value }, config.secret, {
-				expiresIn: 60 * 60 * 24 * 7// 授权时效7天
+				expiresIn: config.expiresIn// 授权时效7天
 			});
 			return token;
 		} catch (err) {
