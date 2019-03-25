@@ -17,6 +17,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
     const userId = req.user.id;
     const content = req.body.content;
     const pictures = req.body.pictures;
+    const location = req.body.location;
     // 判断数据是否为空
     if (content === undefined && pictures === undefined) {
         res.json({
@@ -28,6 +29,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
             userId: userId,
             content: content,
             pictures: pictures,
+            location: location
         };
 
         MyShowController.create(value)
