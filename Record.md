@@ -42,3 +42,5 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 部署问题：
 1. 代码checkout有相同的是否还会覆盖？
 2. npm install 有安装过的是否还会安装
+
+神奇的引用问题： routes/myShow 引用 controller/myShow 无法引用的问题

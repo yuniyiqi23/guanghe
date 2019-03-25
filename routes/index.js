@@ -2,7 +2,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-03-25 10:31:43
+ * @lastTime: 2019-03-25 11:18:53
  */
 
 module.exports = function (app) {
@@ -15,6 +15,7 @@ module.exports = function (app) {
 	app.use('/user', require('./user'));
 	app.use('/courseware', require('./courseware'));
 	app.use('/courseBoss', require('./courseBoss'));
+	app.use('/courseComment', require('./courseComment'));
 	app.use('/qiniu', require('./qiniu'));
 	app.use('/wechat', require('./wechat'));
 	app.use('/myShow', require('./myShow'));

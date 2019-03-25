@@ -552,8 +552,8 @@ POST
 
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
-|pictures     |Y       |string   | 图片列表 |
-|content      |Y       |string   | 文字内容 |
+|pictures     |N       |string   | 图片列表 |
+|content      |N       |string   | 文字内容 |
 |Authorization   |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
