@@ -2,12 +2,14 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-03-25 14:28:52
+ * @lastTime: 2019-03-26 09:20:31
  */
 
 module.exports = function (app) {
 
 	app.get('/', (req, res) => {
+		// const time =  new Date(parseInt(_id.toString().substring(0, 8), 16) * 1000);
+		// res.json({ time: time });
 		res.json({ message: 'Hello GuangHe!' });
 	});
 

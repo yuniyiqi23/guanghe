@@ -64,22 +64,23 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
  * @since: 2019-03-12 14:15:35
  */
 router.post('/create', passport.authenticate('bearer', { session: false }), function (req, res, next) {
-    // 数据验证
-    const authorSchema = Joi.object().keys({
-        id: Joi.string().required(),
-        avatar: Joi.string().required(),
-        nickName: Joi.string().min(3).max(30).required(),
-    })
-    const paramSchema = Joi.object().keys({
-        title: Joi.string().required(),
-        content: Joi.string().required(),
-    })
-    // 测试的老师
+    // 老师的信息
     const author = {
         id: req.body.authorId,
         nickName: req.body.nickName,
         avatar: req.body.avatar
     };
+    // 数据验证
+    const authorSchema = Joi.object().keys({
+        id: Joi.string().required(),
+        nickName: Joi.string().min(3).max(30).required(),
+        avatar: Joi.string().required()
+    })
+    // 校验参数
+    const resultAuthor = Joi.validate(author, authorSchema);
+    if (resultAuthor.error !== null) {
+        return res.send(resultAuthor.error.message);
+    }
     const value = {
         author: author,
         title: req.body.title,
@@ -88,22 +89,29 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         publishTime: req.body.publishTime,
         courseType: EnumCourseType.AudioDaily
     };
-
-    // 校验参数
-    // const resultAuthor = Joi.validate(author, authorSchema);
-    // if (resultAuthor.error !== null) {
-    //     return res.send(resultAuthor.error.message);
-    // }
-    // const resultValue = Joi.validate(value, paramSchema);
-    // if (resultValue.error !== null) {
-    //     return res.send(resultValue.error.message);
-    // }
+    const paramSchema = Joi.object().keys({
+        author: Joi.object().required(),
+        title: Joi.string().required(),
+        content: Joi.string().required(),
+        audioURL: Joi.string(),
+        publishTime: Joi.string(),
+        courseType: Joi.number().required()
+    })
+    const resultValue = Joi.validate(value, paramSchema);
+    if (resultValue.error !== null) {
+        return res.send(resultValue.error.message);
+    }
     CoursewareController.create(value)
         .then(function (result) {
             if (result) {
                 res.json({
                     result: 'success',
                     message: '发布信息成功!'
+                });
+            } else {
+                res.json({
+                    result: 'fail',
+                    message: '发布信息失败!'
                 });
             }
         })
@@ -145,6 +153,40 @@ router.get('/info', passport.authenticate('bearer', { session: false }), functio
             message: '参数courseId为空!'
         });
     }
-})
+});
+
+/**
+ * @Description: 搜索课程（全文搜索模式）
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-26 11:05:16
+ */
+router.get('/search', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+    const value = {
+        keyword: req.query.keyword,
+        pageNumber: parseInt(req.query.pageNumber),
+        pageSize: parseInt(req.query.pageSize)
+    };
+    const paramSchema = Joi.object().keys({
+        keyword: Joi.strict().required(),
+        pageNumber: Joi.number().integer().min(1),
+        pageSize: Joi.number().integer().min(1).max(30)
+    })
+    // 验证数据
+    const resultValue = Joi.validate(value, paramSchema)
+    if (resultValue.error !== null) {
+        return res.send(resultValue.error.message);
+    }
+    CoursewareController.getCoursewareList(value)
+        .then(function (coursewares) {
+            res.json({
+                result: 'success',
+                message: '获取数据成功！',
+                coursewares: coursewares
+            });
+        })
+        .catch(next)
+});
 
 module.exports = router;

@@ -27,6 +27,8 @@
 [23、获取课程收藏](#23获取课程收藏)<br/>
 [24、取消课程收藏](#24取消课程收藏)<br/>
 [25、更新用户信息](#25更新用户信息)<br/>
+[26、搜索课程](#26搜索课程)<br/>
+?[27、搜索老师](#27搜索老师)<br/>
 
 ## 接口列表：
 
@@ -1021,5 +1023,63 @@ PUT
         "role": "1234",
         "avatar": "avatarURL"
     }
+}
+```
+
+### 26、搜索课程
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseware/search
+```
+
+#### 示例：
+```
+http://47.75.8.64:3002/courseware/search?keyword=Nodejs&pageSize=5&pageNumber=1
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|keyword       |Y       |string   | 搜索关键字 |
+|pageNumber    |Y       |string   | 第几页（默认值：1） |
+|pageSize      |Y       |string   | 数量（默认值：3） |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取数据成功！",
+    "coursewares": [
+        {
+            "dataStatus": "1",
+            "_id": "5c87606733da1e5a87b162ef",
+            "pictures": [
+                "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
+                "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
+                "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
+            ],
+            "author": {
+                "id": "5c8744bdc71400367afd3ad7",
+                "nickName": "李晨",
+                "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
+            },
+            "title": "第3期 | Nodejs + Expressjs+ JWT，JWT使用",
+            "content": "为什么要用研究JWT呢，一次关于用户token传递到讨论中，研发部的同事提到 SpringCloud 的zuul网关中引入 JWT，底层服务进行无状态处理，来实现我们之前关于token 传递的技术需求。\n\nJWT(JSON Web Token),字面意思很好理解，就是Web的JSON令牌。一种通过Web可以安全传递JSON格式信息的机制。优势体量小，防串改，数据相对安全。可以用于客户端到服务器端重要用户数据保持，验证用户签名数据，也可以用于无状态服务的状态保持。（个人粗略理解），而我们项目要做的事情，就是用户登录后把用户当前操作的企业关系，以及用户id存储起来。通过网关将JWT解密后，有相关业务权限的API调用都是使用JWT中传递过来的参数进行权限校验。也可以参考JWT简介或者官方网站jwt.io\n\n本人对SpringCloud zuul 网关的认知还是有限，于是就用Nodejs 对JWT进行了实践.本文参照这篇文章实践的。",
+            "audioURL": "http://47.75.8.64/audios/Tiffany Alvord - Baby I Love You.mp3",
+            "publishTime": "2019-03-21T02:34:00.000Z",
+            "__v": 0,
+            "courseType": "1"
+        }
+    ]
 }
 ```

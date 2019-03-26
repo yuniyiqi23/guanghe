@@ -15,17 +15,25 @@ module.exports = {
      * @since: 2019-03-12 15:34:01
      */
     getCoursewareList: function (param) {
-        let query = {
-            courseType: param.courseType,
-            dataStatus: enumDateStatus.Avail
-        };
+        let query = { dataStatus: enumDateStatus.Avail };
+        // 参数：搜索关键字
+        if (param.keyword) {
+            //全文索引
+            query.$text = { $search: param.keyword };
+        }
+        // 参数：用户昵称
         if (param.author) {
             query.author = param.author;
+        }
+        // 参数：课程类型
+        if (param.courseType) {
+            query.courseType = param.courseType;
         }
         // 分页 
         let skipNum = (param.pageNumber - 1) * param.pageSize;
         return CoursewareModel
             .find(query)
+            .where('publishTime').lte(new Date().toISOString())
             .skip(skipNum)
             .limit(param.pageSize)
             .sort({ _id: -1 });
