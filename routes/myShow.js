@@ -70,12 +70,15 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
                 log('myshow').error(err.message);
                 return res.send(err.message);
             } else {
-                const userId = req.user.id;
-                // 测试的参数
+                // 参数
                 const param = {
-                    userId: userId,
                     pageNumber: parseInt(req.query.pageNumber) || 1,
                     pageSize: parseInt(req.query.pageSize) || 3,
+                }
+                // 判断是否获取“我”的我秀数据
+                const self = req.query.self;
+                if(self){
+                    param.userId = req.user.id;
                 }
                 MyShowController.getMyshowList(param)
                     .then(function (myshowList) {

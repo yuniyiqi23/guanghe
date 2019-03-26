@@ -6,8 +6,8 @@ const enumDateStatus = require('../utils/enum').EnumDataStatus;
 
 // MyShowSchema
 const MyShowSchema = new Schema({
-    // 用户id
-    userId: { type: Schema.Types.ObjectId, required: true },
+    // 用户id，连表查询时会返回名为user的用户对象
+    user: { type: Schema.Types.ObjectId, required: true },
     content: { type: String, required: true },
     // 图片列表
     pictures: { type: Array, required: false },

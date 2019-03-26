@@ -21,10 +21,11 @@ module.exports = {
      * @since: 2019-03-12 15:34:01
      */
     getMyshowList: function (params) {
-        let query = {};
+        let query = {
+            dataStatus : enumDateStatus.Avail
+        };
         if (params.userId) {
             query.userId = params.userId;
-            query.dataStatus = enumDateStatus.Avail;
         }
         // 实现分页 
         let skipNum = (params.pageNumber - 1) * params.pageSize;
@@ -32,6 +33,11 @@ module.exports = {
             .find(query)
             .skip(skipNum)
             .limit(params.pageSize)
+            .populate({
+                path: 'user',
+                model: 'User',
+                select: { 'nickName': 1, 'avatar': 1 }
+            })
             .sort({ _id: -1 });
     },
 

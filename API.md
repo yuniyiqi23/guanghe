@@ -874,8 +874,8 @@ POST
 
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
-|myShowId      |Y       |string   | 我秀id |
-|Authorization      |Y       |string   | token值 |
+|courseId          |Y       |string   | 课程id |
+|Authorization     |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
 #### 返回示例：
