@@ -585,7 +585,7 @@ http://47.75.8.64:3002/myshow/list
 
 #### 示例：
 ```
-http://47.75.8.64:3002/myshow/list?pageSize=1&pageNumber=1
+http://47.75.8.64:3002/myshow/list?pageSize=1&pageNumber=1&self=true
 ```
 
 #### 请求方式：
@@ -598,7 +598,8 @@ GET
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
 |pageNumber    |Y      |string   | 第几页（默认值：1） |
-|pageSize      |Y       |string   | 数量（默认值：3） |
+|pageSize      |Y      |string   | 数量（默认值：3） |
+|self          |N      |bool     | 标识是否是自己 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -616,10 +617,29 @@ GET
             "likeNumber": 0,
             "commentNumber": 0,
             "dataStatus": "1",
+            "_id": "5c9a056dad375a9bafe08e6f",
+            "content": "很显然，吴京是成功的。",
+            "__v": 0,
+            "user": {
+                "_id": "5c8601759b2af91a39c2c788",
+                "nickName": "光合1"
+            }
+        },
+        {
+            "pictures": [
+                "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
+            ],
+            "likeNumber": 0,
+            "commentNumber": 0,
+            "dataStatus": "1",
             "_id": "5c94d46804c629d82086cba5",
-            "userId": "5c86032f689b0b1ce6fe8fd1",
             "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
-            "__v": 0
+            "__v": 0,
+            "user": {
+                "_id": "5c86032f689b0b1ce6fe8fd1",
+                "nickName": "user1",
+                "avatar": "avatarURL"
+            }
         }
     ]
 }
