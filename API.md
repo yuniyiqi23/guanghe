@@ -130,19 +130,11 @@ GET
     "result": "success",
     "message": "获取用户信息成功！",
     "user": {
-        "gender": "x",
-        "isAdmin": true,
-        "_id": "5c8601759b2af91a39c2c788",
-        "name": "gh_wangjy",
-        "password": null,
-        "role": "1234",
-        "endLoginTime": "1234",
-        "__v": 0,
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2hfd2FuZ2p5IiwiaWF0IjoxNTUyNTcwNzc0LCJleHAiOjE1NTI1Nzc5NzR9.-fKbIi6-hmMHnDPYN5VXYDOquX6w7jinhf5MgfPO30c",
-        "nickName": "光合"
+        "_id": "5c86032f689b0b1ce6fe8fd1",
+        "nickName": "user1",
+        "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
     }
 }
-
 ```
 
 ### 6、创建音频课程

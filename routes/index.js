@@ -2,7 +2,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-03-26 09:20:31
+ * @lastTime: 2019-03-27 10:28:13
  */
 
 module.exports = function (app) {
@@ -23,6 +23,7 @@ module.exports = function (app) {
 	app.use('/wechat', require('./wechat'));
 	app.use('/myShow', require('./myShow'));
 	app.use('/myShowComment', require('./myShowComment'));
+	app.use('/myShowLike', require('./myShowLike'));
 
 	// 404 page
 	app.use(function (req, res) {

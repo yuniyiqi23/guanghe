@@ -13,10 +13,11 @@ const enumDateStatus = require('./enum').EnumDataStatus;
 module.exports = function () {
     passport.use(new Strategy(
         function (token, done) {
-            User.findOne({ 
-                token: token, 
-                dataStatus: enumDateStatus.Avail }, 
-                { _id: 1, avatar: 1 })
+            User.findOne({
+                token: token,
+                dataStatus: enumDateStatus.Avail
+            },
+                { _id: 1, nickName: 1, avatar: 1 })
                 .then(function (user) {
                     if (!user) {
                         return done(null, false);
