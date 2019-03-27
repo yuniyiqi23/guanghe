@@ -1,11 +1,12 @@
 ## TodoList
-   
-1.  搜索老师
-2. Wechat登录接口openId
+  搜索老师服务
+
+1. Wechat登录接口openId
     域名http://xcx.guanghe520.com/
     阿里云HTTPS
     证书acme.sh自动创建
-2.1 搜索课程(全文索引，中文支持不好)   
+2.1 搜索课程(全文索引，中文支持不好)  
+ 
 3. 修改发布的课程
     我秀点赞，点赞数
     记录课程（创建、修改）
@@ -36,6 +37,10 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 2. Docker部署
 职责区分
 技术选型（至少两个方案）
+
+
+## 光合
+1. 联调myshow/list token验证的问题（客户端反应其他服务正常，这个报401）
 
 
 ## 疑问

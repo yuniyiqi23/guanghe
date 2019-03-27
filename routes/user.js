@@ -51,12 +51,12 @@ router.post('/registerUser', function (req, res, next) {
 		// 创建用户
 		UserController.createUser(newUser)
 			.then(function (user) {
-				if(user){
+				if (user) {
 					res.json({
 						result: 'success',
 						message: '成功创建新用户!',
 					});
-				}else{
+				} else {
 					res.json({
 						result: 'fail',
 						message: '创建新用户失败!',
@@ -142,21 +142,21 @@ router.put('/info', passport.authenticate('bearer', { session: false }), functio
 	} else {
 		const data = {
 			nickName: nickName,
-			avatar : avatar
+			avatar: avatar
 		};
 		UserController.updateUser(userId, data)
 			.then(function (user) {
-				if(user){
+				if (user) {
 					res.json({
-                        result: 'success',
+						result: 'success',
 						message: '更新用户信息成功!',
 						user: user
-                    });
-				}else{
+					});
+				} else {
 					res.json({
-                        result: 'fail',
+						result: 'fail',
 						message: '更新用户信息失败!',
-                    });
+					});
 				}
 			})
 			.catch(next)
@@ -230,7 +230,14 @@ router.post('/registerTeacher', passport.authenticate('bearer', { session: false
  */
 router.get('/teacherList', passport.authenticate('bearer', { session: false }), function (req, res, next) {
 	log('user').info('/teacherList');
-	UserController.getTeacherList(userRole.Teacher)
+	let params = {
+		userRole: userRole.Teacher
+	}
+	const teacherName = req.query.teacherName;
+	if (teacherName) {
+		params.teacherName = teacherName;
+	} 
+	UserController.getTeacherList(params)
 		.then(function (teachers) {
 			res.json({
 				result: 'success',

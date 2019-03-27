@@ -40,7 +40,6 @@ module.exports = {
 				]
 			});
 		}
-		// return UserModel.find({ nickName: { $regex: nickName, $options: 'i' } });
 	},
 
 	// 获取全部用户
@@ -49,8 +48,19 @@ module.exports = {
 	},
 
 	// 获取全部老师列表
-	getTeacherList: function (role) {
-		return UserModel.find({ role: role, dataStatus: enumDateStatus.Avail });
+	getTeacherList: function (params) {
+		if (params.teacherName) {
+			return UserModel.find({
+				role: params.userRole,
+				dataStatus: enumDateStatus.Avail,
+				nickName: { $regex: params.teacherName, $options: '$i' }
+			}, {_id: 1, nickName: 1, avatar: 1})
+		} else {
+			return UserModel.find({
+				role: params.userRole,
+				dataStatus: enumDateStatus.Avail
+			}, {_id: 1, nickName: 1, avatar: 1})
+		}
 	}
 
 };

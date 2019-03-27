@@ -10,7 +10,7 @@
 [6、创建音频课程](#6创建音频课程)<br/>
 [7、获取音频课程](#7获取音频课程)<br/>
 [8、老师注册](#8老师注册)<br/>
-[9、获取全部老师数据](#9获取全部老师数据)<br/>
+[9、获取老师数据列表](#9获取老师数据列表)<br/>
 [10、创建Boss说课程](#10创建Boss说课程)<br/>
 [11、获取Boss说课程](#11获取Boss说课程)<br/>
 [12、获取音频课程详情](#12获取音频课程详情)<br/>
@@ -290,7 +290,7 @@ POST
 }
 ```
 
-### 9、获取全部老师数据
+### 9、获取老师数据列表
 
 #### 请求URL：
 ```
@@ -298,7 +298,9 @@ http://47.75.8.64:3002/user/teacherList
 ```
 
 #### 示例：
-
+```
+http://47.75.8.64:3002/user/teacherList?teacherName=ad
+```
 
 #### 请求方式：
 ```
@@ -309,7 +311,8 @@ GET
 
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
-|Authorization      |Y       |string   | token值 |
+|teacherName      |N       |string   | 老师昵称 |
+|Authorization    |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
 #### 返回示例：
@@ -320,34 +323,17 @@ GET
     "message": "获取老师列表成功!",
     "teachers": [
         {
-            "gender": "x",
-            "isAdmin": false,
-            "_id": "5c8e5bb3a47c444a88b98f12",
-            "nickName": "明道老师",
-            "name": "gh_mingd",
-            "password": "$2a$10$rpm.bMhXl585gFgdWERT3uCwQ4pM1r4klQ8gYoqaXSiMrjUEZz8WO",
-            "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
-            "checkCode": "77474",
-            "role": "6",
-            "endLoginTime": "2019-03-17 22:37:39",
-            "__v": 0
+            "_id": "5c943c644c0456481c19451a",
+            "nickName": "Adam",
+            "avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK29uaZ1OibZO2MYEsia5XMOHCDwEj8LEd8dNBwiceCuH8oeRyxeEAW1OpNGmNHnnicISq2x8kTJ8LtyA/132"
         },
         {
-            "gender": "x",
-            "isAdmin": false,
-            "_id": "5c8f30320e1073c5c37b15f8",
-            "nickName": "明道老师1",
-            "name": "gh_mingdao",
-            "password": "$2a$10$x6uyDBRhPwWmSjQmSx8WpuqXidLV58aBNuRL5WRI9.Q5oYMTuF47K",
-            "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
-            "checkCode": "15637",
-            "role": "6",
-            "endLoginTime": "2019-03-18 13:44:13",
-            "__v": 0
+            "_id": "5c988abe3efc6e7bfc1bde2e",
+            "nickName": "ad_f8d",
+            "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
         }
     ]
 }
-
 ```
 
 ### 10、创建Boss说课程
