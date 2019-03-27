@@ -30,23 +30,30 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         return res.send(result.error.message);
     } else {
         (async () => {
-            // 查找我秀记录，返回“true”或者“false”
-            let result = await global.getMyshowById(value.myShowId);
-            if (result) {
-                MyShowLikeController.create(value)
-                    .then(function (result) {
-                        if (result) {
-                            res.json({
-                                result: 'success',
-                                message: '点赞成功!'
-                            });
-                        }
-                    })
-                    .catch(next)
-            } else {
+            try {
+                // 查找我秀记录，返回“true”或者“false”
+                let result = await global.getMyshowById(value.myShowId);
+                if (result === true) {
+                    MyShowLikeController.create(value)
+                        .then(function (result) {
+                            if (result) {
+                                res.json({
+                                    result: 'success',
+                                    message: '点赞成功!'
+                                });
+                            }
+                        })
+                        .catch(next)
+                } else if(result === false){
+                    res.json({
+                        result: 'fail',
+                        message: '点赞失败，无法根据id查找到对应的我秀数据!'
+                    });
+                }
+            } catch (err) {
                 res.json({
                     result: 'fail',
-                    message: '点赞失败!'
+                    message: err.message
                 });
             }
         })();

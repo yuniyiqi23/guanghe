@@ -12,8 +12,11 @@ module.exports = {
 		return UserModel
 			.findOneAndUpdate(
 				{ _id: userId, dataStatus: enumDateStatus.Avail },
-				{ $set: data, password: 0, endLoginTime: 0, isAdmin: 0, token: 0 },
-				{ upsert: true, new: true })
+				{ $set: data },
+				{
+					upsert: true, new: true,
+					select: { '_id': 1, 'nickName': 1, 'avatar': 1 }
+				})
 	},
 
 	// 通过微信 OpenId 获取用户信息
@@ -54,12 +57,12 @@ module.exports = {
 				role: params.userRole,
 				dataStatus: enumDateStatus.Avail,
 				nickName: { $regex: params.teacherName, $options: '$i' }
-			}, {_id: 1, nickName: 1, avatar: 1})
+			}, { _id: 1, nickName: 1, avatar: 1 })
 		} else {
 			return UserModel.find({
 				role: params.userRole,
 				dataStatus: enumDateStatus.Avail
-			}, {_id: 1, nickName: 1, avatar: 1})
+			}, { _id: 1, nickName: 1, avatar: 1 })
 		}
 	}
 

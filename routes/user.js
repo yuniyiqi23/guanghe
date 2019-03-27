@@ -130,39 +130,39 @@ router.post('/signin', function (req, res, next) {
  * @LastEditTime: 
  * @since: 2019-03-25 16:03:37
  */
-// router.put('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
-// 	const userId = req.user.id;
-// 	const nickName = req.body.nickName;
-// 	const avatar = req.body.avatar;
-// 	if (nickName === undefined && avatar === undefined) {
-// 		res.json({
-// 			result: 'fail',
-// 			message: '参数（昵称和头像）都为空!'
-// 		});
-// 	} else {
-// 		const data = {
-// 			nickName: nickName,
-// 			avatar: avatar
-// 		};
-// 		UserController.updateUser(userId, data)
-// 			.then(function (user) {
-// 				if (user) {
-// 					res.json({
-// 						result: 'success',
-// 						message: '更新用户信息成功!',
-// 						user: user
-// 					});
-// 				} else {
-// 					res.json({
-// 						result: 'fail',
-// 						message: '更新用户信息失败!',
-// 					});
-// 				}
-// 			})
-// 			.catch(next)
-// 	}
+router.put('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+	const userId = req.user.id;
+	const nickName = req.body.nickName;
+	const avatar = req.body.avatar;
+	if (nickName === undefined && avatar === undefined) {
+		res.json({
+			result: 'fail',
+			message: '参数（昵称和头像）都为空!'
+		});
+	} else {
+		const data = {
+			nickName: nickName,
+			avatar: avatar
+		};
+		UserController.updateUser(userId, data)
+			.then(function (user) {
+				if (user) {
+					res.json({
+						result: 'success',
+						message: '更新用户信息成功!',
+						user: user
+					});
+				} else {
+					res.json({
+						result: 'fail',
+						message: '更新用户信息失败!',
+					});
+				}
+			})
+			.catch(next)
+	}
 
-// });
+});
 
 /**
  * @Description: 注册老师

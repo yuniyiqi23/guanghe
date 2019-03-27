@@ -3,7 +3,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-14 17:12:46
- * @lastTime: 2019-03-27 11:38:20
+ * @lastTime: 2019-03-27 14:11:35
  */
 const config = require('config-lite')(__dirname);
 const MyShowController = require("../controller/myShow1");
@@ -20,15 +20,13 @@ module.exports = {
     getMyshowById: function getMyshowById(myShowId) {
         return MyShowController.getMyshowById(myShowId)
             .then(function (myShow) {
+                // throw new Error('error');
                 if (myShow) {
                     return true;
                 } else {
                     return false;
                 }
             })
-            .catch(function (err) {
-                return err;
-            });
     },
 
     // 验证Token
