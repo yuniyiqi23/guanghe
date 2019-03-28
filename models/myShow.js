@@ -32,19 +32,22 @@ MyShowSchema.index({ userId: 1 });
  * @LastEditTime: 
  * @since: 2019-03-28 10:31:13
  */
-MyShowSchema.post("find", function (myShows) {
+MyShowSchema.post("find", function (myShows, next) {
     return Promise.all(
         myShows.map(function (myShow) {
-            return MyShowCommentModel.find({ 
+            return MyShowCommentModel.find({
                 myShowId: myShow._id,
-                dataStatus: enumDateStatus.Avail 
+                dataStatus: enumDateStatus.Avail
             }).then(function (result) {
-                if (result) {
+                if (!result.errors) {
                     myShow.commentCount = result.length;
                     // myShow.commentNumber = result.length;
                     return myShow;
+                } else {
+                    throw new Error(result.errors.message)
                 }
-            });
+            })
+                .catch(next);
         })
     );
 });
@@ -56,16 +59,21 @@ MyShowSchema.post("find", function (myShows) {
  * @LastEditTime: 
  * @since: 2019-03-28 10:31:23
  */
-MyShowSchema.post("find", function (myShows) {
+MyShowSchema.post("find", function (myShows, next) {
     return Promise.all(
         myShows.map(function (myShow) {
-            return MyShowLikeModel.find({ myShowId: myShow._id }).then(function (result) {
-                if (result) {
-                    myShow.likeCount = result.length;
-                    // myShow.likeNumber = result.length;
-                    return myShow;
-                }
-            });
+            return MyShowLikeModel.find({ myShowId: myShow._id })
+                .then(function (result) {
+                    // throw new Error('MyShowSchema Test Error!')
+                    if (!result.errors) {
+                        myShow.likeCount = result.length;
+                        // myShow.likeNumber = result.length;
+                        return myShow;
+                    } else {
+                        throw new Error(result.errors.message)
+                    }
+                })
+                .catch(next);
         })
     );
 });

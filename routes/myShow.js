@@ -26,7 +26,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         });
     } else {
         const value = {
-            userId: userId,
+            user: userId,
             content: content,
             pictures: pictures,
             location: location
