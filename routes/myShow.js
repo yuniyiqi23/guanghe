@@ -53,8 +53,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  * @LastEditTime: 
  * @since: 2019-03-22 14:13:58
  */
-// passport.authenticate('bearer', { session: false }),
-router.get('/list',  function (req, res, next) {
+router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     log('myshow').info('/list');
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
@@ -78,15 +77,27 @@ router.get('/list',  function (req, res, next) {
                 }
                 // 判断是否获取“我”的我秀数据
                 const self = req.query.self;
-                if(self){
+                if (self) {
                     param.userId = req.user.id;
                 }
                 MyShowController.getMyshowList(param)
-                    .then(function (myshowList) {
+                    .then(function (myShowList) {
+                        // 标记已点赞过的我秀
+                        myShowList.map(function (myShow) {
+                            if (myShow.likedUserList instanceof Array) {
+                                if (myShow.likedUserList.length > 0) {
+                                    myShow.likedUserList.map((liked) => {
+                                        if(liked.userId.toString() == req.user.id){
+                                            myShow.isLiked = true;
+                                        }
+                                    })
+                                }
+                            }
+                        })
                         res.json({
                             result: 'success',
                             message: '获取数据成功！',
-                            myshowList: myshowList
+                            myShowList: myShowList
                         });
                     })
                     .catch(next);

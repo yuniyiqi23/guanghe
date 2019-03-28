@@ -53,7 +53,7 @@ MyShowSchema.post("find", function (myShows, next) {
 });
 
 /**
- * @Description: 给 myShowList 添加点赞数 likeCount，userId
+ * @Description: 给 myShowList 添加点赞数 likeCount，userId数组
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 
@@ -66,6 +66,7 @@ MyShowSchema.post("find", function (myShows, next) {
                 .then(function (result) {
                     // throw new Error('MyShowSchema Test Error!')
                     if (!result.errors) {
+                        myShow.likedUserList = result;
                         myShow.likeCount = result.length;
                         // myShow.likeNumber = result.length;
                         return myShow;
