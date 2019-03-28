@@ -39,6 +39,33 @@ module.exports = {
             .sort({ _id: -1 });
     },
 
+    //获取数量
+    getCoursewareCount: function (params) {
+        let query = { dataStatus: enumDateStatus.Avail };
+        // 参数：作者
+        if (params.author) {
+            query.author = params.author;
+        }
+        // 参数：课程类型
+        if (params.courseType) {
+            query.courseType = params.courseType;
+        }
+        // if (keyword) {
+        // 	query = {
+        // 		$or: [
+        // 			{ title: { $regex: keyword, $options: '$i' } }, //  $options: '$i' 忽略大小写
+        // 			{ content: { $regex: keyword, $options: '$i' } },
+        // 			{ tags: { $regex: keyword, $options: '$i' } }
+        // 		],
+        // 	};
+        // }
+        return CoursewareModel
+            .find(query)
+            .where('publishTime').lte(new Date().toISOString())
+            // .populate({ path: 'author', model: 'User' })
+            .count()
+    },
+
     // 通过文章 id 获取一条数据
     getCoursewareById: function (param) {
         let query = {

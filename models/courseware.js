@@ -3,6 +3,7 @@
 const mongoose = require('../mongodb/db.js');
 const Schema = mongoose.Schema;
 const enumDateStatus = require('../utils/enum').EnumDataStatus;
+const CourseCommentModel = require('./courseComment');
 
 // CoursewareSchema
 const CoursewareSchema = new Schema({
@@ -30,5 +31,28 @@ const CoursewareSchema = new Schema({
 CoursewareSchema.index({ author: 1, _id: -1 });
 CoursewareSchema.index({ title: 1 });
 CoursewareSchema.index({ courseType: 1, _id: 1 });
+
+/**
+ * @Description: 给 coursewareList 添加留言数 commentCount
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-28 10:31:13
+ */
+CoursewareSchema.post("find", function (courses) {
+  return Promise.all(
+    courses.map(function (course) {
+      return CourseCommentModel.find({
+        courseId: course._id,
+        dataStatus: enumDateStatus.Avail
+      }).then(function (result) {
+        if (result) {
+          course.commentCount = result.length;
+          return course;
+        }
+      });
+    })
+  );
+});
 
 module.exports = mongoose.model('Courseware', CoursewareSchema);

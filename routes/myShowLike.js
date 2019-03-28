@@ -16,6 +16,7 @@ require('../utils/passport')(passport);
  * @since: 2019-03-24 14:15:35
  */
 router.post('/create', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+    log('myShowLike').info('create');
     const value = {
         userId: req.user.id,
         myShowId: req.body.myShowId
@@ -36,15 +37,20 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
                 if (result === true) {
                     MyShowLikeController.create(value)
                         .then(function (result) {
-                            if (result) {
+                            if (!result.errors) {
                                 res.json({
                                     result: 'success',
                                     message: '点赞成功!'
                                 });
+                            } else {
+                                res.json({
+                                    result: 'fail',
+                                    message: result.errors.message
+                                });
                             }
                         })
                         .catch(next)
-                } else if(result === false){
+                } else if (result === false) {
                     res.json({
                         result: 'fail',
                         message: '点赞失败，无法根据id查找到对应的我秀数据!'
@@ -84,22 +90,40 @@ router.delete('/', passport.authenticate('bearer', { session: false }), function
         if (err) {
             return res.send(err.message);
         } else {
-            MyShowLikeController.deleteMyShowLikeById(params)
-                .then(function (result) {
-                    if (result) {
-                        res.json({
-                            result: 'success',
-                            message: '删除成功！',
-                        });
-                    } else {
+            (async () => {
+                try {
+                    // 查找我秀记录，返回“true”或者“false”
+                    let result = await global.getMyshowById(value.myShowId);
+                    // value.ok && value.n > 0 && value.nModified > 0
+                    if (result === true) {
+                        MyShowLikeController.deleteMyShowLikeById(params)
+                            .then(function (result) {
+                                if (!result.errors) {
+                                    res.json({
+                                        result: 'success',
+                                        message: '取消点赞成功！'
+                                    });
+                                } else {
+                                    res.json({
+                                        result: 'fail',
+                                        message: result.errors.message
+                                    });
+                                }
+                            })
+                            .catch(next);
+                    } else if (result === false) {
                         res.json({
                             result: 'fail',
-                            message: '删除失败！',
+                            message: '删除失败，无法根据id查找到对应的我秀数据!'
                         });
                     }
-
-                })
-                .catch(next);
+                } catch (err) {
+                    res.json({
+                        result: 'fail',
+                        message: err.message
+                    });
+                }
+            })();
         }
     });
 });

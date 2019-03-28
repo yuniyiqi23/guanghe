@@ -8,55 +8,6 @@ const EnumCourseType = require('../utils/enum').EnumCourseType;
 require('../utils/passport')(passport);
 
 /**
- * @Description: 获取课件数据，实现按用户搜索和分页功能
- * @Author: yep
- * @LastEditors: 
- * @LastEditTime: 
- * @since: 2019-03-12 14:13:58
- */
-router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
-    log('courseware').info('/list');
-    log('courseware').info('req.query = ' + JSON.stringify(req.query));
-    log('courseware').info('req.params = ' + JSON.stringify(req.params));
-    log('courseware').info('req.url = ' + req.url);
-    const paramSchema = Joi.object().keys({
-        pageNumber: Joi.number().integer().min(1),
-        pageSize: Joi.number().integer().min(1).max(30),
-    })
-    // 验证数据
-    Joi.validate({
-        pageNumber: parseInt(req.query.pageNumber),
-        pageSize: parseInt(req.query.pageSize)
-    },
-        paramSchema,
-        function (err, value) {
-            if (err) {
-                log('courseware').error(err.message);
-                return res.send(err.message);
-            } else {
-                // 查询参数
-                const param = {
-                    author: req.query.authorId,
-                    courseType: EnumCourseType.AudioDaily,
-                    pageNumber: parseInt(req.query.pageNumber) || 1,
-                    pageSize: parseInt(req.query.pageSize) || 3
-                }
-
-                CoursewareController.getCoursewareList(param)
-                    .then(function (coursewares) {
-                        res.json({
-                            result: 'success',
-                            message: '获取数据成功！',
-                            coursewares: coursewares
-                        });
-                    })
-                    .catch(next);
-            }
-        }
-    );
-});
-
-/**
  * @Description: 上传数据
  * @Author: yep
  * @LastEditors: 
@@ -113,6 +64,86 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
                     result: 'fail',
                     message: '发布信息失败!'
                 });
+            }
+        })
+        .catch(next)
+});
+
+/**
+ * @Description: 获取课件数据，实现按用户搜索和分页功能
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-12 14:13:58
+ */
+router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+    log('courseware').info('/list');
+    log('courseware').info('req.query = ' + JSON.stringify(req.query));
+    log('courseware').info('req.params = ' + JSON.stringify(req.params));
+    log('courseware').info('req.url = ' + req.url);
+    const paramSchema = Joi.object().keys({
+        pageNumber: Joi.number().integer().min(1),
+        pageSize: Joi.number().integer().min(1).max(30),
+    })
+    // 验证数据
+    Joi.validate({
+        pageNumber: parseInt(req.query.pageNumber),
+        pageSize: parseInt(req.query.pageSize)
+    },
+        paramSchema,
+        function (err, value) {
+            if (err) {
+                log('courseware').error(err.message);
+                return res.send(err.message);
+            } else {
+                // 查询参数
+                const param = {
+                    author: req.query.authorId,
+                    courseType: EnumCourseType.AudioDaily,
+                    pageNumber: parseInt(req.query.pageNumber) || 1,
+                    pageSize: parseInt(req.query.pageSize) || 3
+                }
+
+                CoursewareController.getCoursewareList(param)
+                    .then(function (coursewares) {
+                        res.json({
+                            result: 'success',
+                            message: '获取数据成功！',
+                            coursewares: coursewares
+                        });
+                    })
+                    .catch(next);
+            }
+        }
+    );
+});
+
+/**
+ * @Description: 获取每日音频发布总数
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-28 08:54:36
+ */
+router.get('/count', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+     // 查询参数
+     const params = {
+        author: req.query.authorId,
+        courseType: EnumCourseType.AudioDaily,
+    }
+    CoursewareController.getCoursewareCount(params)
+        .then(function (result) {
+            if(!result.errors){
+                res.json({
+                    result: 'success',
+                    message: '获取数据成功！',
+                    coursewareCount: result
+                })
+            }else{
+                res.json({
+                    result: 'fail',
+                    message: result.errors.message
+                })
             }
         })
         .catch(next)

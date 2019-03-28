@@ -1,9 +1,13 @@
 ## TodoList
-  修复用户信息更新
+ok获取课程发布总数
+ok我秀点赞，点赞数，评论总数（能否拿到commentCount）
+ok课程评论数
 
-我秀点赞，点赞数
+收藏总数
 评论课程和我秀逻辑判断（先判断有课程、我秀再评论）
 修改发布的课程
+
+Mongoose virtual methods的区别
 
 1. Wechat登录接口openId
     域名http://xcx.guanghe520.com/
@@ -43,7 +47,7 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 
 ## 光合
 1. 联调myshow/list token验证的问题（客户端反应其他服务正常，这个报401）
-
+2. Boss说无法上传头像（于佳一）
 
 ## 疑问
 部署问题：

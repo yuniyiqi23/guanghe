@@ -5,7 +5,9 @@ const mongoose = require("mongoose");
 const chalk = require("chalk");
 const log = require("../utils/winston").getDefaultLogger;
 
-mongoose.connect(config.mongodb, { useNewUrlParser: true });
+// 官方给出了一个建议, 因为在创建字段时, 数据库会自动根据自动排序(ensureIndex). 
+// 有可能严重拖慢查询或者创建速度,所以一般而言,我们需要将该option 关闭
+mongoose.connect(config.mongodb, { useNewUrlParser: true, config: { autoIndex: false } });
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;

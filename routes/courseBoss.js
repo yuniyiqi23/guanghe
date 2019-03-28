@@ -55,6 +55,37 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
 });
 
 /**
+ * @Description: 获取Boss说发布总数
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-28 08:54:36
+ */
+router.get('/count', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+    // 查询参数
+    const params = {
+       author: req.query.authorId,
+       courseType: EnumCourseType.BossSay
+   }
+   CoursewareController.getCoursewareCount(params)
+       .then(function (result) {
+           if(!result.errors){
+               res.json({
+                   result: 'success',
+                   message: '获取数据成功！',
+                   courseBossCount: result
+               })
+           }else{
+               res.json({
+                   result: 'fail',
+                   message: result.errors.message
+               })
+           }
+       })
+       .catch(next)
+});
+
+/**
  * @Description: 上传数据
  * @Author: yep
  * @LastEditors: 

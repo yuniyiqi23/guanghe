@@ -146,7 +146,7 @@ router.put('/info', passport.authenticate('bearer', { session: false }), functio
 		};
 		UserController.updateUser(userId, data)
 			.then(function (user) {
-				if (user) {
+				if (!user.errors) {
 					res.json({
 						result: 'success',
 						message: '更新用户信息成功!',
@@ -155,7 +155,7 @@ router.put('/info', passport.authenticate('bearer', { session: false }), functio
 				} else {
 					res.json({
 						result: 'fail',
-						message: '更新用户信息失败!',
+						message: user.errors.message
 					});
 				}
 			})

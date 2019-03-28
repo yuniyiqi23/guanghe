@@ -29,6 +29,11 @@
 [25、更新用户信息](#25更新用户信息)<br/>
 [26、搜索课程](#26搜索课程)<br/>
 ?[27、搜索老师](#27搜索老师)<br/>
+[28、获取每日音频发布总数](#28获取每日音频发布总数)<br/>
+[29、获取Boss说发布总数](#29获取Boss说发布总数)<br/>
+[30、创建我秀点赞](#30创建我秀点赞)<br/>
+[31、取消我秀点赞](#31取消我秀点赞)<br/>
+
 
 ## 接口列表：
 
@@ -218,18 +223,7 @@ GET
             "title": "浪漫的婚庆台词",
             "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
             "publishTime": "2019-03-14 22:31",
-            "__v": 0
-        },
-        {
-            "_id": "5c8a2e6b4bea099f8cd0f291",
-            "author": {
-                "id": "5c8744bdc71400367afd3ad7",
-                "nickName": "李晨",
-                "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
-            },
-            "title": "浪漫的婚庆台词",
-            "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
-            "publishTime": "2019-03-14 18:35",
+            "commentCount": 2,
             "__v": 0
         }
     ]
@@ -592,8 +586,8 @@ GET
             "pictures": [
                 "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
             ],
-            "likeNumber": 0,
-            "commentNumber": 0,
+            "likeCount": 10,
+            "commentCount": 2,
             "dataStatus": "1",
             "_id": "5c9a056dad375a9bafe08e6f",
             "content": "很显然，吴京是成功的。",
@@ -929,7 +923,8 @@ GET
                 "_id": "5c9604134dc72c204aafadbc",
                 "author": {
                     "id": "5c8744bdc71400367afd3ad7",
-                    "nickName": "明道老师"
+                    "nickName": "明道老师",
+                    "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
                 },
                 "title": "测试_1",
                 "videoURL": "videoURL",
@@ -1079,5 +1074,141 @@ GET
             "courseType": "1"
         }
     ]
+}
+```
+
+### 28、获取每日音频发布总数
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseware/count
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseware/count
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取数据成功！",
+    "coursewareCount": 1
+}
+```
+
+### 29、获取Boss说发布总数
+
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseBoss/count
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/courseBoss/count
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "获取数据成功！",
+    "courseBossCount": 1
+}
+```
+
+
+### 30、创建我秀点赞
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/myshowlike/create
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|myShowId      |Y       |string   | 我秀id |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "点赞成功!"
+}
+```
+
+### 31、取消我秀点赞
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/myshowlike
+```
+
+#### 示例：
+
+```
+http://47.75.8.64:3002/myshowlike?myShowId=5c971dff588a3d5300f11297
+```
+
+#### 请求方式：
+```
+DELETE
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|myShowId       |Y       |string  | 我秀id |
+|Authorization  |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "取消点赞成功！"
 }
 ```
