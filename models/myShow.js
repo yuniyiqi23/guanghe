@@ -53,7 +53,7 @@ MyShowSchema.post("find", function (myShows, next) {
 });
 
 /**
- * @Description: 给 myShowList 添加点赞数 likeCount
+ * @Description: 给 myShowList 添加点赞数 likeCount，userId
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 
@@ -77,6 +77,7 @@ MyShowSchema.post("find", function (myShows, next) {
         })
     );
 });
+
 
 // 添加中间件 通过文章 id 获取所有留言()
 // MyShowSchema.post("findOne", function (myShow) {

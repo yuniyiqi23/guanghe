@@ -1,11 +1,10 @@
 ## TodoList
-ok获取课程发布总数
-ok我秀点赞，点赞数，评论总数（能否拿到commentCount）
-ok课程评论数
-
+收藏boss说 -- 没有头像
+我秀点赞状态
 收藏总数
 评论课程和我秀逻辑判断（先判断有课程、我秀再评论）
 修改发布的课程
+user验证用户名
 
 Mongoose virtual methods的区别
 
@@ -17,7 +16,7 @@ Mongoose virtual methods的区别
 
 3. 记录课程（创建、修改）
    用户登录记录（每天一条记录）
-    
+4. 我秀转发数量    
 5. 重构七牛配置文件（routes/config.json），配置文件写到一起   
 6. 部署服务端
 7. mencache、Redis（用户信息缓存）

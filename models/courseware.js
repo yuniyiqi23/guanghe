@@ -39,23 +39,45 @@ CoursewareSchema.index({ courseType: 1, _id: 1 });
  * @LastEditTime: 
  * @since: 2019-03-28 10:31:13
  */
-CoursewareSchema.post("findOne", function (courses) {
-  return Promise.all(
-    courses.map(function (course, next) {
-      return CourseCommentModel.find({
-        courseId: course._id,
-        dataStatus: enumDateStatus.Avail
-      }).then(function (result) {
-        if (!result.errors) {
+// CoursewareSchema.post("find", function (courses) {
+//   return Promise.all(
+//     courses.map(function (course, next) {
+//       return CourseCommentModel.find({
+//         courseId: course._id,
+//         dataStatus: enumDateStatus.Avail
+//       }).then(function (result) {
+//         if (!result.errors) {
+//           course.commentCount = result.length;
+//           return course;
+//         } else {
+//           throw new Error(result.errors.message)
+//         }
+//       })
+//         .catch(next);
+//     })
+//   );
+// });
+
+/**
+ * @Description: 给 courseware 详情添加留言数 commentCount
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-03-28 10:31:13
+ */
+CoursewareSchema.post("findOne", function (course) {
+  if (course) {
+    return CourseCommentModel.find({
+      courseId: course._id,
+      dataStatus: enumDateStatus.Avail
+    })
+      .then(function (result) {
+        if (result) {
           course.commentCount = result.length;
           return course;
-        } else {
-          throw new Error(result.errors.message)
         }
-      })
-        .catch(next);
-    })
-  );
+      });
+  }
 });
 
 module.exports = mongoose.model('Courseware', CoursewareSchema);
