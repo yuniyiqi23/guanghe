@@ -134,10 +134,10 @@ router.put('/info', passport.authenticate('bearer', { session: false }), functio
 	const userId = req.user.id;
 	const nickName = req.body.nickName;
 	const avatar = req.body.avatar;
-	if (nickName === undefined && avatar === undefined) {
+	if (nickName === undefined || avatar === undefined) {
 		res.json({
 			result: 'fail',
-			message: '参数（昵称和头像）都为空!'
+			message: '参数（昵称、头像）不能为空!'
 		});
 	} else {
 		const data = {
