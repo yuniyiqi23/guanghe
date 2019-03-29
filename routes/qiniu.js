@@ -4,12 +4,14 @@ const path = require('path');
 const fs = require('fs');
 // 七牛存储资源（图片、音频、视频）云空间
 const qiniu = require('qiniu');
-const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, "config.json")));
-const mac = new qiniu.auth.digest.Mac(config.AccessKey, config.SecretKey);
+// const qiniuConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, "qiniuConfig.json")));
+const config = require('config-lite')(__dirname);
+const qiniuConfig = config.qiniu;
+const mac = new qiniu.auth.digest.Mac(qiniuConfig.AccessKey, qiniuConfig.SecretKey);
 
 const putExtra = new qiniu.form_up.PutExtra();
 const options = {
-	scope: config.Bucket,
+	scope: qiniuConfig.Bucket,
 	deleteAfterDays: 1,
 	// callbackUrl: 'http://api.example.com/qiniu/upload/callback',
 	returnBody: '{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucket)","name":"$(x:name)"}',
@@ -17,7 +19,7 @@ const options = {
 };
 
 const putPolicy = new qiniu.rs.PutPolicy(options);
-const bucketManager = new qiniu.rs.BucketManager(mac, config);
+const bucketManager = new qiniu.rs.BucketManager(mac, qiniuConfig);
 
 // URL /qiniu/getImg
 router.get('/getImg', function (req, res) {
@@ -26,7 +28,7 @@ router.get('/getImg', function (req, res) {
 		prefix: 'guanghe/image/',
 		marker: req.query.marker
 	};
-	bucketManager.listPrefix(config.Bucket, options, function (err, respBody, respInfo) {
+	bucketManager.listPrefix(qiniuConfig.Bucket, options, function (err, respBody, respInfo) {
 		if (err) {
 			console.log(err);
 			throw err;
@@ -55,7 +57,7 @@ router.get('/uptoken', function (req, res) {
 	if(token) {
 	    res.json({
 	        uptoken: token,
-	        domain: config.Domain
+	        domain: qiniuConfig.Domain
 	    });
 	}
 });

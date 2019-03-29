@@ -2,3 +2,4 @@ logs/*
 node_modules
 # ignore all logs
 *.log
+config/default.js

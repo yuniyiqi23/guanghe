@@ -11,8 +11,8 @@ const userRole = require('../utils/enum').EnumUserRole;
 const UserController = require("../controller/user");
 
 // 小程序参数
-const APP_ID = 'wx5d7d89a5225b109d';
-const APP_SECRET = 'd65ecf46e33feeeb3b260d2553a6a6ba';
+const APP_ID = config.wechat.APP_ID;
+const APP_SECRET = config.wechat.APP_SECRET;
 
 // 获取解密SessionKey
 const getSessionKey = (code, callback) => {

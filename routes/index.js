@@ -2,7 +2,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-03-27 10:28:13
+ * @lastTime: 2019-03-29 14:50:36
  */
 
 module.exports = function (app) {
@@ -10,6 +10,7 @@ module.exports = function (app) {
 	app.get('/', (req, res) => {
 		// const time =  new Date(parseInt(_id.toString().substring(0, 8), 16) * 1000);
 		// res.json({ time: time });
+		// throw new Error('啊哦～');
 		res.json({ message: 'Hello GuangHe!' });
 	});
 

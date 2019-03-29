@@ -1,7 +1,4 @@
 ## TodoList
-ok课程评论数
-收藏标识
-
 user验证用户名
 评论课程和我秀逻辑判断（先判断有课程、我秀再评论）
 修改发布的课程
@@ -48,7 +45,6 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 
 ## 疑问
 部署问题：
-1. 代码checkout有相同的是否还会覆盖？
-2. npm install 有安装过的是否还会安装
+1. 方便查看服务器上的日志（json格式）
 
 神奇的引用问题： routes/myShow 引用 controller/myShow 无法引用的问题
