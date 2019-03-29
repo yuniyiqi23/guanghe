@@ -91,6 +91,8 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
                                             myShow.isLiked = true;
                                         }
                                     })
+                                    // 去掉likedUserList
+                                    // myShow.likedUserList = null;
                                 }
                             }
                         })
@@ -104,6 +106,6 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
             }
         }
     );
-});
+}); 
 
 module.exports = router;

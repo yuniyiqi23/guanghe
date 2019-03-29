@@ -41,7 +41,20 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
                 }
 
                 CoursewareController.getCoursewareList(param)
-                    .then(function (courseBosss) {
+                    .then(function (coursewares) {
+                        // 标记已收藏过的课程
+                        coursewares.map(function (course) {
+                            if (course.collectedList instanceof Array) {
+                                if (course.collectedList.length > 0) {
+                                    course.collectedList.map((collected) => {
+                                        if (collected.userId.toString() == req.user.id) {
+                                            course.isCollected = true;
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                        // 返回数据
                         res.json({
                             result: 'success',
                             message: '获取数据成功！',

@@ -208,22 +208,29 @@ GET
 
 #### 返回示例：
 
+返回数据注释：
+用户是否已收藏：isCollected；评论数commentCount
+
 ```javascript
 {
     "result": "success",
     "message": "获取数据成功！",
     "coursewares": [
         {
-            "_id": "5c8a65b6d1cfd4dc392c17d6",
+            "commentCount": 0,
+            "isCollected": true,
+            "dataStatus": "1",
+            "_id": "5c9996a1f6fab0902082aefa",
             "author": {
                 "id": "5c8744bdc71400367afd3ad7",
-                "nickName": "李晨",
+                "nickName": "明道老师",
                 "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
             },
-            "title": "浪漫的婚庆台词",
+            "title": "测试1_浪漫的婚庆台词",
             "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
-            "publishTime": "2019-03-14 22:31",
-            "commentCount": 2,
+            "audioURL": "http://poaadnrl9.bkt.clouddn.com/image/test/1553081800504_纯音乐 - Canon In D Major (钢琴).mp3",
+            "publishTime": "2019-02-1T02:34:00.000Z",
+            "courseType": "1",
             "__v": 0
         }
     ]
@@ -390,6 +397,9 @@ GET
 
 #### 返回示例：
 
+返回数据注释：
+用户是否已收藏：isCollected；评论数commentCount
+
 ```javascript
 {
     {
@@ -397,6 +407,8 @@ GET
     "message": "获取数据成功！",
     "courseBosss": [
         {
+            "commentCount": 0,
+            "isCollected": true,
             "vodioPictures": [],
             "dataStatus": "1",
             "_id": "5c91a9d80cf71bd3ed36cc2e",
@@ -445,11 +457,15 @@ GET
 
 #### 返回示例：
 
+返回数据注释：
+评论数：commentCount
+
 ```javascript
 {
     "result": "success",
     "message": "获取课程成功!",
     "courseBoss": {
+        "commentCount": 1,
         "dataStatus": "1",
         "_id": "5c944cff5f1e9851f59d41ba",
         "author": {
@@ -495,11 +511,15 @@ GET
 
 #### 返回示例：
 
+返回数据注释：
+评论数：commentCount
+
 ```javascript
 {
     "result": "success",
     "message": "获取课程成功!",
     "courseBoss": {
+        "commentCount": 1,
         "dataStatus": "1",
         "_id": "5c944cff5f1e9851f59d41ba",
         "author": {
@@ -577,46 +597,36 @@ GET
 
 #### 返回示例：
 
+返回数据注释：
+点赞数likeCount；用户是否已点赞：isLiked；评论数commentCount
+
 ```javascript
 {
     "result": "success",
     "message": "获取数据成功！",
-    "myshowList": [
+    "myShowList": [
         {
             "pictures": [
                 "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
             ],
-            "likeCount": 10,
+            "likeCount": 2,
+            "isLiked": true,
             "commentCount": 2,
-            "dataStatus": "1",
-            "_id": "5c9a056dad375a9bafe08e6f",
-            "content": "很显然，吴京是成功的。",
-            "__v": 0,
-            "user": {
-                "_id": "5c8601759b2af91a39c2c788",
-                "nickName": "光合1"
-            }
-        },
-        {
-            "pictures": [
-                "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
-            ],
-            "likeNumber": 0,
-            "commentNumber": 0,
             "dataStatus": "1",
             "_id": "5c94d46804c629d82086cba5",
             "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
             "__v": 0,
             "user": {
                 "_id": "5c86032f689b0b1ce6fe8fd1",
-                "nickName": "user1",
-                "avatar": "avatarURL"
+                "nickName": "林大大",
+                "avatar": "avatarURL1"
             }
         }
     ]
 }
 
 ```
+
 
 ### 16、创建我秀评论
 

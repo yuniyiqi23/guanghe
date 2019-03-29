@@ -1,9 +1,10 @@
 ## TodoList
+ok课程评论数
+收藏标识
 
-收藏总数
+user验证用户名
 评论课程和我秀逻辑判断（先判断有课程、我秀再评论）
 修改发布的课程
-user验证用户名
 
 Mongoose virtual methods的区别
 
@@ -12,7 +13,7 @@ Mongoose virtual methods的区别
     阿里云HTTPS
     证书acme.sh自动创建
 2.1 搜索课程(全文索引，中文支持不好)  
-
+    收藏总数
 3. 记录课程（创建、修改）
    用户登录记录（每天一条记录）
 4. 我秀转发数量    
@@ -23,10 +24,8 @@ Mongoose virtual methods的区别
 https://www.jianshu.com/p/f9e27a96da89
 https://www.jb51.net/article/113210.htm
 
-重构代码user
-测试代码
+
 重构passport验证代码
-过滤掉删除的数据
 开源项目数据设计
 data migration
 
@@ -45,7 +44,7 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 
 ## 光合
 1. 联调myshow/list token验证的问题（客户端反应其他服务正常，这个报401）
-2. Boss说无法上传头像（于佳一）
+
 
 ## 疑问
 部署问题：

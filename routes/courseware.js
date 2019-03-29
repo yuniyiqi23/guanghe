@@ -79,8 +79,6 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
 router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
     log('courseware').info('/list');
     log('courseware').info('req.query = ' + JSON.stringify(req.query));
-    log('courseware').info('req.params = ' + JSON.stringify(req.params));
-    log('courseware').info('req.url = ' + req.url);
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
         pageSize: Joi.number().integer().min(1).max(30),
@@ -106,6 +104,19 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
 
                 CoursewareController.getCoursewareList(param)
                     .then(function (coursewares) {
+                        // 标记已收藏过的课程
+                        coursewares.map(function (course) {
+                            if (course.collectedList instanceof Array) {
+                                if (course.collectedList.length > 0) {
+                                    course.collectedList.map((collected) => {
+                                        if(collected.userId.toString() == req.user.id){
+                                            course.isCollected = true;
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                        // 返回数据
                         res.json({
                             result: 'success',
                             message: '获取数据成功！',

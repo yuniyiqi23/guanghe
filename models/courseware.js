@@ -4,6 +4,7 @@ const mongoose = require('../mongodb/db.js');
 const Schema = mongoose.Schema;
 const enumDateStatus = require('../utils/enum').EnumDataStatus;
 const CourseCommentModel = require('./courseComment');
+const CourseCollectionModel = require('./courseCollection');
 
 // CoursewareSchema
 const CoursewareSchema = new Schema({
@@ -21,6 +22,10 @@ const CoursewareSchema = new Schema({
   videoPictures: { type: String },
   // 课程类型
   courseType: { type: String, required: true },
+  // 评论数
+  commentCount: { type: Number, default: 0 },
+  // 是否已收藏
+  isCollected: { type: Boolean, default: false },
   // 浏览数
   pv: { type: Number, required: false },
   // 数据状态（是否有效）
@@ -33,30 +38,30 @@ CoursewareSchema.index({ title: 1 });
 CoursewareSchema.index({ courseType: 1, _id: 1 });
 
 /**
- * @Description: 给 courseware 详情添加留言数 commentCount
+ * @Description: 给 coursewareList 添加收藏 collectedList
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 
  * @since: 2019-03-28 10:31:13
  */
-// CoursewareSchema.post("find", function (courses) {
-//   return Promise.all(
-//     courses.map(function (course, next) {
-//       return CourseCommentModel.find({
-//         courseId: course._id,
-//         dataStatus: enumDateStatus.Avail
-//       }).then(function (result) {
-//         if (!result.errors) {
-//           course.commentCount = result.length;
-//           return course;
-//         } else {
-//           throw new Error(result.errors.message)
-//         }
-//       })
-//         .catch(next);
-//     })
-//   );
-// });
+CoursewareSchema.post("find", function (courses) {
+  return Promise.all(
+    courses.map(function (course, next) {
+      return CourseCollectionModel.find({
+        course: course._id,
+        dataStatus: enumDateStatus.Avail
+      }).then(function (result) {
+        if (!result.errors) {
+          course.collectedList = result;
+          return course;
+        } else {
+          throw new Error(result.errors.message)
+        }
+      })
+        .catch(next);
+    })
+  );
+});
 
 /**
  * @Description: 给 courseware 详情添加留言数 commentCount
