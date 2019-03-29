@@ -41,7 +41,7 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 
 ## 光合
 1. 联调myshow/list token验证的问题（客户端反应其他服务正常，这个报401）
-
+2. 部署道明的阿里云服务器
 
 ## 疑问
 部署问题：

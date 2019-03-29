@@ -132,18 +132,26 @@ router.post('/signin', function (req, res, next) {
  */
 router.put('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
 	const userId = req.user.id;
-	const nickName = req.body.nickName;
-	const avatar = req.body.avatar;
-	if (nickName === undefined || avatar === undefined) {
+	if(!userId){
 		res.json({
 			result: 'fail',
-			message: '参数（昵称、头像）不能为空!'
+			message: '用户Id不存在!'
 		});
+	}
+	const data = {
+		nickName: req.body.nickName,
+		avatar: req.body.avatar
+	};
+	// 验证参数
+	const schema = Joi.object().keys({
+		nickName: Joi.string().required(),
+		avatar: Joi.string().required()
+	});
+	const result = Joi.validate(data, schema);
+	if (result.error !== null) {
+		return res.send(result.error.message);
 	} else {
-		const data = {
-			nickName: nickName,
-			avatar: avatar
-		};
+		// 更新用户信息
 		UserController.updateUser(userId, data)
 			.then(function (user) {
 				if (!user.errors) {
@@ -236,7 +244,7 @@ router.get('/teacherList', passport.authenticate('bearer', { session: false }), 
 	const teacherName = req.query.teacherName;
 	if (teacherName) {
 		params.teacherName = teacherName;
-	} 
+	}
 	UserController.getTeacherList(params)
 		.then(function (teachers) {
 			res.json({
