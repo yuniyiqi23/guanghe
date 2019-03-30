@@ -64,7 +64,7 @@ router.get('/signin', function(req, res, next){
 });
 
 /**
- * @Description: 微信登录接口 /wecahat/signin
+ * @Description: 微信登录接口 /wechat/signin
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 
@@ -141,21 +141,17 @@ router.post('/signin', function (req, res, next) {
             UserController.createUser(newUser)
               .then(function (user) {
                 res.json({
-                  result: 'success',
-                  message: '成功创建新用户!',
-                  // user: user
+                  data : {
+                    result: 'success',
+                    message: '成功创建新用户!',
+                    token: 'Bearer ' + user.token
+                  }
                 });
               })
-              .catch(function (err) {
-                return res.end(err);
-              })
+              .catch(next)
           }
         })
-        .catch(function (err) {
-          return res.end(err);
-        })
-
-
+        .catch(next)
     })
   })
 
