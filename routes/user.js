@@ -76,7 +76,6 @@ router.post('/registerUser', function (req, res, next) {
  */
 router.post('/signin', function (req, res, next) {
 	log('user').info('/signin');
-	log('user').info('req.body = ' + JSON.stringify(req.body));
 	// 校验参数
 	const result = Joi.validate({
 		name: req.body.name,
@@ -87,19 +86,18 @@ router.post('/signin', function (req, res, next) {
 	} else {
 		UserController.getUserByName(req.body.name)
 			.then(function (user) {
-				log('user').info(user);
 				if (!user) {
 					res.json({ result: 'success', message: '认证失败,用户不存在!' });
 				} else if (user) {
-					log('user').info(user);
+					// log('user').info(user);
 					// 检查密码是否正确
 					user.comparePassword(req.body.password, (err, isMatch) => {
 						if (isMatch && !err) {
 							let token = getToken(user.name);
 							user.token = token;
 							user.save(function (err) {
-								log('user').error('user.save.err = ' + err);
 								if (err) {
+									log('user').error('user.save.err = ' + err);
 									res.send(err);
 								} else {
 									res.json({

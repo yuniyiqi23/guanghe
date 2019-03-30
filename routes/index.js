@@ -2,7 +2,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-03-29 14:50:36
+ * @lastTime: 2019-03-30 13:37:22
  */
 
 module.exports = function (app) {
@@ -29,7 +29,11 @@ module.exports = function (app) {
 	// 404 page
 	app.use(function (req, res) {
 		if (!res.headersSent) {
-			res.status(404).end();
+			res.status(404);
+			res.json({
+				result: 'fail',
+				message: '找不到此页面，请检查请求的地址是否有效！',
+			});
 		}
 	});
 

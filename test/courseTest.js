@@ -2,22 +2,30 @@ const app = require("../app");
 const request = require("supertest")(app);
 const should = require("should");
 
-describe("test signin", function() {
+describe("test sigin", function() {
   const name = "gh_daom";
   const password = "111111";
+  
 
-  it("get signin page", function(done) {
+  it("signin successful", function(done) {
     request
-      .get("/user/signin")
-      // .expect(200)
+      .post("/user/signin")
+      .set('Authorization', self.token)
+      .send({
+        name: name,
+        password: password
+      })
+      .expect(200)
+      // .expect(400, done)
       .end(function(err, res) {
+        res.body.should.be.an.Array()
         should.not.exist(err);
         done();
       });
   });
   it("signin fail when name is empty", function(done) {
     request
-      .post("/signin")
+      .post("/user/signin")
       .send({
         name: "",
         password: password
@@ -25,13 +33,13 @@ describe("test signin", function() {
       .expect(200)
       .end(function(err, res) {
         should.not.exist(err);
-        res.text.should.containEql("请填写用户名！");
+        res.text.should.containEql('child ' + '"name"' + ' fails because ["name" is not allowed to be empty]');
         done();
       });
   });
   it("signin fail when password is empty", function(done) {
     request
-      .post("/signin")
+      .post("/user/signin")
       .send({
         name: name,
         password: ""
@@ -39,13 +47,13 @@ describe("test signin", function() {
       .expect(200)
       .end(function(err, res) {
         should.not.exist(err);
-        res.text.should.containEql("请填写密码！");
+        res.text.should.containEql('child "password" fails because ["password" is not allowed to be empty]');
         done();
       });
   });
   it("signin fail when name is not exist", function(done) {
     request
-      .post("/signin")
+      .post("/user/signin")
       .send({
         name: name + "!@#",
         password: password
@@ -53,13 +61,13 @@ describe("test signin", function() {
       .expect(200)
       .end(function(err, res) {
         should.not.exist(err);
-        res.text.should.containEql("用户不存在！");
+        res.text.should.containEql('{"result":"success","message":"认证失败,用户不存在!"}');
         done();
       });
   });
   it("signin fail when password is wrong", function(done) {
     request
-      .post("/signin")
+      .post("/user/signin")
       .send({
         name: name,
         password: password + "!@#"
@@ -67,21 +75,9 @@ describe("test signin", function() {
       .expect(200)
       .end(function(err, res) {
         should.not.exist(err);
-        res.text.should.containEql("密码错误！");
+        res.text.should.containEql('child "password" fails because ["password" with value "111111!@#" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]');
         done();
       });
   });
-  it("signin successful", function(done) {
-    request
-      .post("/signin")
-      .send({
-        name: name,
-        password: password
-      })
-      .expect(302)
-      .end(function(err, res) {
-        should.not.exist(err);
-        done();
-      });
-  });
+  
 });

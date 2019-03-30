@@ -1,4 +1,10 @@
 ## TodoList
+HTTPS、道明的阿里云服务器（部署）
+
+1. 新的课程模块
+2. （目的？）用户角色选择 --> 后台统计使用情况
+3. 手机号码验证
+
 user验证用户名
 评论课程和我秀逻辑判断（先判断有课程、我秀再评论）
 修改发布的课程
@@ -39,10 +45,13 @@ https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-
 
 
 ## 光合
+获取我秀评论总数 --> 加服务的方式
 1. 联调myshow/list token验证的问题（客户端反应其他服务正常，这个报401）
-2. 部署道明的阿里云服务器
 
 ## 疑问
 部署问题：
 1. 方便查看服务器上的日志（json格式）
-神奇的引用问题： routes/myShow 引用 controller/myShow 无法引用的问题
+2. 神奇的引用问题： routes/myShow 引用 controller/myShow 无法引用的问题
+3. 客户端翻页获取数据（又更新了n条数据，倒序获取数据有疑问？Set数组实现）
+4. 测试（返回的数据不一，如何确认测试通过）
+   测试管理（哪些需要运行？哪些不需要？）

@@ -9,6 +9,7 @@ module.exports = {
 	// 用户角色枚举
 	EnumUserRole: {
 		User: 1, // 普通用户
+		
 		Teacher: 6, // 老师
 		Administrator: 9 // 管理员
 	},
