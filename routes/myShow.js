@@ -82,20 +82,20 @@ router.get('/list', function (req, res, next) {
                 }
                 MyShowController.getMyshowList(param)
                     .then(function (myShowList) {
-                        // 标记已点赞过的我秀
-                        myShowList.map(function (myShow) {
-                            if (myShow.likedUserList instanceof Array) {
-                                if (myShow.likedUserList.length > 0) {
-                                    myShow.likedUserList.map((liked) => {
-                                        if(liked.userId.toString() == req.user.id){
-                                            myShow.isLiked = true;
-                                        }
-                                    })
-                                    // 去掉likedUserList
-                                    // myShow.likedUserList = null;
+                        if (req.user) {
+                            // 标记已点赞过的我秀
+                            myShowList.map(function (myShow) {
+                                if (myShow.likedUserList instanceof Array) {
+                                    if (myShow.likedUserList.length > 0) {
+                                        myShow.likedUserList.map((liked) => {
+                                            if (liked.userId.toString() == req.user.id) {
+                                                myShow.isLiked = true;
+                                            }
+                                        })
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                         res.json({
                             result: 'success',
                             message: '获取数据成功！',
@@ -106,6 +106,6 @@ router.get('/list', function (req, res, next) {
             }
         }
     );
-}); 
+});
 
 module.exports = router;

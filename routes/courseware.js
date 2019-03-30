@@ -104,18 +104,20 @@ router.get('/list', function (req, res, next) {
 
                 CoursewareController.getCoursewareList(param)
                     .then(function (coursewares) {
-                        // 标记已收藏过的课程
-                        coursewares.map(function (course) {
-                            if (course.collectedList instanceof Array) {
-                                if (course.collectedList.length > 0) {
-                                    course.collectedList.map((collected) => {
-                                        if(collected.userId.toString() == req.user.id){
-                                            course.isCollected = true;
-                                        }
-                                    })
+                        if (req.user) {
+                            // 标记已收藏过的课程
+                            coursewares.map(function (course) {
+                                if (course.collectedList instanceof Array) {
+                                    if (course.collectedList.length > 0) {
+                                        course.collectedList.map((collected) => {
+                                            if (collected.userId.toString() == req.user.id) {
+                                                course.isCollected = true;
+                                            }
+                                        })
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                         // 返回数据
                         res.json({
                             result: 'success',
@@ -137,20 +139,20 @@ router.get('/list', function (req, res, next) {
  * @since: 2019-03-28 08:54:36
  */
 router.get('/count', function (req, res, next) {
-     // 查询参数
-     const params = {
+    // 查询参数
+    const params = {
         author: req.query.authorId,
         courseType: EnumCourseType.AudioDaily,
     }
     CoursewareController.getCoursewareCount(params)
         .then(function (result) {
-            if(!result.errors){
+            if (!result.errors) {
                 res.json({
                     result: 'success',
                     message: '获取数据成功！',
                     coursewareCount: result
                 })
-            }else{
+            } else {
                 res.json({
                     result: 'fail',
                     message: result.errors.message
