@@ -51,7 +51,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  * @LastEditTime: 
  * @since: 2019-03-24 14:13:58
  */
-router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+router.get('/list', function (req, res, next) {
     log('courseComment').info('/list');
     // 参数
     const params = {
@@ -62,7 +62,7 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
     const schema = Joi.object().keys({
         courseId: Joi.string().required(),
         pageNumber: Joi.number().integer().min(1),
-        pageSize: Joi.number().integer().min(1).max(30)
+        pageSize: Joi.number().integer().min(1).max(100)
     })
     // 验证数据
     Joi.validate(params, schema, function (err, value) {

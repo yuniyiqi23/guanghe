@@ -144,7 +144,7 @@ router.post('/signin', function (req, res, next) {
                   data : {
                     result: 'success',
                     message: '成功创建新用户!',
-                    token: 'Bearer ' + user.token
+                    // token: 'Bearer ' + user.token
                   }
                 });
               })

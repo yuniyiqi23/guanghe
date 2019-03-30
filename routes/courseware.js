@@ -76,12 +76,12 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  * @LastEditTime: 
  * @since: 2019-03-12 14:13:58
  */
-router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+router.get('/list', function (req, res, next) {
     log('courseware').info('/list');
     log('courseware').info('req.query = ' + JSON.stringify(req.query));
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
-        pageSize: Joi.number().integer().min(1).max(30),
+        pageSize: Joi.number().integer().min(1).max(100),
     })
     // 验证数据
     Joi.validate({
@@ -136,7 +136,7 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
  * @LastEditTime: 
  * @since: 2019-03-28 08:54:36
  */
-router.get('/count', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+router.get('/count', function (req, res, next) {
      // 查询参数
      const params = {
         author: req.query.authorId,
@@ -167,7 +167,7 @@ router.get('/count', passport.authenticate('bearer', { session: false }), functi
  * @LastEditTime: 
  * @since: 2019-03-22 13:20:12
  */
-router.get('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+router.get('/info', function (req, res, next) {
     const param = {
         courseId: req.query.courseId,
         courseType: EnumCourseType.AudioDaily,
@@ -204,7 +204,7 @@ router.get('/info', passport.authenticate('bearer', { session: false }), functio
  * @LastEditTime: 
  * @since: 2019-03-26 11:05:16
  */
-router.get('/search', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+router.get('/search', function (req, res, next) {
     const value = {
         keyword: req.query.keyword,
         pageNumber: parseInt(req.query.pageNumber),
@@ -213,7 +213,7 @@ router.get('/search', passport.authenticate('bearer', { session: false }), funct
     const paramSchema = Joi.object().keys({
         keyword: Joi.strict().required(),
         pageNumber: Joi.number().integer().min(1),
-        pageSize: Joi.number().integer().min(1).max(30)
+        pageSize: Joi.number().integer().min(1).max(100)
     })
     // 验证数据
     const resultValue = Joi.validate(value, paramSchema)

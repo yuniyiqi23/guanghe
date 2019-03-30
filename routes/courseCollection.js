@@ -60,7 +60,7 @@ router.get('/list', passport.authenticate('bearer', { session: false }), functio
     const schema = Joi.object().keys({
         userId: Joi.string().required(),
         pageNumber: Joi.number().integer().min(1),
-        pageSize: Joi.number().integer().min(1).max(30)
+        pageSize: Joi.number().integer().min(1).max(100)
     })
     // 验证数据
     Joi.validate(params, schema, function (err, value) {

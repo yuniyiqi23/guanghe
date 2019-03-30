@@ -202,7 +202,7 @@ GET
 |:-----|:-------:|:-----|:-----|
 |nickName      |N       |string   | 用户昵称 |
 |pageNumber    |Y      |string   | 第几页（默认值：1） |
-|pageSize      |Y       |string   | 数量（默认值：3） |
+|pageSize      |Y       |string   | 数量（默认值：100） |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -391,7 +391,7 @@ GET
 |:-----|:-------:|:-----|:-----|
 |nickName      |N       |string   | 用户昵称 |
 |pageNumber    |Y      |string   | 第几页（默认值：1） |
-|pageSize      |Y       |string   | 数量（默认值：3） |
+|pageSize      |Y       |string   | 数量（默认值：100） |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -590,7 +590,7 @@ GET
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
 |pageNumber    |Y      |string   | 第几页（默认值：1） |
-|pageSize      |Y      |string   | 数量（默认值：3） |
+|pageSize      |Y      |string   | 数量（默认值：100） |
 |self          |N      |bool     | 标识是否是自己 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
@@ -1052,7 +1052,7 @@ GET
 |:-----|:-------:|:-----|:-----|
 |keyword       |Y       |string   | 搜索关键字 |
 |pageNumber    |Y       |string   | 第几页（默认值：1） |
-|pageSize      |Y       |string   | 数量（默认值：3） |
+|pageSize      |Y       |string   | 数量（默认值：100） |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 

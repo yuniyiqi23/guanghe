@@ -53,11 +53,11 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  * @LastEditTime: 
  * @since: 2019-03-22 14:13:58
  */
-router.get('/list', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+router.get('/list', function (req, res, next) {
     log('myshow').info('/list');
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
-        pageSize: Joi.number().integer().min(1).max(30),
+        pageSize: Joi.number().integer().min(1).max(100),
     })
     // 验证数据
     Joi.validate({
