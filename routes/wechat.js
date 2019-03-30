@@ -57,16 +57,20 @@ const decrypt = (sessionKey, encryptedData, iv, callback) => {
   }
 }
 
+router.get('/signin', function(req, res, next){
+  res.json({
+    result: '测试微信登录！'
+  });
+});
+
 /**
- * @Description: 微信登录接口 /wecahat/login
+ * @Description: 微信登录接口 /wecahat/signin
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 
  * @since: 2019-03-19 10:51:45
  */
 router.post('/signin', function (req, res, next) {
-  // let code = req.query.code
-  // let code = '011pcuQg1vPTnt0rL7Rg1cPwQg1pcuQ4';
   const data = {
     code: req.body.code,
     encryptedData: req.body.encryptedData,
@@ -101,15 +105,18 @@ router.post('/signin', function (req, res, next) {
             let token = getToken(user.name);
 							user.token = token;
 							user.save(function (err) {
-								log('user').error('user.save.err = ' + err);
 								if (err) {
 									res.send(err);
 								} else {
+                  // res.send('success');
 									res.json({
-										result: 'success',
-										message: '登录成功!',
-										token: 'Bearer ' + token,
-										name: user.name
+                    data : {
+                      code: 1,
+                      result: 'success',
+                      message: '登录成功!',
+                      token: 'Bearer ' + token,
+                      name: user.name
+                    }
 									});
 								}
 							});
