@@ -6,8 +6,6 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 // 用户认证模块passport
 const passport = require('passport');
-// token验证模块
-// const Strategy = require('passport-http-bearer').Strategy;
 //用于处理目录的对象，提高开发效率
 const path = require('path');
 const winston = require('winston');
@@ -29,6 +27,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // 正常请求的日志
 app.use(expressWinston.logger({
+	format: winston.format.combine(
+		winston.format.timestamp({format:'YYYY-MM-DD HH:mm:ss'}),
+		winston.format.json()
+	),
 	transports: [
 		new winston.transports.File({
 			// filename: 'logs/success.log'
@@ -47,6 +49,10 @@ routes(app);
 
 // 错误请求的日志
 app.use(expressWinston.errorLogger({
+	format: winston.format.combine(
+		winston.format.timestamp({format:'YYYY-MM-DD HH:mm:ss'}),
+		winston.format.json()
+	),
 	transports: [
 		new winston.transports.File({
 			json: true,
