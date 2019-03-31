@@ -22,7 +22,25 @@ module.exports = {
 	// 通过微信 OpenId 获取用户信息
 	getUserByWechatId: function (wechatId) {
 		return UserModel
-			.findOne({ wechatId: wechatId });
+			.findOne({ wechatId: wechatId, dataStatus: enumDateStatus.Avail });
+	},
+
+	// 通过 Token 获取用户信息
+	getUserByToken: function (token) {
+		if(token.indexOf('Bearer') != -1){
+			return UserModel.findOne({
+				token: token.slice(7),
+				dataStatus: enumDateStatus.Avail
+			},
+				{ _id: 1, nickName: 1, avatar: 1 })
+		}else{
+			return UserModel.findOne({
+				token: token,
+				dataStatus: enumDateStatus.Avail
+			},
+				{ _id: 1, nickName: 1, avatar: 1 })
+		}
+		
 	},
 
 	// 通过用户名获取用户信息

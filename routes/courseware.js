@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const CoursewareController = require("../controller/courseware");
 const Joi = require('joi');
+
 const log = require('../utils/winston').getDefaultLogger;
 const EnumCourseType = require('../utils/enum').EnumCourseType;
+const CoursewareController = require("../controller/courseware");
+const UserController = require("../controller/user");
 require('../utils/passport')(passport);
 
 /**
@@ -84,51 +86,63 @@ router.get('/list', function (req, res, next) {
         pageSize: Joi.number().integer().min(1).max(100),
     })
     // 验证数据
-    Joi.validate({
+    const resultValue = Joi.validate({
         pageNumber: parseInt(req.query.pageNumber),
         pageSize: parseInt(req.query.pageSize)
-    },
-        paramSchema,
-        function (err, value) {
-            if (err) {
-                log('courseware').error(err.message);
-                return res.send(err.message);
-            } else {
-                // 查询参数
-                const param = {
-                    author: req.query.authorId,
-                    courseType: EnumCourseType.AudioDaily,
-                    pageNumber: parseInt(req.query.pageNumber) || 1,
-                    pageSize: parseInt(req.query.pageSize) || 3
+    }, paramSchema)
+    if (resultValue.error !== null) {
+        return res.send(resultValue.error.message);
+    } else {
+        // 查询参数
+        const param = {
+            author: req.query.authorId,
+            courseType: EnumCourseType.AudioDaily,
+            pageNumber: parseInt(req.query.pageNumber) || 1,
+            pageSize: parseInt(req.query.pageSize) || 3
+        }
+        // 查询课程数据
+        CoursewareController.getCoursewareList(param)
+            .then(function (coursewares) {
+                // 判断 Token 是否存在
+                const token = req.headers.authorization;
+                if (token) {
+                    // 验证用户
+                    UserController.getUserByToken(token)
+                        .then(function (user) {
+                            if (user) {
+                                // 标记已收藏过的课程
+                                coursewares.map(function (course) {
+                                    if (course.collectedList instanceof Array) {
+                                        if (course.collectedList.length > 0) {
+                                            course.collectedList.map((collected) => {
+                                                if (collected.userId.toString() == user.id) {
+                                                    course.isCollected = true;
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+                                // 返回数据
+                                res.json({
+                                    result: 'success',
+                                    message: '获取数据成功！',
+                                    coursewares: coursewares
+                                });
+                            }
+                        })
+                        .catch(next)
+                } else {
+                    // 返回数据
+                    res.json({
+                        result: 'success',
+                        message: '获取数据成功！',
+                        coursewares: coursewares
+                    });
                 }
 
-                CoursewareController.getCoursewareList(param)
-                    .then(function (coursewares) {
-                        if (req.user) {
-                            // 标记已收藏过的课程
-                            coursewares.map(function (course) {
-                                if (course.collectedList instanceof Array) {
-                                    if (course.collectedList.length > 0) {
-                                        course.collectedList.map((collected) => {
-                                            if (collected.userId.toString() == req.user.id) {
-                                                course.isCollected = true;
-                                            }
-                                        })
-                                    }
-                                }
-                            })
-                        }
-                        // 返回数据
-                        res.json({
-                            result: 'success',
-                            message: '获取数据成功！',
-                            coursewares: coursewares
-                        });
-                    })
-                    .catch(next);
-            }
-        }
-    );
+            })
+            .catch(next);
+    }
 });
 
 /**

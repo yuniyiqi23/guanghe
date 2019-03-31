@@ -4,6 +4,7 @@ const passport = require('passport');
 const MyShowController = require('../controller/myShow1');
 const Joi = require('joi');
 const log = require('../utils/winston').getDefaultLogger;
+const UserController = require("../controller/user");
 require('../utils/passport')(passport);
 
 /**
@@ -76,33 +77,83 @@ router.get('/list', function (req, res, next) {
                     pageSize: parseInt(req.query.pageSize) || 3,
                 }
                 // 判断是否获取“我”的我秀数据
-                const self = req.query.self;
-                if (self) {
-                    param.userId = req.user.id;
-                }
-                MyShowController.getMyshowList(param)
-                    .then(function (myShowList) {
-                        if (req.user) {
-                            // 标记已点赞过的我秀
-                            myShowList.map(function (myShow) {
-                                if (myShow.likedUserList instanceof Array) {
-                                    if (myShow.likedUserList.length > 0) {
-                                        myShow.likedUserList.map((liked) => {
-                                            if (liked.userId.toString() == req.user.id) {
-                                                myShow.isLiked = true;
+                const myShowself = req.query.self;
+                if (myShowself) {
+                    // 判断 Token 是否存在
+                    const token = req.headers.authorization;
+                    if (token) {
+                        (async () => {
+                            try {
+                                const userInfo = await UserController.getUserByToken(token);
+                                param.userId = userInfo.id;
+                                // 查询我秀数据
+                                MyShowController.getMyshowList(param)
+                                    .then(function (myShowList) {
+                                        // 标记已点赞过的我秀
+                                        myShowList.map(function (myShow) {
+                                            if (myShow.likedUserList instanceof Array) {
+                                                if (myShow.likedUserList.length > 0) {
+                                                    myShow.likedUserList.map((liked) => {
+                                                        if (liked.userId.toString() == userInfo.id) {
+                                                            myShow.isLiked = true;
+                                                        }
+                                                    })
+                                                }
                                             }
                                         })
-                                    }
-                                }
-                            })
-                        }
-                        res.json({
-                            result: 'success',
-                            message: '获取数据成功！',
-                            myShowList: myShowList
-                        });
-                    })
-                    .catch(next);
+                                        res.json({
+                                            result: 'success',
+                                            message: '获取数据成功！',
+                                            myShowList: myShowList
+                                        });
+                                    })
+                                    .catch(next);
+                            } catch (err) {
+                                throw new Error(err.message)
+                            }
+                        })()
+                    }
+                } else {
+                    // 查询我秀数据
+                    MyShowController.getMyshowList(param)
+                        .then(function (myShowList) {
+                            // 判断 Token 是否存在
+                            const token = req.headers.authorization;
+                            if (token) {
+                                // 验证用户
+                                UserController.getUserByToken(token)
+                                    .then(function (user) {
+                                        if (user) {
+                                            // 标记已点赞过的我秀
+                                            myShowList.map(function (myShow) {
+                                                if (myShow.likedUserList instanceof Array) {
+                                                    if (myShow.likedUserList.length > 0) {
+                                                        myShow.likedUserList.map((liked) => {
+                                                            if (liked.userId.toString() == user.id) {
+                                                                myShow.isLiked = true;
+                                                            }
+                                                        })
+                                                    }
+                                                }
+                                            })
+                                            res.json({
+                                                result: 'success',
+                                                message: '获取数据成功！',
+                                                myShowList: myShowList
+                                            });
+                                        }
+                                    })
+                                    .catch(next)
+                            } else {
+                                res.json({
+                                    result: 'success',
+                                    message: '获取数据成功！',
+                                    myShowList: myShowList
+                                });
+                            }
+                        })
+                        .catch(next);
+                }
             }
         }
     );

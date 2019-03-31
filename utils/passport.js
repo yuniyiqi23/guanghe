@@ -1,7 +1,6 @@
 const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy;
-const User = require('../models/user');
-const enumDateStatus = require('./enum').EnumDataStatus;
+const UserController = require("../controller/user");
 
 /**
  * @Description: 通过Token验证用户
@@ -13,11 +12,7 @@ const enumDateStatus = require('./enum').EnumDataStatus;
 module.exports = function () {
     passport.use(new Strategy(
         function (token, done) {
-            User.findOne({
-                token: token,
-                dataStatus: enumDateStatus.Avail
-            },
-                { _id: 1, nickName: 1, avatar: 1 })
+            UserController.getUserByToken(token)
                 .then(function (user) {
                     if (!user) {
                         return done(null, false);
