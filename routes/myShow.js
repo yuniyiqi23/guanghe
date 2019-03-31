@@ -129,18 +129,21 @@ router.get('/list', function (req, res, next) {
                                         log('myshow').info('2');
                                         if (user) {
                                             // 标记已点赞过的我秀
-                                            myShowList.map(function (myShow) {
-                                                if (myShow.likedUserList instanceof Array) {
-                                                    if (myShow.likedUserList.length > 0) {
-                                                        myShow.likedUserList.map((liked) => {
-                                                            if (liked.userId.toString() == user.id) {
-                                                                myShow.isLiked = true;
-                                                            }
-                                                        })
+                                            try {
+                                                myShowList.map(function (myShow) {
+                                                    if (myShow.likedUserList instanceof Array) {
+                                                        if (myShow.likedUserList.length > 0) {
+                                                            myShow.likedUserList.map((liked) => {
+                                                                if (liked.userId.toString() == user.id) {
+                                                                    myShow.isLiked = true;
+                                                                }
+                                                            })
+                                                        }
                                                     }
-                                                }
-                                            })
-                                            log('myshow').info('3');
+                                                })
+                                            } catch (error) {
+                                                log('myshow').error(error.message);
+                                            }
                                             res.json({
                                                 result: 'success',
                                                 message: '获取数据成功！',
