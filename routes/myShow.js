@@ -79,6 +79,7 @@ router.get('/list', function (req, res, next) {
                 // 判断是否获取“我”的我秀数据
                 const myShowself = req.query.self;
                 if (myShowself) {
+                    log('myshow').info('getMyShowself');
                     // 判断 Token 是否存在
                     const token = req.headers.authorization;
                     if (token) {
@@ -117,12 +118,15 @@ router.get('/list', function (req, res, next) {
                     // 查询我秀数据
                     MyShowController.getMyshowList(param)
                         .then(function (myShowList) {
+                            log('myshow').info('1');
                             // 判断 Token 是否存在
                             const token = req.headers.authorization;
+                            log('myshow').info('token = ' + token);
                             if (token) {
                                 // 验证用户
                                 UserController.getUserByToken(token)
                                     .then(function (user) {
+                                        log('myshow').info('2');
                                         if (user) {
                                             // 标记已点赞过的我秀
                                             myShowList.map(function (myShow) {
@@ -136,6 +140,7 @@ router.get('/list', function (req, res, next) {
                                                     }
                                                 }
                                             })
+                                            log('myshow').info('3');
                                             res.json({
                                                 result: 'success',
                                                 message: '获取数据成功！',
@@ -145,6 +150,7 @@ router.get('/list', function (req, res, next) {
                                     })
                                     .catch(next)
                             } else {
+                                log('myshow').info(' no token !');
                                 res.json({
                                     result: 'success',
                                     message: '获取数据成功！',
