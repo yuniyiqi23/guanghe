@@ -126,8 +126,8 @@ router.get('/list', function (req, res, next) {
                                 // 验证用户
                                 UserController.getUserByToken(token)
                                     .then(function (user) {
-                                        log('myshow').info('2');
                                         if (user) {
+                                            log('myshow').info('2');
                                             // 标记已点赞过的我秀
                                             try {
                                                 myShowList.map(function (myShow) {
@@ -144,6 +144,12 @@ router.get('/list', function (req, res, next) {
                                             } catch (error) {
                                                 log('myshow').error(error.message);
                                             }
+                                            res.json({
+                                                result: 'success',
+                                                message: '获取数据成功！',
+                                                myShowList: myShowList
+                                            });
+                                        }else{
                                             res.json({
                                                 result: 'success',
                                                 message: '获取数据成功！',

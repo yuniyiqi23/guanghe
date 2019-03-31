@@ -128,6 +128,12 @@ router.get('/list', function (req, res, next) {
                                     message: '获取数据成功！',
                                     coursewares: coursewares
                                 });
+                            }else{
+                                res.json({
+                                    result: 'success',
+                                    message: '获取数据成功！',
+                                    coursewares: coursewares
+                                });
                             }
                         })
                         .catch(next)
