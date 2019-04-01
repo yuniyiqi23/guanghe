@@ -3,16 +3,12 @@ const request = require("supertest")(app);
 const should = require("should");
 const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2hfc3Vud2giLCJpYXQiOjE1NTM2NjA3NDMsImV4cCI6MTU1NDI2NTU0M30.bUSzhWv5fb1FnddAxRUbsbuLjeMB74-LZyrYERGmdxM';
 const testCourse = {
-  authorId: "5c8744bdc71400367afd3ad7",
-  nickName: "明道老师",
-  avatar: "test_avatar",
-  title: "test_title",
   content: "test_content",
-  publishTime: "2019-03-1T02:34:00.000Z",
-  courseType: "1"
+  pictures: ["test_picture01", "test_picture02"],
+  location: "test_location",
 }
 
-describe("Test get course", function () {
+describe("Test get myShow", function () {
   it("get courseList without authorization", function (done) {
     request
       .get("/courseware/list?pageSize=5&pageNumber=1&courseType=1")
@@ -44,19 +40,19 @@ describe("Test get course", function () {
 
 
 describe("Test create course", function () {
-  it("create caseStudyClub with authorization", function (done) {
-    request
-      .post("/courseware/create")
-      .set('Authorization', token)
-      .send(testCourse)
-      .expect(200)
-      .end(function (err, res) {
-        should.not.exist(err);
-        res.body.should.be.an.instanceOf(Object);
-        // res.body.should.have.property('result')//.eql('success');
-        done();
-      });
-  });
+  // it("create caseStudyClub with authorization", function (done) {
+  //   request
+  //     .post("/courseware/create")
+  //     .set('Authorization', token)
+  //     .send(testCourse)
+  //     .expect(200)
+  //     .end(function (err, res) {
+  //       should.not.exist(err);
+  //       res.body.should.be.an.instanceOf(Object);
+  //       // res.body.should.have.property('result')//.eql('success');
+  //       done();
+  //     });
+  // });
 
   it("create caseStudyClub without authorization", function (done) {
     request

@@ -47,6 +47,7 @@ module.exports = {
      * @since: 2019-03-24 11:19:31
      */
     deleteMyShowCommentById: function (params) {
+        params.dataStatus = enumDateStatus.Avail;
         return MyShowCommentModel
             .findOneAndUpdate(
                 params,

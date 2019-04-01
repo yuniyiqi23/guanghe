@@ -21,6 +21,7 @@ module.exports = {
      * @since: 2019-03-27 11:19:31
      */
     deleteMyShowLikeById: function (params) {
+        params.dataStatus = enumDateStatus.Avail;
         return MyShowLikeModel
             .findOneAndRemove({ userId: params.userId, myShowId: params.myShowId })
     },

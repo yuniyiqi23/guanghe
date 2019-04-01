@@ -47,6 +47,7 @@ module.exports = {
      * @since: 2019-03-25 11:19:31
      */
     deleteCourseCollectionById: function (params) {
+        params.dataStatus = enumDateStatus.Avail;
         return CourseCollectionModel
             .findOneAndUpdate(
                 params,

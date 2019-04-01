@@ -98,6 +98,8 @@ router.delete('/', passport.authenticate('bearer', { session: false }), function
         course: Joi.object().required(),
         userId: Joi.object().required()
     })
+    log('courseCollection').info('courseId = ' + req.query.courseId);
+    log('courseCollection').info('userId = ' + req.user.id);
     // 验证数据
     Joi.validate(params, schema, function (err, value) {
         if (err) {
