@@ -17,7 +17,7 @@ const app = express();
 
 app.use(cors());// Enable All CORS Requests
 //静态文件目录设置,设置public文件夹为存放静态文件的目录
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use(passport.initialize());// 初始化passport模块
 app.use(morgan('dev'));// 命令行中显示程序运行日志,便于bug调试
 // 加载解析json的中间件,接受json请求
