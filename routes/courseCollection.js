@@ -91,11 +91,11 @@ router.delete('/', passport.authenticate('bearer', { session: false }), function
     log('courseCollection').info('delete');
     // 参数
     const params = {
-        _id: req.query.collectionId,
+        course: ObjectId(req.query.courseId),
         userId: ObjectId(req.user.id)
     }
     const schema = Joi.object().keys({
-        _id: Joi.string().required(),
+        course: Joi.object().required(),
         userId: Joi.object().required()
     })
     // 验证数据

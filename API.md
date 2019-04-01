@@ -8,7 +8,7 @@
 ?[4、更新用户信息](#4更新用户信息)<br/>
 ?[5、删除用户](#5删除用户)<br/>
 [6、创建课程](#6创建课程)<br/>
-[7、获取音频课程](#7获取音频课程)<br/>
+[7、获取课程](#7获取课程)<br/>
 [8、老师注册](#8老师注册)<br/>
 [9、获取老师数据列表](#9获取老师数据列表)<br/>
 [10、创建Boss说课程](#10创建Boss说课程)<br/>
@@ -182,7 +182,7 @@ courseType说明：
   
 ```
 
-### 7、获取音频课程
+### 7、获取课程
 
 #### 请求URL：
 ```
@@ -205,8 +205,9 @@ GET
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
 |nickName      |N       |string   | 用户昵称 |
-|pageNumber    |Y      |string   | 第几页（默认值：1） |
+|pageNumber    |Y       |string   | 第几页（默认值：1） |
 |pageSize      |Y       |string   | 数量（默认值：100） |
+|courseType    |Y       |string   | 课程类型 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -964,7 +965,7 @@ http://47.75.8.64:3002/courseCollection
 #### 示例：
 
 ```
-http://47.75.8.64:3002/courseCollection?collectionId=5c971dff588a3d5300f11297
+http://47.75.8.64:3002/courseCollection?courseId=5c971dff588a3d5300f11297
 ```
 
 #### 请求方式：
@@ -976,8 +977,8 @@ DELETE
 
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
-|collectionId      |Y       |string  | 收藏id |
-|Authorization     |Y       |string   | token值 |
+|courseId         |Y       |string   | 课程id |
+|Authorization    |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
 #### 返回示例：

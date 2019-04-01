@@ -80,23 +80,24 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
  */
 router.get('/list', function (req, res, next) {
     log('courseware').info('/list');
-    log('courseware').info('req.query = ' + JSON.stringify(req.query));
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
         pageSize: Joi.number().integer().min(1).max(100),
+        courseType: Joi.any().valid('1', '3')
     })
     // 验证数据
     const resultValue = Joi.validate({
         pageNumber: parseInt(req.query.pageNumber),
-        pageSize: parseInt(req.query.pageSize)
+        pageSize: parseInt(req.query.pageSize),
+        courseType: req.query.courseType
     }, paramSchema)
     if (resultValue.error !== null) {
         return res.send(resultValue.error.message);
     } else {
         // 查询参数
         const param = {
-            author: req.query.authorId,
-            courseType: EnumCourseType.AudioDaily,
+            // author: req.query.authorId,
+            courseType: req.query.courseType,
             pageNumber: parseInt(req.query.pageNumber) || 1,
             pageSize: parseInt(req.query.pageSize) || 3
         }

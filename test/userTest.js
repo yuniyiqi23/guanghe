@@ -8,7 +8,8 @@ describe("test signin", function () {
 
   it("signin successful", function (done) {
     request
-      .post("/user/signin").send({
+      .post("/user/signin")
+      .send({
         name: name,
         password: password
       })
