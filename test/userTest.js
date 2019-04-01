@@ -2,7 +2,7 @@ const app = require("../app");
 const request = require("supertest")(app);
 const should = require("should");
 
-describe("test sigin", function () {
+describe("test signin", function () {
   const name = "gh_daom";
   const password = "111111";
 

@@ -1,83 +1,44 @@
 const app = require("../app");
 const request = require("supertest")(app);
 const should = require("should");
+const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2hfc3Vud2giLCJpYXQiOjE1NTM2NjA3NDMsImV4cCI6MTU1NDI2NTU0M30.bUSzhWv5fb1FnddAxRUbsbuLjeMB74-LZyrYERGmdxM';
+const pageSize = 3;
+const pageNumber = 1;
 
-describe("test sigin", function() {
-  const name = "gh_daom";
-  const password = "111111";
-  
+describe("Test course", function () {
+  it("get courseList without authorization", function (done) {
+    request
+      .get("/courseware/list")
+      .send({
+        pageSize: pageSize,
+        pageNumber: pageNumber
+      })
+      .expect(200)
+      .end(function (err, res) {
+        should.not.exist(err);
+        res.body.should.be.an.instanceOf(Object);
+        res.body.should.have.property('result').eql('success');
+        res.body.should.have.property('coursewares');
+        done();
+      });
+  });
 
-  it("signin successful", function(done) {
+  it("get courseList with authorization", function (done) {
     request
-      .post("/user/signin")
-      .set('Authorization', self.token)
+      .get("/courseware/list")
+      .set('Authorization', token)
       .send({
-        name: name,
-        password: password
+        pageSize: pageSize,
+        pageNumber: pageNumber
       })
       .expect(200)
-      // .expect(400, done)
-      .end(function(err, res) {
-        res.body.should.be.an.Array()
+      .end(function (err, res) {
         should.not.exist(err);
+        res.body.should.be.an.instanceOf(Object);
+        res.body.should.have.property('result').eql('success');
+        res.body.should.have.property('coursewares');
         done();
       });
   });
-  it("signin fail when name is empty", function(done) {
-    request
-      .post("/user/signin")
-      .send({
-        name: "",
-        password: password
-      })
-      .expect(200)
-      .end(function(err, res) {
-        should.not.exist(err);
-        res.text.should.containEql('child ' + '"name"' + ' fails because ["name" is not allowed to be empty]');
-        done();
-      });
-  });
-  it("signin fail when password is empty", function(done) {
-    request
-      .post("/user/signin")
-      .send({
-        name: name,
-        password: ""
-      })
-      .expect(200)
-      .end(function(err, res) {
-        should.not.exist(err);
-        res.text.should.containEql('child "password" fails because ["password" is not allowed to be empty]');
-        done();
-      });
-  });
-  it("signin fail when name is not exist", function(done) {
-    request
-      .post("/user/signin")
-      .send({
-        name: name + "!@#",
-        password: password
-      })
-      .expect(200)
-      .end(function(err, res) {
-        should.not.exist(err);
-        res.text.should.containEql('{"result":"success","message":"认证失败,用户不存在!"}');
-        done();
-      });
-  });
-  it("signin fail when password is wrong", function(done) {
-    request
-      .post("/user/signin")
-      .send({
-        name: name,
-        password: password + "!@#"
-      })
-      .expect(200)
-      .end(function(err, res) {
-        should.not.exist(err);
-        res.text.should.containEql('child "password" fails because ["password" with value "111111!@#" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]');
-        done();
-      });
-  });
-  
+
 });

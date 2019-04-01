@@ -79,7 +79,7 @@ router.get('/list', function (req, res, next) {
                 // 判断是否获取“我”的我秀数据
                 const myShowself = req.query.self;
                 if (myShowself) {
-                    log('myshow').info('getMyShowself');
+                    log('myshow').info('getMyShowSelf');
                     // 判断 Token 是否存在
                     const token = req.headers.authorization;
                     if (token) {
@@ -118,16 +118,13 @@ router.get('/list', function (req, res, next) {
                     // 查询我秀数据
                     MyShowController.getMyshowList(param)
                         .then(function (myShowList) {
-                            log('myshow').info('1');
                             // 判断 Token 是否存在
                             const token = req.headers.authorization;
-                            log('myshow').info('token = ' + token);
                             if (token) {
                                 // 验证用户
                                 UserController.getUserByToken(token)
                                     .then(function (user) {
                                         if (user) {
-                                            log('myshow').info('2');
                                             // 标记已点赞过的我秀
                                             try {
                                                 myShowList.map(function (myShow) {

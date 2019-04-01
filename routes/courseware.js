@@ -40,7 +40,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         content: req.body.content,
         audioURL: req.body.audioURL,
         publishTime: req.body.publishTime,
-        courseType: EnumCourseType.AudioDaily
+        courseType: req.body.courseType
     };
     const paramSchema = Joi.object().keys({
         author: Joi.object().required(),
@@ -48,7 +48,7 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         content: Joi.string().required(),
         audioURL: Joi.string(),
         publishTime: Joi.string(),
-        courseType: Joi.number().required()
+        courseType: Joi.any().valid('1', '3')
     })
     const resultValue = Joi.validate(value, paramSchema);
     if (resultValue.error !== null) {

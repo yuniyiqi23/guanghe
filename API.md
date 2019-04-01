@@ -7,7 +7,7 @@
 [3、获取用户信息](#3获取用户信息)<br/>
 ?[4、更新用户信息](#4更新用户信息)<br/>
 ?[5、删除用户](#5删除用户)<br/>
-[6、创建音频课程](#6创建音频课程)<br/>
+[6、创建课程](#6创建课程)<br/>
 [7、获取音频课程](#7获取音频课程)<br/>
 [8、老师注册](#8老师注册)<br/>
 [9、获取老师数据列表](#9获取老师数据列表)<br/>
@@ -142,7 +142,7 @@ GET
 }
 ```
 
-### 6、创建音频课程
+### 6、创建课程
 
 #### 请求URL：
 ```
@@ -165,8 +165,12 @@ POST
 |content       |Y       |string   | 内容 |
 |audioURL      |N       |string   | 音频URL |
 |publishTime   |Y       |string   | 发布时间 |
+|courseType    |Y       |string   | 课程类型 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+courseType说明：
+    参数“1”: 每日音频
+	参数“3”: 案例研习社
 
 #### 返回示例：
 

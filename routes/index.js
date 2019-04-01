@@ -2,7 +2,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-03-30 13:37:22
+ * @lastTime: 2019-03-31 14:46:21
  */
 
 module.exports = function (app) {
@@ -17,7 +17,7 @@ module.exports = function (app) {
 	//use Get to URL
 	app.use('/user', require('./user'));
 	app.use('/courseware', require('./courseware'));
-	app.use('/courseBoss', require('./courseBoss'));
+	// app.use('/courseBoss', require('./courseBoss'));
 	app.use('/courseComment', require('./courseComment'));
 	app.use('/courseCollection', require('./courseCollection'));
 	app.use('/qiniu', require('./qiniu'));
