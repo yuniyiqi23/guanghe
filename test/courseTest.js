@@ -7,9 +7,12 @@ const testCourse = {
   nickName: "明道老师",
   avatar: "test_avatar",
   title: "test_title",
+  videoURL: "Boss——videoURL",
+  cover: "Boss——coverPicture",
+  videoSlice: "Boss——videoSlice",
   content: "test_content",
-  publishTime: "2019-03-1T02:34:00.000Z",
-  courseType: "1"
+  publishTime: "2019-04-02T02:34:00.000Z",
+  courseType: "2"
 }
 
 describe("Test get course", function () {
@@ -44,7 +47,7 @@ describe("Test get course", function () {
 
 
 describe("Test create course", function () {
-  it("create caseStudyClub with authorization", function (done) {
+  it.only("create caseStudyClub with authorization", function (done) {
     request
       .post("/courseware/create")
       .set('Authorization', token)
@@ -53,7 +56,7 @@ describe("Test create course", function () {
       .end(function (err, res) {
         should.not.exist(err);
         res.body.should.be.an.instanceOf(Object);
-        // res.body.should.have.property('result')//.eql('success');
+        res.body.should.have.property('result').eql('success');
         done();
       });
   });

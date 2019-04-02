@@ -10,7 +10,7 @@ const UserController = require("../controller/user");
 require('../utils/passport')(passport);
 
 /**
- * @Description: 上传数据
+ * @Description: 创建课程
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 
@@ -39,6 +39,9 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         title: req.body.title,
         content: req.body.content,
         audioURL: req.body.audioURL,
+        videoURL: req.body.videoURL,
+        cover: req.body.cover,
+        videoSlice: req.body.videoSlice,
         publishTime: req.body.publishTime,
         courseType: req.body.courseType
     };
@@ -46,9 +49,12 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
         author: Joi.object().required(),
         title: Joi.string().required(),
         content: Joi.string().required(),
-        audioURL: Joi.string(),
+        audioURL: Joi.string(), // 音频地址
+        videoURL: Joi.string(), // 视频地址
+        cover: Joi.string(),    // 视频封面
+        videoSlice: Joi.string(),    // 视频切片
         publishTime: Joi.string(),
-        courseType: Joi.any().valid('1', '3')
+        courseType: Joi.valid('1', '2', '3').required()
     })
     const resultValue = Joi.validate(value, paramSchema);
     if (resultValue.error !== null) {
@@ -83,7 +89,7 @@ router.get('/list', function (req, res, next) {
     const paramSchema = Joi.object().keys({
         pageNumber: Joi.number().integer().min(1),
         pageSize: Joi.number().integer().min(1).max(100),
-        courseType: Joi.any().valid('1', '3')
+        courseType: Joi.valid('1', '2', '3').required()
     })
     // 验证数据
     const resultValue = Joi.validate({
@@ -111,7 +117,7 @@ router.get('/list', function (req, res, next) {
                     UserController.getUserByToken(token)
                         .then(function (user) {
                             if (user) {
-                                // 标记已收藏过的课程
+                                // 根据用户Id标记已收藏的课程
                                 coursewares.map(function (course) {
                                     if (course.collectedList instanceof Array) {
                                         if (course.collectedList.length > 0) {
@@ -129,7 +135,7 @@ router.get('/list', function (req, res, next) {
                                     message: '获取数据成功！',
                                     coursewares: coursewares
                                 });
-                            }else{
+                            } else {
                                 res.json({
                                     result: 'success',
                                     message: '获取数据成功！',
@@ -149,6 +155,76 @@ router.get('/list', function (req, res, next) {
 
             })
             .catch(next);
+    }
+});
+
+/**
+ * @Description: 获取单独一个课程的详情
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 2019-04-02 
+ * @since: 2019-03-22 13:20:12
+ */
+router.get('/info', function (req, res, next) {
+    const param = {
+        courseId: req.query.courseId,
+        courseType: req.query.courseType,
+    }
+    if (param.courseId) {
+        CoursewareController.getCoursewareById(param)
+            .then(function (courseware) {
+                if (courseware) {
+                    // 判断 Token 是否存在
+                    const token = req.headers.authorization;
+                    if (token) {
+                        // 验证用户
+                        UserController.getUserByToken(token)
+                            .then(function (user) {
+                                if (user) {
+                                    // 根据用户Id标记已收藏的课程
+                                    if (courseware.collectedList instanceof Array) {
+                                        if (courseware.collectedList.length > 0) {
+                                            courseware.collectedList.map((collected) => {
+                                                if (collected.userId.toString() == user.id) {
+                                                    courseware.isCollected = true;
+                                                }
+                                            })
+                                        }
+                                    }
+                                    res.json({
+                                        result: 'success',
+                                        message: '获取课程成功!',
+                                        courseware: courseware
+                                    });
+                                } else {
+                                    res.json({
+                                        result: 'success',
+                                        message: '获取课程成功!',
+                                        courseware: courseware
+                                    });
+                                }
+                            })
+                            .catch(next)
+                    } else {
+                        res.json({
+                            result: 'success',
+                            message: '获取课程成功!',
+                            courseware: courseware
+                        });
+                    }
+                } else {
+                    res.json({
+                        result: 'fail',
+                        message: '无法根据此ID获取到相应的课程!'
+                    });
+                }
+            })
+            .catch(next)
+    } else {
+        res.json({
+            result: 'fail',
+            message: '参数courseId为空!'
+        });
     }
 });
 
@@ -181,43 +257,6 @@ router.get('/count', function (req, res, next) {
             }
         })
         .catch(next)
-});
-
-/**
- * @Description: 获取单独一个课程的详情
- * @Author: yep
- * @LastEditors: 
- * @LastEditTime: 
- * @since: 2019-03-22 13:20:12
- */
-router.get('/info', function (req, res, next) {
-    const param = {
-        courseId: req.query.courseId,
-        courseType: EnumCourseType.AudioDaily,
-    }
-    if (param.courseId) {
-        CoursewareController.getCoursewareById(param)
-            .then(function (courseware) {
-                if (courseware) {
-                    res.json({
-                        result: 'success',
-                        message: '获取课程成功!',
-                        courseware: courseware
-                    });
-                } else {
-                    res.json({
-                        result: 'fail',
-                        message: '无法根据此ID获取到相应的课程!'
-                    });
-                }
-            })
-            .catch(next)
-    } else {
-        res.json({
-            result: 'fail',
-            message: '参数courseId为空!'
-        });
-    }
 });
 
 /**

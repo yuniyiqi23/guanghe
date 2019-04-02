@@ -2,7 +2,7 @@
  * @Author: yep
  * @LastAuthor: Do not edit
  * @since: 2019-03-10 19:37:26
- * @lastTime: 2019-04-01 15:15:13
+ * @lastTime: 2019-04-02 11:06:49
  */
 
 module.exports = function (app) {
@@ -10,14 +10,12 @@ module.exports = function (app) {
 	app.get('/', (req, res) => {
 		// const time =  new Date(parseInt(_id.toString().substring(0, 8), 16) * 1000);
 		// res.json({ time: time });
-		// throw new Error('啊哦～');
 		res.json({ message: 'Hello GuangHe!' });
 	});
 
 	//use Get to URL
 	app.use('/user', require('./user'));
 	app.use('/courseware', require('./courseware'));
-	app.use('/courseBoss', require('./courseBoss'));
 	app.use('/courseComment', require('./courseComment'));
 	app.use('/courseCollection', require('./courseCollection'));
 	app.use('/qiniu', require('./qiniu'));

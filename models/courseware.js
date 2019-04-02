@@ -19,17 +19,22 @@ const CoursewareSchema = new Schema({
   // 视频封面
   cover: { type: String },
   // 视频切片
-  videoPictures: { type: String },
+  videoSlice: { type: String },
   // 课程类型
   courseType: { type: String, required: true },
   // 评论数
   commentCount: { type: Number, default: 0 },
+  // 收藏数
+  collectCount: { type: Number, default: 0 },
   // 是否已收藏
   isCollected: { type: Boolean, default: false },
+  // 转发数
+  forwardCount: { type: Number, default: 0 },
   // 浏览数
   pv: { type: Number, required: false },
   // 数据状态（是否有效）
   dataStatus: { type: String, default: enumDateStatus.Avail },
+  // 发布时间
   publishTime: { type: String, required: true }
 });
 // 按创建时间降序查找
@@ -38,7 +43,7 @@ CoursewareSchema.index({ title: 1 });
 CoursewareSchema.index({ courseType: 1, _id: 1 });
 
 /**
- * @Description: 给 coursewareList 添加收藏 collectedList
+ * @Description: 给 coursewareList 添加收藏列表和收藏数
  * @Author: yep
  * @LastEditors: 
  * @LastEditTime: 
@@ -52,6 +57,7 @@ CoursewareSchema.post("find", function (courses) {
         dataStatus: enumDateStatus.Avail
       }).then(function (result) {
         if (!result.errors) {
+          course.collectCount = result.length;
           course.collectedList = result;
           return course;
         } else {
@@ -79,6 +85,29 @@ CoursewareSchema.post("findOne", function (course) {
       .then(function (result) {
         if (result) {
           course.commentCount = result.length;
+          return course;
+        }
+      });
+  }
+});
+
+/**
+ * @Description: 给 courseware 添加收藏列表和收藏数
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-04-02 09:58:45
+ */
+CoursewareSchema.post("findOne", function (course) {
+  if (course) {
+    return CourseCollectionModel.find({
+      course: course._id,
+      dataStatus: enumDateStatus.Avail
+    })
+      .then(function (result) {
+        if (result) {
+          course.collectCount = result.length;
+          course.collectedList = result;
           return course;
         }
       });

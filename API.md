@@ -11,10 +11,9 @@
 [7、获取课程](#7获取课程)<br/>
 [8、老师注册](#8老师注册)<br/>
 [9、获取老师数据列表](#9获取老师数据列表)<br/>
-[10、创建Boss说课程](#10创建Boss说课程)<br/>
-[11、获取Boss说课程](#11获取Boss说课程)<br/>
-[12、获取音频课程详情](#12获取音频课程详情)<br/>
-[13、获取Boss说课程详情](#13获取Boss说课程详情)<br/>
+
+[12、获取课程详情](#12获取课程详情)<br/>
+
 [14、发布我秀](#14发布我秀)<br/>
 [15、获取我秀数据](#15获取我秀数据)<br/>
 [16、创建我秀评论](#16创建我秀评论)<br/>
@@ -192,7 +191,7 @@ http://47.75.8.64:3002/courseware/list
 #### 示例：
 
 ```
-http://47.75.8.64:3002/courseware/list?pageSize=2&pageNumber=1
+http://47.75.8.64:3002/courseware/list?pageSize=2&pageNumber=1&courseType=1
 ```
 
 #### 请求方式：
@@ -334,107 +333,8 @@ GET
 }
 ```
 
-### 10、创建Boss说课程
 
-#### 请求URL：
-```
-http://47.75.8.64:3002/courseboss/create
-```
-
-#### 请求方式：
-```
-POST
-```
-
-#### 参数类型：
-
-|参数|是否必选|类型|说明|
-|:-----|:-------:|:-----|:-----|
-|authorId      |Y       |string   | 用户id |
-|nickName      |Y       |string   | 用户昵称 |
-|avatar        |Y       |string   | 头像URL |
-|title         |Y       |string   | 标题 |
-|content       |Y       |string   | 内容 |
-|videoURL      |Y       |string   | 视频URL |
-|cover         |Y       |string   | 封面 |
-|videoPictures |N       |string   | 视频切片 |
-|publishTime   |Y       |string   | 发布时间 |
-|Authorization      |Y       |string   | token值 |
-注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
-
-#### 返回示例：
-
-```javascript
-{
-    "result": "success",
-    "message": "发布信息成功!"
-}
-  
-```
-
-### 11、获取Boss说课程
-
-#### 请求URL：
-```
-http://47.75.8.64:3002/courseboss/list
-```
-
-#### 示例：
-
-```
-http://47.75.8.64:3002/courseboss/list?pageSize=2&pageNumber=1
-```
-
-#### 请求方式：
-```
-GET
-```
-
-#### 参数类型：
-
-|参数|是否必选|类型|说明|
-|:-----|:-------:|:-----|:-----|
-|nickName      |N       |string   | 用户昵称 |
-|pageNumber    |Y      |string   | 第几页（默认值：1） |
-|pageSize      |Y       |string   | 数量（默认值：100） |
-|Authorization      |Y       |string   | token值 |
-注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
-
-#### 返回示例：
-
-返回数据注释：
-用户是否已收藏：isCollected；评论数commentCount
-
-```javascript
-{
-    {
-    "result": "success",
-    "message": "获取数据成功！",
-    "courseBosss": [
-        {
-            "commentCount": 0,
-            "isCollected": true,
-            "vodioPictures": [],
-            "dataStatus": "1",
-            "_id": "5c91a9d80cf71bd3ed36cc2e",
-            "author": {
-                "id": "5c8744bdc71400367afd3ad7",
-                "nickName": "明道老师",
-                "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
-            },
-            "title": "测试_浪漫的婚庆台词",
-            "vodioURL": "vodioURL",
-            "cover": "coverList",
-            "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
-            "publishTime": "2019-03-18 21:35:38",
-            "__v": 0
-        }
-    ]
-}
-
-```
-
-### 12、获取音频课程详情
+### 12、获取课程详情
 
 #### 请求URL：
 ```
@@ -444,7 +344,7 @@ http://47.75.8.64:3002/courseware/info
 #### 示例：
 
 ```
-http://47.75.8.64:3002/courseware/info?courseId=5c944cff5f1e9851f59d41ba
+http://47.75.8.64:3002/courseware/info?courseId=5c944cff5f1e9851f59d41ba&courseType=1
 ```
 
 #### 请求方式：
@@ -457,6 +357,7 @@ GET
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
 |courseId        |Y       |string   | 课程Id |
+|courseType      |Y       |string   | 课程类型 |
 |Authorization   |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -469,77 +370,31 @@ GET
 {
     "result": "success",
     "message": "获取课程成功!",
-    "courseBoss": {
+    "courseware": {
         "commentCount": 1,
+        "collectCount": 1,
+        "isCollected": true,
+        "forwardCount": 0,
         "dataStatus": "1",
-        "_id": "5c944cff5f1e9851f59d41ba",
+        "_id": "5c87606733da1e5a87b162ef",
+        "pictures": [
+            "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
+        ],
         "author": {
             "id": "5c8744bdc71400367afd3ad7",
-            "nickName": "明道老师"
+            "nickName": "李晨",
+            "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
         },
-        "title": "测试_1",
-        "videoURL": "videoURL",
-        "cover": "coverPicture",
-        "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
-        "publishTime": "2019-03-2T02:34:00.000Z",
-        "__v": 0
+        "title": "第3期 | Nodejs + Expressjs+ JWT，JWT使用",
+        "content": "为什么要用研究JWT于是就用Nodejs 对JWT进行了实践.本文参照这篇文章实践的。",
+        "audioURL": "http://47.75.8.64/audios/Tiffany Alvord - Baby I Love You.mp3",
+        "publishTime": "2019-03-21T02:34:00.000Z",
+        "__v": 0,
+        "courseType": "1"
     }
 }
 ```
 
-
-### 13、获取Boss说课程详情
-
-#### 请求URL：
-```
-http://47.75.8.64:3002/courseboss/info
-```
-
-#### 示例：
-
-```
-http://47.75.8.64:3002/courseboss/info?courseId=5c944cff5f1e9851f59d41ba
-```
-
-#### 请求方式：
-```
-GET
-```
-
-#### 参数类型：
-
-|参数|是否必选|类型|说明|
-|:-----|:-------:|:-----|:-----|
-|courseId        |Y       |string   | 课程Id |
-|Authorization   |Y       |string   | token值 |
-注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
-
-#### 返回示例：
-
-返回数据注释：
-评论数：commentCount
-
-```javascript
-{
-    "result": "success",
-    "message": "获取课程成功!",
-    "courseBoss": {
-        "commentCount": 1,
-        "dataStatus": "1",
-        "_id": "5c944cff5f1e9851f59d41ba",
-        "author": {
-            "id": "5c8744bdc71400367afd3ad7",
-            "nickName": "明道老师"
-        },
-        "title": "测试_1",
-        "videoURL": "videoURL",
-        "cover": "coverPicture",
-        "content": "吴京的《流浪地球》票房今年春节档成功位居榜首，上映20天，累计42.87亿，成为仅此于《战狼2》最高票房的亚军。对于吴京来说两部电影都是自己的心血，能否超越《战狼2》并不重要，重要的是能否给社会和观众带来价值。很显然，吴京是成功的。",
-        "publishTime": "2019-03-2T02:34:00.000Z",
-        "__v": 0
-    }
-}
-```
 
 
 ### 14、发布我秀
