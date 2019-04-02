@@ -38,7 +38,7 @@ describe("Test get course", function () {
         should.not.exist(err);
         res.body.should.be.an.instanceOf(Object);
         res.body.should.have.property('result').eql('success');
-        res.body.coursewares.should.be.instanceof(Array).and.have.lengthOf(3);
+        res.body.coursewares.should.be.instanceof(Array).and.have.lengthOf(2);
         done();
       });
   });

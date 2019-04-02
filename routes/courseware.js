@@ -310,4 +310,45 @@ router.get('/search', function (req, res, next) {
         .catch(next)
 });
 
+/**
+ * @Description: 转发课程统计
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-04-02 17:21:32
+ */
+router.put('/forward', passport.authenticate('bearer', { session: false }), function (req, res, next) {
+    // 查询参数
+    const param = {
+        courseId: req.query.courseId,
+    }
+    // 验证规则
+    const paramSchema = Joi.object().keys({
+        courseId: Joi.string().required(),
+    })
+    // 验证数据
+    const resultValue = Joi.validate(param, paramSchema)
+    if (resultValue.error !== null) {
+        return res.send(resultValue.error.message);
+    } else {
+        CoursewareController.addForwardNumber(param)
+            .then(function (course) {
+                if (!course.errors) {
+                    res.json({
+                        result: 'success',
+                        message: '转发成功！',
+                        course: course
+                    });
+                } else {
+                    res.json({
+                        result: 'fail',
+                        message: course.errors.message
+                    });
+                }
+            })
+            .catch(next)
+    }
+
+});
+
 module.exports = router;

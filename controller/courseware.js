@@ -8,7 +8,7 @@ module.exports = {
     },
 
     /**
-     * @Description: 获取数据，实现按用户搜索和分页功能
+     * @Description: 
      * @Author: yep
      * @LastEditors: 
      * @LastEditTime: 
@@ -39,7 +39,7 @@ module.exports = {
             .sort({ _id: -1 });
     },
 
-    //获取数量
+    // 获取课程数量
     getCoursewareCount: function (params) {
         let query = { dataStatus: enumDateStatus.Avail };
         // 参数：作者
@@ -68,11 +68,26 @@ module.exports = {
 
     // 通过文章 id 获取一条数据
     getCoursewareById: function (param) {
-        let query = {
+        const query = {
             _id: param.courseId,
             courseType: param.courseType,
             dataStatus: enumDateStatus.Avail
         };
         return CoursewareModel.findOne(query);
+    },
+
+    /**
+     * @Description: 转发课程数量 +1
+     * @Author: yep
+     * @LastEditors: 
+     * @LastEditTime: 
+     * @since: 2019-04-02 17:30:14
+     */
+    addForwardNumber: function (param){
+        const query = {
+            _id: param.courseId,
+            dataStatus: enumDateStatus.Avail
+        };
+        return CoursewareModel.findByIdAndUpdate(query, { $inc: { forwardCount: 1 } });
     },
 };
