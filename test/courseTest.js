@@ -29,7 +29,7 @@ describe("Test get course", function () {
       });
   });
 
-  it("get courseList with authorization", function (done) {
+  it.only("get courseList with authorization", function (done) {
     request
       .get("/courseware/list?pageSize=3&pageNumber=1&courseType=1")
       .set('Authorization', token)
@@ -47,7 +47,7 @@ describe("Test get course", function () {
 
 
 describe("Test create course", function () {
-  it.only("create caseStudyClub with authorization", function (done) {
+  it("create caseStudyClub with authorization", function (done) {
     request
       .post("/courseware/create")
       .set('Authorization', token)
