@@ -5,6 +5,7 @@ const MyShowController = require('../controller/myShow1');
 const Joi = require('joi');
 const log = require('../utils/winston').getDefaultLogger;
 const UserController = require("../controller/user");
+const ObjectId = require('mongoose').Types.ObjectId;
 require('../utils/passport')(passport);
 
 /**
@@ -86,7 +87,7 @@ router.get('/list', function (req, res, next) {
                         (async () => {
                             try {
                                 const userInfo = await UserController.getUserByToken(token);
-                                param.userId = userInfo.id;
+                                param.userId = ObjectId(userInfo.id);
                                 // 查询我秀数据
                                 MyShowController.getMyshowList(param)
                                     .then(function (myShowList) {

@@ -25,7 +25,7 @@ module.exports = {
             dataStatus : enumDateStatus.Avail
         };
         if (params.userId) {
-            query.userId = params.userId;
+            query.user = params.userId;
         }
         // 实现分页 
         let skipNum = (params.pageNumber - 1) * params.pageSize;
