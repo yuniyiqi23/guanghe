@@ -5,7 +5,7 @@
 [1、用户登录](#1用户登录)<br/>
 [2、用户注册](#2用户注册)<br/>
 [3、获取用户信息](#3获取用户信息)<br/>
-?[4、更新用户信息](#4更新用户信息)<br/>
+[4、更新用户信息](#4更新用户信息)<br/>
 ?[5、删除用户](#5删除用户)<br/>
 [6、创建课程](#6创建课程)<br/>
 [7、获取课程](#7获取课程)<br/>
@@ -13,7 +13,7 @@
 [9、获取老师数据列表](#9获取老师数据列表)<br/>
 
 [12、获取课程详情](#12获取课程详情)<br/>
-
+[13、更新转发课程数](#13更新转发课程数)<br/>
 [14、发布我秀](#14发布我秀)<br/>
 [15、获取我秀数据](#15获取我秀数据)<br/>
 [16、创建我秀评论](#16创建我秀评论)<br/>
@@ -137,6 +137,44 @@ GET
         "_id": "5c86032f689b0b1ce6fe8fd1",
         "nickName": "user1",
         "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
+    }
+}
+```
+
+### 4、更新用户信息
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/user/info
+```
+
+#### 示例：
+
+
+#### 请求方式：
+```
+PUT
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|nickName      |N       |string   | 昵称 |
+|avatar        |N       |string   | 头像 |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "更新用户信息成功!",
+    "user": {
+        "_id": "5c86032f689b0b1ce6fe8fd1",
+        "nickName": "小猴子",
+        "avatar": "avatarURL12"
     }
 }
 ```
@@ -400,6 +438,62 @@ GET
 ```
 
 
+
+### 13、更新转发课程数
+
+#### 请求URL：
+```
+http://47.75.8.64:3002/courseware/forward
+```
+
+#### 示例：
+```
+http://47.75.8.64:3002/courseware/forward?courseId=5c875f6933da1e5a87b162ed
+```
+
+#### 请求方式：
+```
+PUT
+```
+
+#### 参数类型：
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|courseId           |Y       |string   | 课程id |
+|Authorization      |Y       |string   | token值 |
+注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
+
+#### 返回示例：
+
+```javascript
+{
+    "result": "success",
+    "message": "转发成功！",
+    "course": {
+        "commentCount": 0,
+        "collectCount": 0,
+        "isCollected": false,
+        "forwardCount": 3,
+        "dataStatus": "1",
+        "_id": "5c875f6933da1e5a87b162ed",
+        "pictures": [
+            "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg",
+        ],
+        "author": {
+            "id": "5c8744bdc71400367afd3ad7",
+            "nickName": "李晨",
+            "avatar": "http://47.75.8.64/images/upload_987b7bd76062b78fe18cf8f15f7f37db.jpeg"
+        },
+        "title": "第1期 | 浪漫的婚庆台词",
+        "content": "吴京的",
+        "audioURL": "http://47.75.8.64/audios/Tiffany Alvord - Baby I Love You.mp3",
+        "publishTime": "2019-03-12T02:34:00.000Z",
+        "__v": 0,
+        "courseType": "2"
+    }
+}
+```
 
 ### 14、发布我秀
 

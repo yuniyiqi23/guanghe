@@ -8,8 +8,21 @@ const testMyShowData = {
   location: "test_location",
 }
 
-describe("Test get myShow", function () {
-  it("get myshow without authorization", function (done) {
+describe.only("Test get myShow", function () {
+  it("get myshows without authorization", function (done) {
+    request
+      .get("/myshow/list?pageSize=3&pageNumber=1")
+      .expect(200)
+      .end(function (err, res) {
+        should.not.exist(err);
+        res.body.should.be.an.instanceOf(Object);
+        res.body.should.have.property('result').eql('success');
+        res.body.myShowList.should.be.instanceof(Array).and.have.lengthOf(3);
+        done();
+      });
+  });
+
+  it("get my myshows with authorization", function (done) {
     request
       .get("/myshow/list?pageSize=3&pageNumber=1")
       .expect(200)
@@ -24,7 +37,7 @@ describe("Test get myShow", function () {
 
   it("get myshow with authorization", function (done) {
     request
-      .get("/myshow/list?pageSize=3&pageNumber=1")
+      .get("/myshow/list?pageSize=3&pageNumber=1&self=true")
       .set('Authorization', token)
       .expect(200)
       .end(function (err, res) {

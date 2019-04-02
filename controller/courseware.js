@@ -83,11 +83,12 @@ module.exports = {
      * @LastEditTime: 
      * @since: 2019-04-02 17:30:14
      */
-    addForwardNumber: function (param){
+    addForwardNumber: function (param) {
         const query = {
             _id: param.courseId,
             dataStatus: enumDateStatus.Avail
         };
-        return CoursewareModel.findByIdAndUpdate(query, { $inc: { forwardCount: 1 } });
+        return CoursewareModel
+            .findByIdAndUpdate(query, { $inc: { forwardCount: 1 } }, { new: true });
     },
 };
