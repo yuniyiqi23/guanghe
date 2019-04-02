@@ -28,8 +28,8 @@
 [25、更新用户信息](#25更新用户信息)<br/>
 [26、搜索课程](#26搜索课程)<br/>
 ?[27、搜索老师](#27搜索老师)<br/>
-[28、获取每日音频发布总数](#28获取每日音频发布总数)<br/>
-[29、获取Boss说发布总数](#29获取Boss说发布总数)<br/>
+[28、获取课程发布总数](#28获取课程发布总数)<br/>
+
 [30、创建我秀点赞](#30创建我秀点赞)<br/>
 [31、取消我秀点赞](#31取消我秀点赞)<br/>
 
@@ -167,8 +167,9 @@ POST
 |courseType    |Y       |string   | 课程类型 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
-courseType说明：
+courseType说明：（文档中的 courseType 都和这个说明一致）
     参数“1”: 每日音频
+    参数“2”: Boss说
 	参数“3”: 案例研习社
 
 #### 返回示例：
@@ -947,7 +948,7 @@ GET
 }
 ```
 
-### 28、获取每日音频发布总数
+### 28、获取课程发布总数
 
 #### 请求URL：
 ```
@@ -957,7 +958,7 @@ http://47.75.8.64:3002/courseware/count
 #### 示例：
 
 ```
-http://47.75.8.64:3002/courseware/count
+http://47.75.8.64:3002/courseware/count&courseType=1
 ```
 
 #### 请求方式：
@@ -969,6 +970,7 @@ GET
 
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
+|courseType      |Y       |string   | 课程类型 |
 |Authorization      |Y       |string   | token值 |
 注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
 
@@ -979,42 +981,6 @@ GET
     "result": "success",
     "message": "获取数据成功！",
     "coursewareCount": 1
-}
-```
-
-### 29、获取Boss说发布总数
-
-
-#### 请求URL：
-```
-http://47.75.8.64:3002/courseBoss/count
-```
-
-#### 示例：
-
-```
-http://47.75.8.64:3002/courseBoss/count
-```
-
-#### 请求方式：
-```
-GET
-```
-
-#### 参数类型：
-
-|参数|是否必选|类型|说明|
-|:-----|:-------:|:-----|:-----|
-|Authorization      |Y       |string   | token值 |
-注：在请求Headers里面加上Authorization（客户端使用token实现访问服务端API）
-
-#### 返回示例：
-
-```javascript
-{
-    "result": "success",
-    "message": "获取数据成功！",
-    "courseBossCount": 1
 }
 ```
 

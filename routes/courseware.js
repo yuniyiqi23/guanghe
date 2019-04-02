@@ -229,34 +229,42 @@ router.get('/info', function (req, res, next) {
 });
 
 /**
- * @Description: 获取每日音频发布总数
+ * @Description: 获取课程发布总数
  * @Author: yep
  * @LastEditors: 
- * @LastEditTime: 
+ * @LastEditTime: 2019-04-02
  * @since: 2019-03-28 08:54:36
  */
 router.get('/count', function (req, res, next) {
     // 查询参数
     const params = {
         author: req.query.authorId,
-        courseType: EnumCourseType.AudioDaily,
+        courseType: req.query.courseType
     }
-    CoursewareController.getCoursewareCount(params)
-        .then(function (result) {
-            if (!result.errors) {
-                res.json({
-                    result: 'success',
-                    message: '获取数据成功！',
-                    coursewareCount: result
-                })
-            } else {
-                res.json({
-                    result: 'fail',
-                    message: result.errors.message
-                })
-            }
-        })
-        .catch(next)
+    if (params.courseType) {
+        CoursewareController.getCoursewareCount(params)
+            .then(function (result) {
+                if (!result.errors) {
+                    res.json({
+                        result: 'success',
+                        message: '获取数据成功！',
+                        coursewareCount: result
+                    })
+                } else {
+                    res.json({
+                        result: 'fail',
+                        message: result.errors.message
+                    })
+                }
+            })
+            .catch(next)
+    }else{
+        res.json({
+            result: 'fail',
+            message: '课程类型不能为空！',
+        });
+    } 
+
 });
 
 /**
