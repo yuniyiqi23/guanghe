@@ -163,6 +163,9 @@ POST
 |title         |Y       |string   | 标题 |
 |content       |Y       |string   | 内容 |
 |audioURL      |N       |string   | 音频URL |
+|videoURL      |N       |string   | 视频URL |
+|cover         |N       |string   | 封面 |
+|videoSlice    |N       |string   | 视频切片 |
 |publishTime   |Y       |string   | 发布时间 |
 |courseType    |Y       |string   | 课程类型 |
 |Authorization      |Y       |string   | token值 |
@@ -958,7 +961,7 @@ http://47.75.8.64:3002/courseware/count
 #### 示例：
 
 ```
-http://47.75.8.64:3002/courseware/count&courseType=1
+http://47.75.8.64:3002/courseware/count?courseType=1
 ```
 
 #### 请求方式：

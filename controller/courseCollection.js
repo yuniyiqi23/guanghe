@@ -14,6 +14,23 @@ module.exports = {
     },
 
     /**
+     * @Description: 根据参数查询收藏记录
+     * @Author: yep
+     * @LastEditors: 
+     * @LastEditTime: 
+     * @since: 2019-04-02 13:30:55
+     */
+    getCourseCollectionByParams: function(params){
+        let query = {
+            userId: params.userId,
+            course: params.course,
+            dataStatus: enumDateStatus.Avail
+        };
+        return CourseCollectionModel.find(query);
+            
+    },
+
+    /**
      * @Description: 根据某个用户获取收藏数据（实现分页）
      * @Author: yep
      * @LastEditors: 

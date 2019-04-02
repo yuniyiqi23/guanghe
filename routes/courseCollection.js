@@ -15,29 +15,46 @@ require('../utils/passport')(passport);
  * @since: 2019-03-24 14:15:35
  */
 router.post('/create', passport.authenticate('bearer', { session: false }), function (req, res, next) {
-    const value = {
-        userId: req.user.id,
-        course: req.body.courseId
+    const params = {
+        userId: ObjectId(req.user.id),
+        course: ObjectId(req.body.courseId)
     };
     const schema = Joi.object().keys({
-        userId: Joi.string().required(),
-        course: Joi.string().required(),
+        userId: Joi.object().required(),
+        course: Joi.object().required(),
     });
     // 校验参数
-    const result = Joi.validate(value, schema);
+    const result = Joi.validate(params, schema);
     if (result.error !== null) {
         return res.send(result.error.message);
     } else {
-        CourseCollectionController.create(value)
+        CourseCollectionController.getCourseCollectionByParams(params)
             .then(function (result) {
-                if (result) {
+                if (result.length > 0) {
                     res.json({
-                        result: 'success',
-                        message: '收藏成功!'
+                        result: 'fail',
+                        message: '用户已经收藏了此课程，无需重复收藏！'
                     });
+                } else {
+                    CourseCollectionController.create(params)
+                        .then(function (result) {
+                            if (!result.errors) {
+                                res.json({
+                                    result: 'success',
+                                    message: '收藏成功!'
+                                });
+                            } else {
+                                res.json({
+                                    result: 'fail',
+                                    message: result.errors.message
+                                });
+                            }
+                        })
+                        .catch(next)
                 }
             })
             .catch(next)
+
     }
 
 });
@@ -107,18 +124,18 @@ router.delete('/', passport.authenticate('bearer', { session: false }), function
         } else {
             CourseCollectionController.deleteCourseCollectionById(params)
                 .then(function (result) {
-                    if(result){
+                    if (result) {
                         res.json({
                             result: 'success',
                             message: '取消收藏成功！',
                         });
-                    }else{
+                    } else {
                         res.json({
                             result: 'fail',
                             message: '取消收藏失败！',
                         });
                     }
-                    
+
                 })
                 .catch(next);
         }

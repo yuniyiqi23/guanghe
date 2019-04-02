@@ -26,11 +26,18 @@ const schema = Joi.object().keys({
  * @since: 2019-03-17 22:22:53
  */
 router.post('/registerUser', function (req, res, next) {
+	// 验证参数
+	const schemavalue = Joi.object().keys({
+		name: Joi.string().min(3).max(30).required(),
+		password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+		mobile: Joi.string().required()
+	});
 	// 校验参数
 	const result = Joi.validate({
 		name: req.body.name,
 		password: req.body.password,
-	}, schema);
+		mobile: req.body.mobile
+	}, schemavalue);
 
 	if (result.error !== null) {
 		return res.send(result.error.message);
@@ -41,6 +48,7 @@ router.post('/registerUser', function (req, res, next) {
 			password: req.body.password,
 			// 系统生成昵称
 			nickName: 'user_' + md5(moment()),
+			mobile: req.body.mobile,
 			avatar: req.body.avatar || config.defaultHeadSculpture,
 			role: userRole.User,
 			// 随机验证码
@@ -130,7 +138,7 @@ router.post('/signin', function (req, res, next) {
  */
 router.put('/info', passport.authenticate('bearer', { session: false }), function (req, res, next) {
 	const userId = req.user.id;
-	if(!userId){
+	if (!userId) {
 		res.json({
 			result: 'fail',
 			message: '用户Id不存在!'

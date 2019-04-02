@@ -20,7 +20,7 @@ const UserSchema = new Schema({
     // 个人签名
     bio: { type: String, required: false },
     // 手机号码
-    mobile: { type: Number, required: false },
+    mobile: { type: String, required: false },
     // 激活验证码
     checkCode: { type: String, required: false },
     // 身份标识（用户、老师、管理员）

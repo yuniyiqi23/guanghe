@@ -35,6 +35,8 @@ router.post('/create', passport.authenticate('bearer', { session: false }), func
                 // 查找我秀记录，返回“true”或者“false”
                 let result = await global.getMyshowById(value.myShowId);
                 if (result === true) {
+                    // 判断是否已点赞
+                    // 创建点赞记录
                     MyShowLikeController.create(value)
                         .then(function (result) {
                             if (!result.errors) {

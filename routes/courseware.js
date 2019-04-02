@@ -166,11 +166,21 @@ router.get('/list', function (req, res, next) {
  * @since: 2019-03-22 13:20:12
  */
 router.get('/info', function (req, res, next) {
+    // 查询参数
     const param = {
         courseId: req.query.courseId,
         courseType: req.query.courseType,
     }
-    if (param.courseId) {
+    // 验证规则
+    const paramSchema = Joi.object().keys({
+        courseId: Joi.string().required(),
+        courseType: Joi.valid('1', '2', '3').required()
+    })
+    // 验证数据
+    const resultValue = Joi.validate(param, paramSchema)
+    if (resultValue.error !== null) {
+        return res.send(resultValue.error.message);
+    } else {
         CoursewareController.getCoursewareById(param)
             .then(function (courseware) {
                 if (courseware) {
@@ -220,11 +230,6 @@ router.get('/info', function (req, res, next) {
                 }
             })
             .catch(next)
-    } else {
-        res.json({
-            result: 'fail',
-            message: '参数courseId为空!'
-        });
     }
 });
 
@@ -241,7 +246,16 @@ router.get('/count', function (req, res, next) {
         author: req.query.authorId,
         courseType: req.query.courseType
     }
-    if (params.courseType) {
+    // 验证规则
+    const paramSchema = Joi.object().keys({
+        author: Joi.string(),
+        courseType: Joi.valid('1', '2', '3').required()
+    })
+    // 验证数据
+    const resultValue = Joi.validate(params, paramSchema)
+    if (resultValue.error !== null) {
+        return res.send(resultValue.error.message);
+    } else {
         CoursewareController.getCoursewareCount(params)
             .then(function (result) {
                 if (!result.errors) {
@@ -258,12 +272,7 @@ router.get('/count', function (req, res, next) {
                 }
             })
             .catch(next)
-    }else{
-        res.json({
-            result: 'fail',
-            message: '课程类型不能为空！',
-        });
-    } 
+    }
 
 });
 

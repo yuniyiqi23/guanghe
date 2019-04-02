@@ -57,7 +57,7 @@ const decrypt = (sessionKey, encryptedData, iv, callback) => {
   }
 }
 
-router.get('/signin', function(req, res, next){
+router.get('/signin', function (req, res, next) {
   res.json({
     result: '测试微信登录！'
   });
@@ -76,7 +76,6 @@ router.post('/signin', function (req, res, next) {
     encryptedData: req.body.encryptedData,
     iv: req.body.iv
   }
-
   // 校验参数
   if (!data.code || !data.encryptedData || !data.iv) {
     return res.send({
@@ -84,13 +83,12 @@ router.post('/signin', function (req, res, next) {
       message: '缺少参数：code或者encryptedData或者iv'
     })
   }
-
   // 获取sessionkey
   getSessionKey(data.code, (err, ret) => {
     if (err) {
       return res.send(err);
     }
-    console.log(ret);
+    // console.log(ret);
     // 解密
     decrypt(ret.session_key, data.encryptedData, data.iv, (err, wechatUser) => {
       if (err) {
@@ -103,23 +101,23 @@ router.post('/signin', function (req, res, next) {
         .then(function (user) {
           if (user) {
             let token = getToken(user.name);
-							user.token = token;
-							user.save(function (err) {
-								if (err) {
-									res.send(err);
-								} else {
-                  // res.send('success');
-									res.json({
-                    data : {
-                      code: 1,
-                      result: 'success',
-                      message: '登录成功!',
-                      token: 'Bearer ' + token,
-                      name: user.name
-                    }
-									});
-								}
-							});
+            user.token = token;
+            user.save(function (err) {
+              if (err) {
+                res.send(err);
+              } else {
+                // res.send('success');
+                res.json({
+                  data: {
+                    code: 1,
+                    result: 'success',
+                    message: '登录成功!',
+                    token: 'Bearer ' + token,
+                    name: user.name
+                  }
+                });
+              }
+            });
           } else {
             let token = getToken(wechatUser.openId);
             const newUser = {
@@ -141,7 +139,7 @@ router.post('/signin', function (req, res, next) {
             UserController.createUser(newUser)
               .then(function (user) {
                 res.json({
-                  data : {
+                  data: {
                     result: 'success',
                     message: '成功创建新用户!',
                     // token: 'Bearer ' + user.token
@@ -155,6 +153,51 @@ router.post('/signin', function (req, res, next) {
     })
   })
 
+});
+
+/**
+ * @Description: 获取用户手机号
+ * @Author: yep
+ * @LastEditors: 
+ * @LastEditTime: 
+ * @since: 2019-04-02 15:31:34
+ */
+router.get('/phoneNumber', function (req, res, next) {
+  const data = {
+    code: req.body.code,
+    encryptedData: req.body.encryptedData,
+    iv: req.body.iv
+  }
+  // 校验参数
+  if (!data.code || !data.encryptedData || !data.iv) {
+    return res.send({
+      code: 1,
+      message: '缺少参数：code或者encryptedData或者iv'
+    })
+  }
+  // 获取sessionkey
+  getSessionKey(data.code, (err, ret) => {
+    if (err) {
+      return res.send(err);
+    }
+    // 解密
+    decrypt(ret.session_key, data.encryptedData, data.iv, (err, result) => {
+      if (err) {
+        return res.end(err);
+      }
+      console.log(result);
+      // {
+      //   "phoneNumber": "13580006666",
+      //   "purePhoneNumber": "13580006666",
+      //   "countryCode": "86",
+      //   "watermark": {
+      //     "appid": "APPID",
+      //     "timestamp": TIMESTAMP
+      //   }
+      // }
+
+    })
+  })
 })
 
 module.exports = router;
